@@ -10,13 +10,33 @@ const AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-AxiosInstance.interceptors.request.use((config) => {
-  const configWithBasicAuth = { ...config };
-  configWithBasicAuth.auth = {
-    username: 'mmcenter',
-    password: 'dlKD/877%unK!#891__r',
-  };
-  return configWithBasicAuth;
-});
-
+AxiosInstance.interceptors.request.use(
+  async (config) => {
+    config.headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    };
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
 export default AxiosInstance;
+
+// Response interceptor for API calls
+AxiosInstance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async function (error) {
+    const originalRequest = error.config;
+    if (error.response.status === 403 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const token = ''; //= await refreshAccessToken();
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      return AxiosInstance(originalRequest);
+    }
+    return Promise.reject(error);
+  }
+);

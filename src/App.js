@@ -1,7 +1,20 @@
-import './App.css';
+import './App.scss';
+import {
+  Router,
+  Switch,
+  Route,
+  withRouter,
+  HashRouter,
+} from 'react-router-dom';
+import history from './history';
+import LoginPage from './pages/login/Login.js';
 
 function App() {
-  return <div className="App">testpage</div>;
+  return (
+    <Router history={history}>
+      <Route path="/login" component={LoginPage} />
+    </Router>
+  );
 }
 
 export default App;

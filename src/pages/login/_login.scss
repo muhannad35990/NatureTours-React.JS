@@ -1,0 +1,104 @@
+.form {
+  position: absolute;
+  width: 40rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-left: 2rem;
+  padding: 4rem 4rem;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 1rem 2rem 4rem rgba($color: #000000, $alpha: 0.2);
+  &__group {
+    display: flex;
+    flex-direction: column;
+  }
+  &__error {
+    color: red;
+    font-size: 1.2rem;
+    margin-left: 1rem;
+  }
+  &__input {
+    font-size: 1.5rem;
+    padding: 1.5rem 2rem;
+    border-radius: 2px;
+    font-family: inherit;
+    position: relative;
+    background-color: rgba($color: #eee, $alpha: 1);
+    outline: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    width: 100%;
+    display: block;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 1rem 2rem rgba($color: #000000, $alpha: 0.1);
+      border-bottom: 3px solid $color-primary;
+    }
+
+    &::-webkit-input-placeholder {
+      color: $color-grey-dark-2;
+    }
+  }
+  &__label {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-left: 2rem;
+    margin-top: 0.7rem;
+    display: block;
+    color: $color-grey-dark;
+    transition: all 0.3s;
+    order: -1;
+  }
+  &__input:placeholder-shown ~ &__label {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4rem);
+  }
+}
+.btn {
+  margin-top: 5rem;
+  width: 100%;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 1.5rem 1rem;
+  text-align: center;
+
+  transition: all 0.2s;
+  position: relative;
+  border: none;
+  cursor: pointer;
+
+  &--green {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-primary;
+    }
+  }
+  &:hover {
+    box-shadow: 0rem 1rem 2rem rgba($color: #000000, $alpha: 0.2);
+    transform: translateY(-3px);
+    &::after {
+      transform: scaleX(1.4) scaleY(1.6);
+      opacity: 0;
+    }
+  }
+  &:focus,
+  &:active {
+    box-shadow: 0rem 1rem 1rem rgba($color: #000000, $alpha: 0.2);
+    transform: translateY(-1px);
+  }
+  &::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    transition: all 0.4s;
+  }
+}

@@ -1,7 +1,10 @@
 import * as types from './types';
-export const resetPassword = (data) => {
-  return {
-    type: types.RESET_PASSWORD, //
-    data: data,
-  };
-};
+
+export const registerUser = (authData) => ({
+  type: types.REGISTER_USER, // used for triggering registerUserSaga
+  payload: authData,
+});
+export const loginUser = (authData) => ({
+  type: types.LOGIN_USER, // used for triggering registerUserSaga
+  payload: authData,
+});
