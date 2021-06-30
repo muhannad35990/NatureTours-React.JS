@@ -14,5 +14,9 @@
     "too_short":"Es ist zu kurz - sollte mindestens 2 Zeichen lang sein",
     "Lastname_is_required":"Nachname ist erforderlich",
     "Password_confirm_required":"Passwortbestätigung ist erforderlich",
-    "Passwords_must_match":"Passwörter müssen übereinstimmen"
+    "Passwords_must_match":"Passwörter müssen übereinstimmen",
+    "submit":"Speichern",
+    "send":"Senden",
+    "reset_password":"Setze dein Passwort zurück",
+    "forgot_password":"Passwort vergessen"
 }
