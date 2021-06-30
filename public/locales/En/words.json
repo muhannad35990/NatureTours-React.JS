@@ -1,0 +1,19 @@
+{
+    "login": "Login",
+    "sign_up": "Sign up",
+    "firstname":"First Name",
+    "lastname":"Last Name",
+    "password":"Password",
+    "passwordConfirm":"Password Confirm",
+    "email":"Email",
+    "Email_is_required":"Email is required",
+    "Password_is_required":"Password is required",
+    "Password_is_too_short":"Password is too short - should be 6 chars minimum",
+    "email_not_valid":"Email is not valid",
+   "Firstname_is_required": "First name is required",
+   "too_short":"It is too short - should be 2 chars minimum",
+   "Lastname_is_required":"Last name is required",
+   "Password_confirm_required":"Password confirm is required",
+   "Passwords_must_match":"Passwords must match"
+
+}

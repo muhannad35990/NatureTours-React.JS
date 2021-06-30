@@ -1,0 +1,18 @@
+{
+    "login": "Anmeldung",
+    "sign_up": "Anmelden",
+    "firstname":"Vorname",
+    "lastname":"Nachname",
+    "password":"Passwort",
+    "passwordConfirm":"Passwortbestätigung",
+    "email":"Email",
+    "Email_is_required":"Email ist erforderlich",
+    "Password_is_required":"Passwort wird benötigt",
+    "Password_is_too_short":"Das Passwort ist zu kurz - sollte mindestens 6 Zeichen lang sein",
+    "email_not_valid":"Email ist ungültig",
+    "Firstname_is_required":"Vorname ist erforderlich",
+    "too_short":"Es ist zu kurz - sollte mindestens 2 Zeichen lang sein",
+    "Lastname_is_required":"Nachname ist erforderlich",
+    "Password_confirm_required":"Passwortbestätigung ist erforderlich",
+    "Passwords_must_match":"Passwörter müssen übereinstimmen"
+}

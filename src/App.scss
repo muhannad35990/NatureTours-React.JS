@@ -41,4 +41,11 @@ body {
   line-height: 1.7;
   background-color: $color-grey-light-1;
 }
-@import 'pages/login/login.scss';
+.app {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}
+@import 'pages/login/login';
+@import 'components/navBar/navBar';
