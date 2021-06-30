@@ -41,7 +41,7 @@ body {
   line-height: 1.7;
   background-color: $color-grey-light-1;
 }
-.app {
+.app:not(:last-child) {
   display: grid;
   justify-content: center;
   align-items: center;
@@ -49,3 +49,5 @@ body {
 }
 @import 'pages/login/login';
 @import 'components/navBar/navBar';
+@import 'pages/home/home';
+@import 'components/sideBar/sidebar';
