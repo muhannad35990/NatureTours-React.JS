@@ -1,6 +1,6 @@
 import React from 'react';
 import SideBar from '../../components/sideBar/SideBar';
-function Home() {
+function Dashboard() {
   return (
     <div className="home">
       <SideBar />
@@ -8,4 +8,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Dashboard;

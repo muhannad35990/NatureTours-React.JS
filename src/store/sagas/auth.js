@@ -1,41 +1,45 @@
 import { put } from 'redux-saga/effects';
 import AxiosInstance from '../../util/intercepter';
 import * as authActions from '../actions/authActions';
-import { REGISTER_URL, LOGIN_URL } from '../../configs/endpointConfig';
+import * as endpoints from '../../configs/endpointConfig';
 import axios from 'axios';
+import showNotification from '../../components/alert/Alert';
 
 export function* loginUserSaga(action) {
   try {
-    console.log(action.payload);
-    const response = yield axios.post(LOGIN_URL, action.payload, {
+    const response = yield axios.post(endpoints.LOGIN_URL, action.payload, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
-    console.log(response);
-  } catch (error) {
-    console.log(error);
-  } finally {
+
+    if (response.status === 200) {
+      localStorage.setItem('token', response.data.token);
+      yield put(authActions.setUserData(response.data.data.user));
+    } else {
+      showNotification('error', response.data.message, 'Error');
+    }
+  } catch (e) {
+    showNotification('error', e.response.data.message, 'Error');
   }
 }
 
 export function* registerUserSaga(action) {
-  const { email, password, emailConfirm, passwordConfirm, userLanguage } =
-    action.data;
   try {
-    const formData = new FormData();
-    formData.append('email', email);
-    formData.append('emailConfirmation', emailConfirm);
-    formData.append('password', password);
-    formData.append('passwordConfirmation', passwordConfirm);
-    const response = AxiosInstance.post(REGISTER_URL, formData, {
+    console.log(action);
+    const response = yield axios.post(endpoints.REGISTER_URL, action.payload, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     });
-  } catch (error) {
-    console.log(error);
-  } finally {
-    yield;
+
+    if (response.status === 201) {
+      localStorage.setItem('token', response.data.token);
+      yield put(authActions.setUserData(response.data.data.user));
+    } else {
+      showNotification('error', response.data.message, 'Error');
+    }
+  } catch (e) {
+    showNotification('error', e.response.data.message, 'Error');
   }
 }

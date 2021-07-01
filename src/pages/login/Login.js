@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/authActions';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'; // For translation
+import { LoadingOutlined } from '@ant-design/icons';
 
 function Login() {
   const { t } = useTranslation('words');
   const dispatch = useDispatch();
+  const [isSubmitted, setisSubmitted] = useState(false);
+  const auth = useSelector((state) => state.auth);
+
   const SignInSchema = Yup.object().shape({
     email: Yup.string()
       .email(t('email_not_valid'))
@@ -24,6 +28,7 @@ function Login() {
   };
 
   const dologin = (values) => {
+    setisSubmitted(true);
     dispatch(loginUser(values));
   };
 
@@ -48,6 +53,7 @@ function Login() {
         return (
           <div data-aos="zoom-in-up" className="form">
             <h1>{t('login')} </h1>
+
             <form onSubmit={handleSubmit}>
               <div className="form__group">
                 <input
@@ -91,10 +97,14 @@ function Login() {
                 className="btn btn--green"
                 style={{ marginTop: '5rem', marginBottom: '2rem' }}
               >
-                {t('login')}
+                {isSubmitted ? (
+                  <LoadingOutlined style={{ fontSize: '2.5rem' }} spin />
+                ) : (
+                  t('login')
+                )}
               </button>
             </form>
-            <Link to="/forgotPassword">Forgot your Password? </Link>
+            <Link to="/forgotPassword">{`${t('forgot_password')}?`} </Link>
           </div>
         );
       }}

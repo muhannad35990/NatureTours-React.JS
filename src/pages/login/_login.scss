@@ -5,6 +5,7 @@
   background-color: #fff;
   border-radius: 3px;
   box-shadow: 1rem 2rem 4rem rgba($color: #000000, $alpha: 0.2);
+  justify-self: center;
 
   &__group {
     display: flex;
@@ -103,4 +104,7 @@
     left: 0;
     transition: all 0.4s;
   }
+}
+.span {
+  color: white !important;
 }

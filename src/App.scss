@@ -41,13 +41,16 @@ body {
   line-height: 1.7;
   background-color: $color-grey-light-1;
 }
-.app:not(:last-child) {
+
+.app {
   display: grid;
+  grid-template-columns: 1fr;
   justify-content: center;
   align-items: center;
   height: 90vh;
 }
+
 @import 'pages/login/login';
 @import 'components/navBar/navBar';
-@import 'pages/home/home';
+@import 'pages/Dashboard/dashboard';
 @import 'components/sideBar/sidebar';

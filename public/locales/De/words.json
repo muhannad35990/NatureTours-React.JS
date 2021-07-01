@@ -18,5 +18,8 @@
     "submit":"Speichern",
     "send":"Senden",
     "reset_password":"Setze dein Passwort zurück",
-    "forgot_password":"Passwort vergessen"
+    "forgot_password":"Passwort vergessen",
+    "profile":"Profil",
+    "logout":"Ausloggen"
+
 }

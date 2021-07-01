@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../store/actions/authActions';
 import { useTranslation } from 'react-i18next'; // For translation
-
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 function Register() {
   const { t } = useTranslation('words');
   const dispatch = useDispatch();
+  const [isSubmitted, setisSubmitted] = useState(false);
+
+  const auth = useSelector((state) => state.auth);
 
   const SignInSchema = Yup.object().shape({
     FirstName: Yup.string()
@@ -35,7 +39,8 @@ function Register() {
     passwordConfirm: '',
   };
   const signup = (values) => {
-    // dispatch(loginUser(values));
+    setisSubmitted(true);
+    dispatch(registerUser(values));
   };
 
   return (
@@ -60,6 +65,7 @@ function Register() {
           return (
             <div data-aos="zoom-in-up" className="form">
               <h1>{t('sign_up')}</h1>
+
               <form onSubmit={handleSubmit}>
                 <div className="form__group">
                   <input
@@ -136,7 +142,7 @@ function Register() {
                 </div>
                 <div className="form__group">
                   <input
-                    type="passwordConfirm"
+                    type="password"
                     name="passwordConfirm"
                     id="passwordConfirm"
                     placeholder={t('passwordConfirm')}
@@ -159,7 +165,11 @@ function Register() {
                   className="btn btn--green"
                   style={{ marginTop: '3rem' }}
                 >
-                  {t('login')}
+                  {isSubmitted ? (
+                    <LoadingOutlined style={{ fontSize: '2.5rem' }} spin />
+                  ) : (
+                    t('submit')
+                  )}
                 </button>
               </form>
             </div>

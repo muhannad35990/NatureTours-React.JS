@@ -18,5 +18,8 @@
    "submit":"Submit",
    "send":"Send",
    "reset_password":"Reset your password",
-   "forgot_password":"Forgot your password"
+   "forgot_password":"Forgot your password",
+   "profile":"Profile",
+   "logout":"Logout"
+  
 }

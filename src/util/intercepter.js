@@ -31,6 +31,7 @@ AxiosInstance.interceptors.response.use(
   async function (error) {
     const originalRequest = error.config;
     if (error.response.status === 403 && !originalRequest._retry) {
+      console.log('error from the intercepter');
       originalRequest._retry = true;
       const token = ''; //= await refreshAccessToken();
       localStorage.setItem('token', token);

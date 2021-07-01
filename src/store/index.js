@@ -2,11 +2,19 @@ import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { watchAuth } from './sagas';
 import rootReducer from './reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
-const initialState = {};
 const sagaMiddleware = createSagaMiddleware();
-const middlewareEnhancer = applyMiddleware(sagaMiddleware);
-const store = createStore(rootReducer, initialState, middlewareEnhancer);
+const middlewares = [sagaMiddleware];
+const middlewareEnhancer = applyMiddleware(...middlewares);
+
+const enhancers = [middlewareEnhancer];
+const composedEnhancers = composeWithDevTools(...enhancers);
+const store = createStore(
+  rootReducer,
+
+  composedEnhancers
+);
 sagaMiddleware.run(watchAuth);
 
 export default store;

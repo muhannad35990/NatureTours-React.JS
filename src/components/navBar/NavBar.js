@@ -1,28 +1,70 @@
-import React, { useState } from 'react';
-import { Menu, Dropdown, Button, message, Space, Tooltip } from 'antd';
-import { GlobalOutlined, UserOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { Menu, Dropdown, Button, message, Space, Tooltip, Image } from 'antd';
+import {
+  DownOutlined,
+  GlobalOutlined,
+  UserOutlined,
+  LoginOutlined,
+} from '@ant-design/icons';
 import changeLanguage from '../../configs/internationalization/changeLanguage';
 import getLanguage from '../../configs/internationalization/getLanguage';
 import { useTranslation } from 'react-i18next'; // For translation
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import logo from '../../img/logo-green-1x.png';
+import { useDispatch, useSelector } from 'react-redux';
+import Avatar from 'antd/lib/avatar/avatar';
+import Flags from 'country-flag-icons/react/3x2';
+import { logUserOut } from '../../store/actions/authActions';
+
 function NavBar(props) {
   const { t } = useTranslation('words');
+  const location = useLocation();
+  const language = getLanguage();
   const history = useHistory();
+  const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(true);
+
+  useEffect(() => {
+    if (location.pathname === '/register') setIsLogin(false);
+    else setIsLogin(true);
+  }, [location]);
+
   function handleMenuClick(e) {
     if (e.key === '1') changeLanguage('En');
     else changeLanguage('De');
-    // message.info('Click on menu item.');
-    // console.log('click', e);
   }
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1">English</Menu.Item>
-      <Menu.Item key="2">Deutsche</Menu.Item>
+
+  const logout = () => {
+    dispatch(logUserOut());
+    history.push('login');
+  };
+  const usermenu = (
+    <Menu>
+      <Menu.Item key="1" icon={<UserOutlined />}>
+        {t('profile')}
+      </Menu.Item>
+      <Menu.Item key="2" icon={<LoginOutlined />} onClick={logout}>
+        {t('logout')}
+      </Menu.Item>
     </Menu>
   );
-
+  const menu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="1">
+        <div className="language">
+          <h4>English </h4>
+          <Flags.US title="United States" className="flag" />
+        </div>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <div className="language">
+          <h4>Deutsche </h4>
+          <Flags.DE title="Germany" className="flag" />
+        </div>
+      </Menu.Item>
+    </Menu>
+  );
+  const auth = useSelector((state) => state.auth);
   return (
     <div className="nav">
       <div className="nav__logo">
@@ -33,27 +75,46 @@ function NavBar(props) {
       <div className="nav__buttons-group">
         <Space wrap style={{ marginRight: '2rem', height: '100%' }}>
           <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>
-            {getLanguage()}
+            {language === 'En' ? (
+              <Flags.US title="United States" className="flag" />
+            ) : (
+              <Flags.DE title="Germany" className="flag" />
+            )}
           </Dropdown.Button>
         </Space>
-        <button
-          className={`btn ${isLogin ? 'btn--green' : 'btn--white'} navbtn`}
-          onClick={() => {
-            history.push('/login');
-            setIsLogin(true);
-          }}
-        >
-          {t('login')}
-        </button>
-        <button
-          className={`btn ${isLogin ? 'btn--white' : 'btn--green'} navbtn`}
-          onClick={() => {
-            history.push('/register');
-            setIsLogin(false);
-          }}
-        >
-          {t('sign_up')}
-        </button>
+        {!auth.loggedIn ? (
+          <>
+            <button
+              className={`btn ${isLogin ? 'btn--green' : 'btn--white'} navbtn`}
+              onClick={() => {
+                history.push('/login');
+                setIsLogin(true);
+              }}
+            >
+              {t('login')}
+            </button>
+            <button
+              className={`btn ${isLogin ? 'btn--white' : 'btn--green'} navbtn`}
+              onClick={() => {
+                history.push('/register');
+                setIsLogin(false);
+              }}
+            >
+              {t('sign_up')}
+            </button>
+          </>
+        ) : (
+          <Dropdown overlay={usermenu}>
+            <Button>
+              {` ${auth.user.FirstName}  `}
+              <Avatar
+                src={
+                  <Image src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                }
+              />
+            </Button>
+          </Dropdown>
+        )}
       </div>
     </div>
   );
