@@ -17,7 +17,6 @@ export function* loginUserSaga(action) {
     if (response.status === 200) {
       localStorage.setItem("token", response.data.token);
       yield put(authActions.setUserData(response.data.data.user));
-      history.push("/");
     } else {
       yield put(
         AlertActions.showAlert({

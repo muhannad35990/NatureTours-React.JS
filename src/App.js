@@ -45,8 +45,13 @@ function App() {
           ) : (
             <Redirect exact from="/" to="/login" />
           )}
-          <Route path="/register" component={!auth.loggedIn && RegisterPage} />
-
+          <Route path="/register">
+            {!auth.loggedIn ? (
+              <RegisterPage />
+            ) : (
+              <Redirect exact from="/register" to="/" />
+            )}
+          </Route>
           <Route path="/login">
             {!auth.loggedIn ? (
               <LoginPage />
@@ -67,38 +72,6 @@ function App() {
         </Switch>
       </div>
     </Router>
-
-    // <Router history={history}>
-    //   <NavBar />
-    //   <div className="app">
-    //     <Switch>
-    //       {/* <Route path="/">
-    //         {auth.loggedIn ? (
-    //           auth.user.role !== null && auth.user.role === "admin" ? (
-    //             <Dashboard />
-    //           ) : (
-    //             <UserHome />
-    //           )
-    //         ) : (
-    //           <Redirect from="/" to="/login" />
-    //         )}
-    //       </Route> */}
-    //       <Route path="/register">
-    //         <RegisterPage />
-    //       </Route>
-    //       <Route path="/login">
-    //         <LoginPage />
-    //       </Route>
-    //       {auth.loggedIn ? (
-    //         <Route path="/" exact>
-    //           {auth.user.role === "admin" ? <Dashboard /> : <UserHome />}
-    //         </Route>
-    //       ) : (
-    //         <LoginPage />
-    //       )}
-    //     </Switch>
-    //   </div>
-    // </Router>
   );
 }
 
