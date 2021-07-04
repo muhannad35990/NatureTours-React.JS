@@ -3,18 +3,27 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/actions/authActions";
-import { Link, withRouter } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  withRouter,
+  Redirect,
+  useHistory,
+} from "react-router-dom";
 import { useTranslation } from "react-i18next"; // For translation
 import { LoadingOutlined } from "@ant-design/icons";
 import { Alert } from "antd";
 import { removeAllAlerts } from "../../store/actions/AlertActions";
-
+import history from "../../history";
 function Login() {
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
   const [isSubmitted, setisSubmitted] = useState(false);
   const auth = useSelector((state) => state.auth);
   const alert = useSelector((state) => state.alert.alert);
+  const history = useHistory();
+  const { state } = useLocation();
+  const { from } = state || { from: { pathname: "/" } };
 
   const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -32,7 +41,12 @@ function Login() {
   useEffect(() => {
     dispatch(removeAllAlerts());
   }, []);
-
+  useEffect(() => {
+    if (auth.loggedIn) {
+      console.log("auth chagned:", auth, from);
+      history.push("/");
+    }
+  }, [auth]);
   const dologin = (values) => {
     dispatch(removeAllAlerts());
     setisSubmitted(true);
@@ -110,7 +124,7 @@ function Login() {
                 className="btn btn--green"
                 style={{ marginTop: "5rem", marginBottom: "2rem" }}
               >
-                {isSubmitted && !alert?.message ? (
+                {isSubmitted && !alert?.message && !auth.loggedIn ? (
                   <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
                 ) : (
                   t("login")

@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import UserHome from "./pages/userHome/UserHome";
 import changeLanguage from "./configs/internationalization/changeLanguage";
 import Me from "./pages/me/Me";
+import PrivateRoute from "./routes/PrivateRoute";
 
 function App() {
   useEffect(() => {
@@ -34,7 +35,23 @@ function App() {
       <NavBar />
       <div className="app">
         <Switch>
-          {auth.loggedIn ? (
+          <PrivateRoute
+            exact
+            path="/"
+            component1={Dashboard}
+            component2={UserHome}
+          />
+          <Route path="/register">
+            <RegisterPage />
+          </Route>
+          <Route path="/UserHome">
+            <UserHome />
+          </Route>
+          <Route exact path="/login">
+            <LoginPage />
+          </Route>
+
+          {/* {auth.loggedIn ? (
             <Route exact path="/">
               {auth.user.role !== null && auth.user.role === "admin" ? (
                 <Dashboard />
@@ -68,7 +85,7 @@ function App() {
           <Route
             path="/resetPassword"
             component={auth.loggedIn ? resetPasswordPage : LoginPage}
-          />
+          /> */}
         </Switch>
       </div>
     </Router>
