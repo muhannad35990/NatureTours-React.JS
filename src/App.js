@@ -1,26 +1,31 @@
-import './App.scss';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import history from './history';
-import LoginPage from './pages/login/Login.js';
-import RegisterPage from './pages/register/Register.js';
-import Dashboard from './pages/Dashboard/Dashboard';
-import NavBar from './components/navBar/NavBar';
-import forgotPasswordPage from './pages/forgotPassword/ForgotPassword';
-import resetPasswordPage from './pages/resetPassword/ResetPassword';
-import Aos from 'aos';
-import 'aos/dist/aos.css';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import UserHome from './pages/userHome/UserHome';
-import changeLanguage from './configs/internationalization/changeLanguage';
+import "./App.scss";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import history from "./history";
+import LoginPage from "./pages/login/Login.js";
+import RegisterPage from "./pages/register/Register.js";
+import Dashboard from "./pages/Dashboard/Dashboard";
+import NavBar from "./components/navBar/NavBar";
+import forgotPasswordPage from "./pages/forgotPassword/ForgotPassword";
+import resetPasswordPage from "./pages/resetPassword/ResetPassword";
+import Aos from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import UserHome from "./pages/userHome/UserHome";
+import changeLanguage from "./configs/internationalization/changeLanguage";
+import Me from "./pages/me/Me";
 
 function App() {
   useEffect(() => {
     Aos.init({ duration: 2000 });
   }, []);
   useEffect(() => {
-    console.log('chaning the language');
-    changeLanguage(localStorage.getItem('i18nextLng'));
+    changeLanguage(localStorage.getItem("i18nextLng"));
   }, []);
   const auth = useSelector((state) => state.auth);
 
@@ -29,37 +34,71 @@ function App() {
       <NavBar />
       <div className="app">
         <Switch>
-          <Route exact path="/">
-            {auth.loggedIn ? (
-              auth.user.role !== null && auth.user.role === 'admin' ? (
+          {auth.loggedIn ? (
+            <Route exact path="/">
+              {auth.user.role !== null && auth.user.role === "admin" ? (
                 <Dashboard />
               ) : (
                 <UserHome />
-              )
-            ) : (
+              )}
+            </Route>
+          ) : (
+            <Redirect exact from="/" to="/login" />
+          )}
+          <Route path="/register" component={!auth.loggedIn && RegisterPage} />
+
+          <Route path="/login">
+            {!auth.loggedIn ? (
               <LoginPage />
+            ) : (
+              <Redirect exact from="/login" to="/" />
             )}
           </Route>
+          <Route path="/me">{auth.loggedIn ? <Me /> : <LoginPage />}</Route>
           <Route
-            exact
             path="/forgotPassword"
             component={!auth.loggedIn && forgotPasswordPage}
           />
-          <Route
-            exact
-            path="/register"
-            component={!auth.loggedIn && RegisterPage}
-          />
-          <Route exact path="/login" component={!auth.loggedIn && LoginPage} />
 
           <Route
-            exact
             path="/resetPassword"
             component={auth.loggedIn ? resetPasswordPage : LoginPage}
           />
         </Switch>
       </div>
     </Router>
+
+    // <Router history={history}>
+    //   <NavBar />
+    //   <div className="app">
+    //     <Switch>
+    //       {/* <Route path="/">
+    //         {auth.loggedIn ? (
+    //           auth.user.role !== null && auth.user.role === "admin" ? (
+    //             <Dashboard />
+    //           ) : (
+    //             <UserHome />
+    //           )
+    //         ) : (
+    //           <Redirect from="/" to="/login" />
+    //         )}
+    //       </Route> */}
+    //       <Route path="/register">
+    //         <RegisterPage />
+    //       </Route>
+    //       <Route path="/login">
+    //         <LoginPage />
+    //       </Route>
+    //       {auth.loggedIn ? (
+    //         <Route path="/" exact>
+    //           {auth.user.role === "admin" ? <Dashboard /> : <UserHome />}
+    //         </Route>
+    //       ) : (
+    //         <LoginPage />
+    //       )}
+    //     </Switch>
+    //   </div>
+    // </Router>
   );
 }
 

@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/actions/authActions";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // For translation
 import { LoadingOutlined } from "@ant-design/icons";
 import { Alert } from "antd";
@@ -125,4 +125,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default withRouter(Login);

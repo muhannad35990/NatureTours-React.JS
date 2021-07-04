@@ -5,7 +5,7 @@ import * as AlertActions from "../actions/AlertActions";
 import * as endpoints from "../../configs/endpointConfig";
 import axios from "axios";
 import showNotification from "../../components/alert/Alert";
-
+import history from "../../history";
 export function* loginUserSaga(action) {
   try {
     const response = yield axios.post(endpoints.LOGIN_URL, action.payload, {
@@ -17,6 +17,7 @@ export function* loginUserSaga(action) {
     if (response.status === 200) {
       localStorage.setItem("token", response.data.token);
       yield put(authActions.setUserData(response.data.data.user));
+      history.push("/");
     } else {
       yield put(
         AlertActions.showAlert({
@@ -39,7 +40,6 @@ export function* loginUserSaga(action) {
 
 export function* registerUserSaga(action) {
   try {
-    console.log(action);
     const response = yield axios.post(endpoints.REGISTER_URL, action.payload, {
       headers: {
         "Content-Type": "application/json",
@@ -49,10 +49,23 @@ export function* registerUserSaga(action) {
     if (response.status === 201) {
       localStorage.setItem("token", response.data.token);
       yield put(authActions.setUserData(response.data.data.user));
+      showNotification("success", "User created successfully", "success");
     } else {
-      showNotification("error", response.data.message, "Error");
+      // showNotification("error", response.data.message, "Error");
+      yield put(
+        AlertActions.showAlert({
+          title: response.statusText,
+          message: response.data.message,
+        })
+      );
     }
   } catch (e) {
-    showNotification("error", e.response.data.message, "Error");
+    // showNotification("error", e.response.data.message, "Error");
+    yield put(
+      AlertActions.showAlert({
+        title: e.response.statusText,
+        message: e.response.data.message,
+      })
+    );
   }
 }
