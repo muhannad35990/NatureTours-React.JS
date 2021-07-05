@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { GuardProvider, GuardedRoute } from 'react-router-guards';
-import { NotFound } from '../pages';
-import { requireAdminOnly, requireLogin, waitOneSecond } from './guards/index';
-import getRoutes from './routes';
-import Loading from '../components/Loading';
+import React, { useMemo } from "react";
+import PropTypes from "prop-types";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { GuardProvider, GuardedRoute } from "react-router-guards";
+import { NotFound } from "../pages";
+import { requireLogin, waitOneSecond } from "./guards/index";
+import getRoutes from "./routes";
+import Loading from "../components/Loading";
 
 const GLOBAL_GUARDS = [requireLogin, waitOneSecond];
 
