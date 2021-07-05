@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { GuardProvider, GuardedRoute } from "react-router-guards";
 import { NotFound } from "../pages";
-import { requireLogin, waitOneSecond } from "./guards/index";
+import { requireLogin, waitOneSecond, restrictTo } from "./guards/index";
 import getRoutes from "./routes";
 import Loading from "../components/Loading";
 
-const GLOBAL_GUARDS = [requireLogin, waitOneSecond];
+const GLOBAL_GUARDS = [requireLogin, restrictTo, waitOneSecond];
 
 const Router = ({ children }) => {
   const routes = useMemo(() => getRoutes(), []);

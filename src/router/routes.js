@@ -8,6 +8,7 @@ import {
   NotFound,
   Home,
   NotAuth,
+  Me,
 } from "../pages";
 
 import { AUTH_ONLY, RESTRICT_TO } from "./types";
@@ -36,6 +37,15 @@ export default () => [
     path: "/userHome",
     exact: true,
     component: UserHome,
+    error: NotAuth,
+    meta: {
+      [AUTH_ONLY]: true,
+    },
+  },
+  {
+    path: "/Me",
+    exact: true,
+    component: Me,
     error: NotAuth,
     meta: {
       [AUTH_ONLY]: true,
