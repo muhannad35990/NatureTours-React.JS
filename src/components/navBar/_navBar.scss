@@ -4,7 +4,8 @@
   box-shadow: 0rem 1rem 2rem rgba($color: #000000, $alpha: 0.2);
   display: flex;
   justify-content: space-between;
-
+  position: fixed;
+  top: 0;
   &__buttons-group {
     display: flex;
     &:last-of-type {
@@ -15,7 +16,7 @@
     height: 5rem;
     display: flex;
     align-items: center;
-    margin-left: 2rem;
+    margin-left: 5rem;
     &--img {
       height: 4rem;
     }

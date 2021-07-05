@@ -16,7 +16,7 @@ function SideBar() {
     setCollapsed(!collapsed);
   };
   return (
-    <div style={{ width: 256, height: '100vh' }}>
+    <div style={{ width: 256, height: '90vh' }}>
       <Button
         type="primary"
         onClick={toggleCollapsed}
