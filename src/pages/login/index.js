@@ -12,18 +12,18 @@ import {
 } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'; // For translation
 import { LoadingOutlined } from '@ant-design/icons';
-import { Alert } from 'antd';
-import { removeAllAlerts } from '../../store/actions/AlertActions';
-import history from '../../history';
+import OnFormAlert from '../../components/alert/OnFormAlert';
+import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
+
 function Login() {
   const { t } = useTranslation('words');
   const dispatch = useDispatch();
-  const [isSubmitted, setisSubmitted] = useState(false);
+
   const auth = useSelector((state) => state.auth);
   const alert = useSelector((state) => state.alert.alert);
+  const spinner = useSelector((state) => state.alert.spinner);
+
   const history = useHistory();
-  const { state } = useLocation();
-  const { from } = state || { from: { pathname: '/' } };
 
   const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -50,7 +50,7 @@ function Login() {
   }, [auth]);
   const dologin = (values) => {
     dispatch(removeAllAlerts());
-    setisSubmitted(true);
+    dispatch(setSpiner(true));
     dispatch(loginUser(values));
   };
 
@@ -76,10 +76,11 @@ function Login() {
           <div data-aos="zoom-in-up" className="form">
             <h1>{t('login')} </h1>
             {alert && alert.message && (
-              <Alert
-                message={alert.title}
-                description={alert.message}
-                type="error"
+              <OnFormAlert
+                title={alert.title}
+                message={alert.message}
+                type={alert.type}
+                timeout={alert.timeout}
               />
             )}
             <form onSubmit={handleSubmit}>
@@ -125,7 +126,7 @@ function Login() {
                 className="btn btn--green"
                 style={{ marginTop: '5rem', marginBottom: '2rem' }}
               >
-                {isSubmitted && !alert?.message && !auth.loggedIn ? (
+                {spinner ? (
                   <LoadingOutlined style={{ fontSize: '2.5rem' }} spin />
                 ) : (
                   t('login')

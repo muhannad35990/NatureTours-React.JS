@@ -1,53 +1,62 @@
-import React, { useState, useEffect } from "react";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../store/actions/authActions";
-import { useTranslation } from "react-i18next"; // For translation
-import { Alert, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
-import { removeAllAlerts } from "../../store/actions/AlertActions";
+import React, { useState, useEffect } from 'react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { logUserOut, registerUser } from '../../store/actions/authActions';
+import { useTranslation } from 'react-i18next'; // For translation
+import OnFormAlert from '../../components/alert/OnFormAlert';
+import { LoadingOutlined } from '@ant-design/icons';
+import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
+import { useHistory } from 'react-router-dom';
 function Register() {
-  const { t } = useTranslation("words");
+  const { t } = useTranslation('words');
   const dispatch = useDispatch();
-  const [isSubmitted, setisSubmitted] = useState(false);
 
   const auth = useSelector((state) => state.auth);
   const alert = useSelector((state) => state.alert.alert);
+  const spinner = useSelector((state) => state.alert.spinner);
+  const history = useHistory();
 
   const SignInSchema = Yup.object().shape({
     FirstName: Yup.string()
-      .required(t("Firstname_is_required"))
-      .min(2, t("too_short")),
+      .required(t('Firstname_is_required'))
+      .min(2, t('too_short')),
     LastName: Yup.string()
-      .required(t("Lastname_is_required"))
-      .min(2, t("too_short")),
+      .required(t('Lastname_is_required'))
+      .min(2, t('too_short')),
     email: Yup.string()
-      .email(t("email_not_valid"))
-      .required(t("Email_is_required")),
+      .email(t('email_not_valid'))
+      .required(t('Email_is_required')),
     password: Yup.string()
-      .required(t("Password_is_required"))
-      .min(6, t("Password_is_too_short")),
+      .required(t('Password_is_required'))
+      .min(6, t('Password_is_too_short')),
     passwordConfirm: Yup.string()
-      .required(t("Password_confirm_required"))
-      .min(6, t("Password_is_too_short"))
-      .oneOf([Yup.ref("password"), null], t("Passwords_must_match")),
+      .required(t('Password_confirm_required'))
+      .min(6, t('Password_is_too_short'))
+      .oneOf([Yup.ref('password'), null], t('Passwords_must_match')),
   });
   const initialValues = {
-    FirstName: "",
-    LastName: "",
-    email: "",
-    password: "",
-    passwordConfirm: "",
+    FirstName: '',
+    LastName: '',
+    email: '',
+    password: '',
+    passwordConfirm: '',
   };
 
   useEffect(() => {
     dispatch(removeAllAlerts());
+    dispatch(logUserOut());
   }, []);
-
+  useEffect(() => {
+    if (auth.loggedIn) {
+      auth.user.role === 'admin'
+        ? history.push('/dashboard')
+        : history.push('/userHome');
+    }
+  }, [auth]);
   const signup = (values) => {
     dispatch(removeAllAlerts());
-    setisSubmitted(true);
+    dispatch(setSpiner(true));
     dispatch(registerUser(values));
   };
 
@@ -72,12 +81,13 @@ function Register() {
           } = props;
           return (
             <div data-aos="zoom-in-up" className="form">
-              <h1>{t("sign_up")}</h1>
+              <h1>{t('sign_up')}</h1>
               {alert && alert.message && (
-                <Alert
-                  message={alert.title}
-                  description={alert.message}
-                  type="error"
+                <OnFormAlert
+                  title={alert.title}
+                  message={alert.message}
+                  type={alert.type}
+                  timeout={alert.timeout}
                 />
               )}
               <form onSubmit={handleSubmit}>
@@ -86,14 +96,14 @@ function Register() {
                     type="text"
                     name="FirstName"
                     id="FirstName"
-                    placeholder={t("firstname")}
+                    placeholder={t('firstname')}
                     value={values.FirstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="form__input"
                   />
                   <label htmlFor="FirstName" className="form__label">
-                    {t("firstname")}
+                    {t('firstname')}
                   </label>
                   {errors.FirstName && touched.FirstName && (
                     <span className="form__error">{errors.FirstName}</span>
@@ -104,14 +114,14 @@ function Register() {
                     type="text"
                     name="LastName"
                     id="LastName"
-                    placeholder={t("lastname")}
+                    placeholder={t('lastname')}
                     value={values.LastName}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="form__input"
                   />
                   <label htmlFor="LastName" className="form__label">
-                    {t("lastname")}
+                    {t('lastname')}
                   </label>
                   {errors.LastName && touched.LastName && (
                     <span className="form__error">{errors.LastName}</span>
@@ -122,14 +132,14 @@ function Register() {
                     type="email"
                     name="email"
                     id="email"
-                    placeholder={t("email")}
+                    placeholder={t('email')}
                     value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="form__input"
                   />
                   <label htmlFor="email" className="form__label">
-                    {t("email")}
+                    {t('email')}
                   </label>
                   {errors.email && touched.email && (
                     <span className="form__error">{errors.email}</span>
@@ -141,14 +151,14 @@ function Register() {
                     type="password"
                     name="password"
                     id="password"
-                    placeholder={t("password")}
+                    placeholder={t('password')}
                     value={values.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="form__input"
                   />
                   <label htmlFor="password" className="form__label">
-                    {t("password")}
+                    {t('password')}
                   </label>
                   {errors.password && touched.password && (
                     <span className="form__error">{errors.password}</span>
@@ -159,14 +169,14 @@ function Register() {
                     type="password"
                     name="passwordConfirm"
                     id="passwordConfirm"
-                    placeholder={t("passwordConfirm")}
+                    placeholder={t('passwordConfirm')}
                     value={values.passwordConfirm}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="form__input"
                   />
                   <label htmlFor="passwordConfirm" className="form__label">
-                    {t("passwordConfirm")}
+                    {t('passwordConfirm')}
                   </label>
                   {errors.passwordConfirm && touched.passwordConfirm && (
                     <span className="form__error">
@@ -177,12 +187,12 @@ function Register() {
                 <button
                   type="submit"
                   className="btn btn--green"
-                  style={{ marginTop: "3rem" }}
+                  style={{ marginTop: '3rem' }}
                 >
-                  {isSubmitted && !alert?.message ? (
-                    <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
+                  {spinner ? (
+                    <LoadingOutlined style={{ fontSize: '2.5rem' }} spin />
                   ) : (
-                    t("submit")
+                    t('submit')
                   )}
                 </button>
               </form>

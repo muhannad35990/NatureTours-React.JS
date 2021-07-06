@@ -11,13 +11,13 @@ import {
   Modal,
 } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Field, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { useTranslation } from 'react-i18next'; // For translation
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeAllAlerts } from '../../store/actions/AlertActions';
+import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
 import { UpdateMe } from '../../store/actions/userActions';
 import * as endpoints from '../../configs/endpointConfig';
 import {
@@ -26,21 +26,27 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import AxiosInstance from '../../util/intercepter';
-import axios from 'axios';
+import OnFormAlert from '../../components/alert/OnFormAlert';
 import { setUserData } from '../../store/actions/authActions';
 import showNotification from '../../components/alert/Alert';
+
 function Me() {
   const history = useHistory();
   const { t } = useTranslation('words');
   const alert = useSelector((state) => state.alert.alert);
+  const spinner = useSelector((state) => state.alert.spinner);
+
   const dispatch = useDispatch();
-  const [isSubmitted, setisSubmitted] = useState(false);
+
   const auth = useSelector((state) => state.auth);
   const [defaultFileList, setDefaultFileList] = useState([]);
   const [progress, setProgress] = useState(0);
-
   const [imagePreview, SetImagePreview] = useState({});
 
+  useEffect(() => {
+    dispatch(removeAllAlerts());
+  }, []);
+  console.log('spinner:', spinner);
   const ProfileSchema = Yup.object().shape({
     FirstName: Yup.string()
       .required(t('Firstname_is_required'))
@@ -59,7 +65,7 @@ function Me() {
   };
   const doUpdateProfile = async (values) => {
     dispatch(removeAllAlerts());
-    setisSubmitted(true);
+    dispatch(setSpiner(true));
     dispatch(UpdateMe(values));
   };
 
@@ -117,37 +123,40 @@ function Me() {
         <PageHeader
           className="site-page-header"
           onBack={() => history.push('/')}
-          title="Main"
+          title="Back"
         />
 
         <Row justify="center">
           <div onClick={handleProfilePreview} className="uploaded__image">
             <Avatar
-              size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 125, xxl: 150 }}
+              size={{ xs: 30, sm: 50, md: 70, lg: 80, xl: 100, xxl: 125 }}
               src={`${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`}
               icon={<UserOutlined />}
             />
           </div>
         </Row>
         <Row justify="center">
-          <div>
-            <Upload
-              listType="picture"
-              accept="image/*"
-              customRequest={uploadImage}
-              onChange={handleOnChange}
-            >
-              {defaultFileList.length >= 1 ? null : (
-                <div>
-                  <Button icon={<UploadOutlined />}>
-                    Update Profile Image
-                  </Button>
-                </div>
-              )}
-            </Upload>
-            {progress > 0 ? <Progress percent={progress} /> : null}
-          </div>
+          <Space>
+            <div>
+              <Upload
+                listType="picture"
+                accept="image/*"
+                customRequest={uploadImage}
+                onChange={handleOnChange}
+              >
+                {defaultFileList.length >= 1 ? null : (
+                  <div>
+                    <Button icon={<UploadOutlined />}>
+                      Update Profile Image
+                    </Button>
+                  </div>
+                )}
+              </Upload>
+              {progress > 0 ? <Progress percent={progress} /> : null}
+            </div>
+          </Space>
         </Row>
+
         <Formik
           initialValues={initialValues}
           validationSchema={ProfileSchema}
@@ -170,10 +179,11 @@ function Me() {
                 <Row justify="center">
                   <Col span={12}>
                     {alert && alert.message && (
-                      <Alert
-                        message={alert.title}
-                        description={alert.message}
-                        type={alert.type ? alert.type : 'error'}
+                      <OnFormAlert
+                        title={alert.title}
+                        message={alert.message}
+                        type={alert.type}
+                        timeout={alert.timeout}
                       />
                     )}
                   </Col>
@@ -243,10 +253,10 @@ function Me() {
                       className="btn btn--green"
                       style={{ marginTop: '3rem' }}
                     >
-                      {isSubmitted && !alert?.message ? (
+                      {spinner ? (
                         <LoadingOutlined style={{ fontSize: '2.5rem' }} spin />
                       ) : (
-                        t('submit')
+                        'SAVE'
                       )}
                     </button>
                   </Col>

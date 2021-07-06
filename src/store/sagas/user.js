@@ -18,28 +18,32 @@ export function* updateMeSaga(action) {
         'Content-Type': 'multipart/form-data',
       },
     });
+    yield put(AlertActions.setSpiner(false));
     if (response.status === 200) {
       yield put(authActions.setUserData(response.data.user));
+
       yield put(
         AlertActions.showAlert({
           type: 'success',
           title: response.statusText,
-          message: response.data.message,
+          message: 'Updated successfully',
         })
       );
-      showNotification('success', 'Updated successfully', 'Success');
     } else {
       yield put(
         AlertActions.showAlert({
+          type: 'error',
           title: response.statusText,
           message: response.data.message,
         })
       );
     }
   } catch (e) {
+    yield put(AlertActions.setSpiner(false));
     if (e.response)
       yield put(
         AlertActions.showAlert({
+          type: 'error',
           title: e.response.statusText,
           message: e.response.data.message,
         })
@@ -47,6 +51,7 @@ export function* updateMeSaga(action) {
     else {
       yield put(
         AlertActions.showAlert({
+          type: 'error',
           title: 'Network Error',
           message:
             'Fail to Connect to the server! check your connection and try again',
