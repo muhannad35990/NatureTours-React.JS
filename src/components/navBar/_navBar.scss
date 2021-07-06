@@ -4,7 +4,7 @@
   box-shadow: 0rem 1rem 2rem rgba($color: #000000, $alpha: 0.2);
   display: flex;
   justify-content: space-between;
-  position: fixed;
+  position: absolute;
   top: 0;
   &__buttons-group {
     display: flex;

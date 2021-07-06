@@ -5,8 +5,12 @@
   place-items: center;
 }
 .user__profile {
-  height: 80%;
-  width: 80%;
-
+  height: 90%;
+  width: 50%;
+  margin-top: 8rem;
   box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.7);
+}
+.uploaded__image {
+  margin-bottom: 1rem;
+  cursor: pointer;
 }

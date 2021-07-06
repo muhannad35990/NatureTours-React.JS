@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { Menu, Dropdown, Button, message, Space, Tooltip, Image } from "antd";
+import React, { useState, useEffect } from 'react';
+import { Menu, Dropdown, Button, message, Space, Tooltip, Image } from 'antd';
 import {
   DownOutlined,
   GlobalOutlined,
   UserOutlined,
   LoginOutlined,
-} from "@ant-design/icons";
-import changeLanguage from "../../configs/internationalization/changeLanguage";
-import getLanguage from "../../configs/internationalization/getLanguage";
-import { useTranslation } from "react-i18next"; // For translation
-import { Link, useHistory, useLocation } from "react-router-dom";
-import logo from "../../img/logo-green-1x.png";
-import { useDispatch, useSelector } from "react-redux";
-import Avatar from "antd/lib/avatar/avatar";
-import Flags from "country-flag-icons/react/3x2";
-import { logUserOut } from "../../store/actions/authActions";
+} from '@ant-design/icons';
+import changeLanguage from '../../configs/internationalization/changeLanguage';
+import getLanguage from '../../configs/internationalization/getLanguage';
+import { useTranslation } from 'react-i18next'; // For translation
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import logo from '../../img/logo-green-1x.png';
+import { useDispatch, useSelector } from 'react-redux';
+import Avatar from 'antd/lib/avatar/avatar';
+import Flags from 'country-flag-icons/react/3x2';
+import { logUserOut } from '../../store/actions/authActions';
+import * as endpoints from '../../configs/endpointConfig';
 
 function NavBar(props) {
-  const { t } = useTranslation("words");
+  const { t } = useTranslation('words');
   const location = useLocation();
   const language = getLanguage();
   const history = useHistory();
@@ -25,25 +26,25 @@ function NavBar(props) {
   const [isLogin, setIsLogin] = useState(true);
 
   function handleMenuClick(e) {
-    if (e.key === "1") changeLanguage("En");
-    else changeLanguage("De");
+    if (e.key === '1') changeLanguage('En');
+    else changeLanguage('De');
   }
 
   const logout = () => {
     dispatch(logUserOut());
-    history.push("login");
+    history.push('login');
   };
   const usermenu = (
     <Menu>
       <Menu.Item
         key="1"
         icon={<UserOutlined />}
-        onClick={() => history.push("/Me")}
+        onClick={() => history.push('/Me')}
       >
-        {t("profile")}
+        {t('profile')}
       </Menu.Item>
       <Menu.Item key="2" icon={<LoginOutlined />} onClick={logout}>
-        {t("logout")}
+        {t('logout')}
       </Menu.Item>
     </Menu>
   );
@@ -72,9 +73,9 @@ function NavBar(props) {
         </Link>
       </div>
       <div className="nav__buttons-group">
-        <Space wrap style={{ marginRight: "2rem", height: "100%" }}>
+        <Space wrap style={{ marginRight: '2rem', height: '100%' }}>
           <Dropdown.Button overlay={menu} icon={<GlobalOutlined />}>
-            {language === "En" ? (
+            {language === 'En' ? (
               <Flags.US title="United States" className="flag" />
             ) : (
               <Flags.DE title="Germany" className="flag" />
@@ -84,22 +85,22 @@ function NavBar(props) {
         {!auth.loggedIn ? (
           <>
             <button
-              className={`btn ${isLogin ? "btn--green" : "btn--white"} navbtn`}
+              className={`btn ${isLogin ? 'btn--green' : 'btn--white'} navbtn`}
               onClick={() => {
-                history.push("/login");
+                history.push('/login');
                 setIsLogin(true);
               }}
             >
-              {t("login")}
+              {t('login')}
             </button>
             <button
-              className={`btn ${isLogin ? "btn--white" : "btn--green"} navbtn`}
+              className={`btn ${isLogin ? 'btn--white' : 'btn--green'} navbtn`}
               onClick={() => {
-                history.push("/register");
+                history.push('/register');
                 setIsLogin(false);
               }}
             >
-              {t("sign_up")}
+              {t('sign_up')}
             </button>
           </>
         ) : (
@@ -107,9 +108,8 @@ function NavBar(props) {
             <Button>
               {` ${auth.user.FirstName}  `}
               <Avatar
-                src={
-                  <Image src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                }
+                src={`${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`}
+                icon={<UserOutlined />}
               />
             </Button>
           </Dropdown>

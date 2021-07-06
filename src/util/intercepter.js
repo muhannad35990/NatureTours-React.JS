@@ -1,13 +1,10 @@
 import axios from 'axios';
+import showNotification from '../components/alert/Alert.js';
 import { BACKEND_URL } from '../configs/endpointConfig.js';
 
 const AxiosInstance = axios.create({
   baseURL: BACKEND_URL,
   timeout: 20000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  withCredentials: true,
 });
 
 AxiosInstance.interceptors.request.use(
@@ -30,13 +27,21 @@ AxiosInstance.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    if (error.response.status === 403 && !originalRequest._retry) {
+    console.log('error from the intercepter', error);
+    if (
+      error.response &&
+      error.response.status === 403 &&
+      !originalRequest._retry
+    ) {
       console.log('error from the intercepter');
+
       originalRequest._retry = true;
       const token = ''; //= await refreshAccessToken();
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       return AxiosInstance(originalRequest);
+    } else {
+      showNotification('error', error.toString(), 'Error');
     }
     return Promise.reject(error);
   }
