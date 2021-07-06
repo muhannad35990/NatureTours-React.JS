@@ -13,3 +13,8 @@ export const setUserData = (user) => ({
   payload: user,
 });
 export const logUserOut = () => ({ type: 'LOG_OUT' });
+
+export const forgotPassword = (email) => ({
+  type: types.FORGOT_PASSWORD,
+  payload: email,
+});

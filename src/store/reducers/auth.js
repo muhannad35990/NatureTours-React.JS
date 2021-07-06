@@ -16,6 +16,9 @@ const reducer = (state = initialState, action) => {
     case types.LOG_OUT:
       localStorage.removeItem('token');
       return initialState;
+    case types.FORGOT_PASSWORD:
+      return { ...state };
+
     default:
       return state;
   }

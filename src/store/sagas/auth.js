@@ -99,3 +99,59 @@ export function* registerUserSaga(action) {
     }
   }
 }
+
+export function* forgotPasswordsaga(action) {
+  try {
+    console.log('action:', action);
+    const response = yield axios.post(
+      endpoints.FORGOT_PASSWORD,
+      action.payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    yield put(AlertActions.setSpiner(false));
+    if (response.status === 201) {
+      localStorage.setItem('token', response.data.token);
+      yield put(authActions.setUserData(response.data.data.user));
+      yield put(
+        AlertActions.showAlert({
+          type: 'success',
+          title: 'success',
+          message:
+            'Check your email.An email sent with your Reset information  ',
+        })
+      );
+    } else {
+      yield put(
+        AlertActions.showAlert({
+          type: 'error',
+          title: response.statusText,
+          message: response.data.message,
+        })
+      );
+    }
+  } catch (e) {
+    yield put(AlertActions.setSpiner(false));
+    if (e.response)
+      yield put(
+        AlertActions.showAlert({
+          type: 'error',
+          title: e.response.statusText,
+          message: e.response.data.message,
+        })
+      );
+    else {
+      yield put(
+        AlertActions.showAlert({
+          type: 'error',
+          title: 'Network Error',
+          message:
+            'Fail to Connect to the server! check your connection and try again',
+        })
+      );
+    }
+  }
+}
