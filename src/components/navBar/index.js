@@ -106,7 +106,7 @@ function NavBar(props) {
         ) : (
           <Dropdown overlay={usermenu}>
             <Button>
-              {` ${auth.user.FirstName}  `}
+              <span style={{ marginRight: '1rem' }}>{auth.user.FirstName}</span>
               <Avatar
                 src={`${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`}
                 icon={<UserOutlined />}
