@@ -3,7 +3,7 @@ import { Alert } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeAllAlerts } from '../../store/actions/AlertActions';
 
-function OnFormAlert({ type, message, title, timeout }) {
+function AutoHideAlert({ type, message, title, timeout }) {
   const dispatch = useDispatch();
 
   setTimeout(() => {
@@ -22,4 +22,4 @@ function OnFormAlert({ type, message, title, timeout }) {
   );
 }
 
-export default OnFormAlert;
+export default AutoHideAlert;

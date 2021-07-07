@@ -9,13 +9,13 @@ import {
   Home,
   NotAuth,
   Me,
-} from "../pages";
+} from '../pages';
 
-import { AUTH_ONLY, RESTRICT_TO } from "./types";
+import { AUTH_ONLY, RESTRICT_TO } from './types';
 
 export default () => [
   {
-    path: "/",
+    path: '/',
     exact: true,
     component: Home,
 
@@ -24,17 +24,17 @@ export default () => [
     },
   },
   {
-    path: "/dashboard",
+    path: '/dashboard',
     exact: true,
     component: Dashboard,
     error: NotAuth,
     meta: {
       [AUTH_ONLY]: true,
-      [RESTRICT_TO]: ["admin"],
+      [RESTRICT_TO]: ['admin'],
     },
   },
   {
-    path: "/userHome",
+    path: '/userHome',
     exact: true,
     component: UserHome,
     error: NotAuth,
@@ -43,7 +43,7 @@ export default () => [
     },
   },
   {
-    path: "/Me",
+    path: '/Me',
     exact: true,
     component: Me,
     error: NotAuth,
@@ -52,32 +52,36 @@ export default () => [
     },
   },
   {
-    path: "/forgotPassword",
+    path: '/forgotPassword',
     exact: true,
     component: ForgotPassword,
   },
   {
-    path: "/register",
+    path: '/resetPassword/:token',
+    component: ResetPassword,
+  },
+  {
+    path: '/register',
     exact: true,
     component: Register,
   },
   {
-    path: "/login",
+    path: '/login',
     exact: true,
     component: Login,
   },
   {
-    path: "/NotAuth",
+    path: '/NotAuth',
     exact: true,
     component: NotAuth,
   },
   {
-    path: "/NotFound",
+    path: '/NotFound',
     exact: true,
     component: NotFound,
   },
   {
-    path: "*",
+    path: '*',
     component: NotFound,
     ignoreGlobal: true,
   },

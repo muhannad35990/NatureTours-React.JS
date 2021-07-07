@@ -18,7 +18,8 @@ const reducer = (state = initialState, action) => {
       return initialState;
     case types.FORGOT_PASSWORD:
       return { ...state };
-
+    case types.RESET_PASSWORD:
+      return { ...state };
     default:
       return state;
   }

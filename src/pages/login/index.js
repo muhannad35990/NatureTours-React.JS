@@ -3,16 +3,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../store/actions/authActions';
-import {
-  Link,
-  useLocation,
-  withRouter,
-  Redirect,
-  useHistory,
-} from 'react-router-dom';
+import { Link, withRouter, useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next'; // For translation
 import { LoadingOutlined } from '@ant-design/icons';
-import OnFormAlert from '../../components/alert/OnFormAlert';
+import AutoHideAlert from '../../components/alert/AutoHideAlert';
 import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
 
 function Login() {
@@ -48,9 +42,10 @@ function Login() {
         : history.push('/userHome');
     }
   }, [auth]);
+
   const dologin = (values) => {
-    dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
+    dispatch(removeAllAlerts());
     dispatch(loginUser(values));
   };
 
@@ -75,8 +70,8 @@ function Login() {
         return (
           <div data-aos="zoom-in-up" className="form">
             <h1>{t('login')} </h1>
-            {alert && alert.message && (
-              <OnFormAlert
+            {alert && alert.type && (
+              <AutoHideAlert
                 title={alert.title}
                 message={alert.message}
                 type={alert.type}

@@ -1,18 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next'; // For translation
 import { forgotPassword } from '../../store/actions/authActions';
-import OnFormAlert from '../../components/alert/OnFormAlert';
+import AutoHideAlert from '../../components/alert/AutoHideAlert';
 import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
+import { useHistory } from 'react-router-dom';
 
 function ForgotPassword() {
   const { t } = useTranslation('words');
   const dispatch = useDispatch();
-  const spinner = useSelector((state) => state.alert.spinner);
+  const history = useHistory();
 
+  const spinner = useSelector((state) => state.alert.spinner);
+  const alert = useSelector((state) => state.alert.alert);
+  const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(removeAllAlerts());
+  }, []);
+
+  useEffect(() => {
+    if (auth.loggedIn) {
+      auth.user.role === 'admin'
+        ? history.push('/dashboard')
+        : history.push('/userHome');
+    }
+  }, [auth]);
   const SignInSchema = Yup.object().shape({
     email: Yup.string()
       .email(t('email_not_valid'))
@@ -26,7 +42,6 @@ function ForgotPassword() {
   const doSend = (values) => {
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
-    console.log('values are:', values);
     dispatch(forgotPassword(values));
   };
   return (
@@ -50,10 +65,10 @@ function ForgotPassword() {
         return (
           <div data-aos="zoom-in-up" className="form">
             <h1>{`${t('forgot_password')}?`} </h1>
-            {alert && alert.message && (
-              <OnFormAlert
-                title={alert.title}
-                message={alert.message}
+            {alert && alert.type && (
+              <AutoHideAlert
+                title={alert.title ? alert.title : 'Error'}
+                message={alert.message ? alert.message : ''}
                 type={alert.type}
                 timeout={alert.timeout}
               />

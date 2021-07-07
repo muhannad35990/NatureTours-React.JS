@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { LoadingOutlined } from '@ant-design/icons';
+import AutoHideAlert from '../../components/alert/AutoHideAlert';
 import { useTranslation } from 'react-i18next'; // For translation
+import { useHistory, useParams } from 'react-router-dom';
+import { resetPassword } from '../../store/actions/authActions';
+import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
 
 function ResetPassword() {
   const { t } = useTranslation('words');
+  const routeParams = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const alert = useSelector((state) => state.alert.alert);
+  const spinner = useSelector((state) => state.alert.spinner);
+  const auth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (auth.loggedIn) {
+      auth.user.role === 'admin'
+        ? history.push('/dashboard')
+        : history.push('/userHome');
+    }
+  }, [auth]);
+
   const SignInSchema = Yup.object().shape({
     password: Yup.string()
       .required(t('Password_is_required'))
@@ -24,7 +43,9 @@ function ResetPassword() {
   };
 
   const doSend = (values) => {
-    //   dispatch(loginUser(values));
+    dispatch(removeAllAlerts());
+    dispatch(setSpiner(true));
+    dispatch(resetPassword({ values, token: routeParams.token }));
   };
   return (
     <Formik
@@ -47,6 +68,14 @@ function ResetPassword() {
         return (
           <div data-aos="zoom-in-up" className="form">
             <h1>{`${t('reset_password')}`} </h1>
+            {alert && alert.message && (
+              <AutoHideAlert
+                title={alert.title}
+                message={alert.message}
+                type={alert.type}
+                timeout={alert.timeout}
+              />
+            )}
             <form onSubmit={handleSubmit}>
               <div className="form__group">
                 <input
@@ -68,7 +97,7 @@ function ResetPassword() {
               </div>
               <div className="form__group">
                 <input
-                  type="passwordConfirm"
+                  type="password"
                   name="passwordConfirm"
                   id="passwordConfirm"
                   placeholder={t('passwordConfirm')}
@@ -90,7 +119,11 @@ function ResetPassword() {
                 className="btn btn--green"
                 style={{ marginTop: '5rem', marginBottom: '2rem' }}
               >
-                {t('submit')}
+                {spinner ? (
+                  <LoadingOutlined style={{ fontSize: '2.5rem' }} spin />
+                ) : (
+                  t('submit')
+                )}
               </button>
             </form>
           </div>

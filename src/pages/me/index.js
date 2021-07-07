@@ -26,7 +26,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import AxiosInstance from '../../util/intercepter';
-import OnFormAlert from '../../components/alert/OnFormAlert';
+import AutoHideAlert from '../../components/alert/AutoHideAlert';
 import { setUserData } from '../../store/actions/authActions';
 import showNotification from '../../components/alert/Alert';
 
@@ -46,7 +46,7 @@ function Me() {
   useEffect(() => {
     dispatch(removeAllAlerts());
   }, []);
-  console.log('spinner:', spinner);
+
   const ProfileSchema = Yup.object().shape({
     FirstName: Yup.string()
       .required(t('Firstname_is_required'))
@@ -76,7 +76,6 @@ function Me() {
     const config = {
       headers: {
         'content-type': 'multipart/form-data',
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
       onUploadProgress: (event) => {
         const percent = Math.floor((event.loaded / event.total) * 100);
@@ -93,7 +92,7 @@ function Me() {
       .then((response) => {
         onSuccess('Ok');
         dispatch(setUserData(response.data.user));
-
+        console.log(response);
         showNotification('success', 'Image updated successfully', 'Success');
       })
       .catch((err) => {
@@ -179,7 +178,7 @@ function Me() {
                 <Row justify="center">
                   <Col span={12}>
                     {alert && alert.message && (
-                      <OnFormAlert
+                      <AutoHideAlert
                         title={alert.title}
                         message={alert.message}
                         type={alert.type}

@@ -18,3 +18,7 @@ export const forgotPassword = (email) => ({
   type: types.FORGOT_PASSWORD,
   payload: email,
 });
+export const resetPassword = (data) => ({
+  type: types.RESET_PASSWORD,
+  payload: data,
+});

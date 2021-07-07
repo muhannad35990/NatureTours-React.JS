@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { logUserOut, registerUser } from '../../store/actions/authActions';
 import { useTranslation } from 'react-i18next'; // For translation
-import OnFormAlert from '../../components/alert/OnFormAlert';
+import AutoHideAlert from '../../components/alert/AutoHideAlert';
 import { LoadingOutlined } from '@ant-design/icons';
 import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
 import { useHistory } from 'react-router-dom';
@@ -82,8 +82,8 @@ function Register() {
           return (
             <div data-aos="zoom-in-up" className="form">
               <h1>{t('sign_up')}</h1>
-              {alert && alert.message && (
-                <OnFormAlert
+              {alert && alert.type && (
+                <AutoHideAlert
                   title={alert.title}
                   message={alert.message}
                   type={alert.type}
