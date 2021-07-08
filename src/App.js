@@ -20,7 +20,6 @@ function App() {
 
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken');
-    console.log(refreshToken);
     if (refreshToken) dispatch(autoLogin({ refreshToken }));
   }, []);
   return (

@@ -70,9 +70,10 @@ AxiosInstance.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    store.dispatch(AlertActions.setSpiner(false));
+
     console.log(error.response);
     if (error.response && error.response.status === 400) {
+      store.dispatch(AlertActions.setSpiner(false));
       store.dispatch(
         AlertActions.showAlert({
           type: 'error',
@@ -94,6 +95,7 @@ AxiosInstance.interceptors.response.use(
         'Bearer ' + localStorage.getItem('token');
       return AxiosInstance(originalRequest);
     } else if (error.response && error.response.status) {
+      store.dispatch(AlertActions.setSpiner(false));
       store.dispatch(
         AlertActions.showAlert({
           type: 'error',
