@@ -8,6 +8,10 @@ export const loginUser = (authData) => ({
   type: types.LOGIN_USER, // used for triggering registerUserSaga
   payload: authData,
 });
+export const autoLogin = (authData) => ({
+  type: types.AUTO_LOGIN, // used for triggering registerUserSaga
+  payload: authData,
+});
 export const setUserData = (user) => ({
   type: types.SET_USER_DATA,
   payload: user,

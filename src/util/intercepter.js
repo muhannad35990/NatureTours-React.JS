@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 import showNotification from '../components/alert/Alert.js';
 import { BACKEND_URL } from '../configs/endpointConfig.js';
 
@@ -29,12 +28,14 @@ export default AxiosInstance;
 // Response interceptor for API calls
 AxiosInstance.interceptors.response.use(
   (response) => {
-    console.log(response);
     store.dispatch(AlertActions.setSpiner(false));
+
     if (response?.data?.token)
       localStorage.setItem('token', response.data.token);
-    if (response?.data?.data?.user)
-      store.dispatch(authActions.setUserData(response.data.data.user));
+    if (response?.data?.refreshToken)
+      localStorage.setItem('refreshToken', response.data.refreshToken);
+    if (response?.data?.user)
+      store.dispatch(authActions.setUserData(response.data.user));
 
     if (response.status === 200) {
       store.dispatch(
@@ -71,8 +72,28 @@ AxiosInstance.interceptors.response.use(
     const originalRequest = error.config;
     store.dispatch(AlertActions.setSpiner(false));
     console.log(error.response);
-    if (error.response) {
-      originalRequest._retry = true;
+    if (error.response && error.response.status === 400) {
+      store.dispatch(
+        AlertActions.showAlert({
+          type: 'error',
+          title: error.response.statusText,
+          message: error.response.data.message
+            ? error.response.data.message
+            : error.response.statusText,
+        })
+      );
+      // await store.dispatch(authActions.logUserOut());
+    } else if (error.response && error.response.status === 401) {
+      await store.dispatch(
+        authActions.autoLogin({
+          refreshToken: localStorage.getItem('refreshToken'),
+        })
+      );
+
+      axios.defaults.headers.common['Authorization'] =
+        'Bearer ' + localStorage.getItem('token');
+      return AxiosInstance(originalRequest);
+    } else if (error.response) {
       store.dispatch(
         AlertActions.showAlert({
           type: 'error',
@@ -93,20 +114,6 @@ AxiosInstance.interceptors.response.use(
       );
     }
 
-    // if (
-    //   error.response &&
-    //   error.response.status === 403 &&
-    //   !originalRequest._retry
-    // ) {
-    //   originalRequest._retry = true;
-    //   const token = ''; //= await refreshAccessToken();
-    //   localStorage.setItem('token', token);
-    //   axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-    //   return AxiosInstance(originalRequest);
-    // }
-    // else {
-    //   showNotification('error', error.toString(), 'Error');
-    // }
     return error;
   }
 );

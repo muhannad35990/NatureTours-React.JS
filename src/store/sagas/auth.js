@@ -4,7 +4,9 @@ import AxiosInstance from '../../util/intercepter';
 export function* loginUserSaga(action) {
   yield AxiosInstance.post(endpoints.LOGIN_URL, action.payload);
 }
-
+export function* autoLoginUserSaga(action) {
+  yield AxiosInstance.post(endpoints.AUTO_LOGIN, action.payload);
+}
 export function* registerUserSaga(action) {
   yield AxiosInstance.post(endpoints.REGISTER_URL, action.payload);
 }

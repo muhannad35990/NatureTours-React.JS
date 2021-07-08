@@ -58,11 +58,14 @@ function Me() {
       .email(t('email_not_valid'))
       .required(t('Email_is_required')),
   });
-  const initialValues = {
-    FirstName: auth.user.FirstName,
-    LastName: auth.user.LastName,
-    email: auth.user.email,
-  };
+  const initialValues =
+    auth && auth.user
+      ? {
+          FirstName: auth.user.FirstName,
+          LastName: auth.user.LastName,
+          email: auth.user.email,
+        }
+      : {};
   const doUpdateProfile = async (values) => {
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
@@ -88,18 +91,13 @@ function Me() {
     };
     fmData.append('photo', file);
 
-    await AxiosInstance.patch(endpoints.UPDATE_ME, fmData, config)
-      .then((response) => {
+    await AxiosInstance.patch(endpoints.UPDATE_ME, fmData, config).then(
+      (response) => {
         onSuccess('Ok');
-        dispatch(setUserData(response.data.user));
-        console.log(response);
+        dispatch(setUserData(response?.data?.user));
         showNotification('success', 'Image updated successfully', 'Success');
-      })
-      .catch((err) => {
-        console.log('Eroor in axios: ', err);
-
-        onError({ err });
-      });
+      }
+    );
   };
 
   const handleOnChange = ({ file, fileList, event }) => {
@@ -129,7 +127,7 @@ function Me() {
           <div onClick={handleProfilePreview} className="uploaded__image">
             <Avatar
               size={{ xs: 30, sm: 50, md: 70, lg: 80, xl: 100, xxl: 125 }}
-              src={`${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`}
+              src={`${endpoints.BACKEND_URL}/img/users/${auth?.user?.photo}`}
               icon={<UserOutlined />}
             />
           </div>

@@ -8,3 +8,4 @@ export const UPDATE_ME = 'UPDATE_ME';
 export const SET_SPINNER = 'SET_SPINNER';
 export const FORGOT_PASSWORD = 'FORGOT_PASSWORD';
 export const RESET_PASSWORD = 'RESET_PASSWORD';
+export const AUTO_LOGIN = 'AUTO_LOGIN';
