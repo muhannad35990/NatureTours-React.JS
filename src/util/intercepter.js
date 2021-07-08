@@ -93,7 +93,7 @@ AxiosInstance.interceptors.response.use(
       axios.defaults.headers.common['Authorization'] =
         'Bearer ' + localStorage.getItem('token');
       return AxiosInstance(originalRequest);
-    } else if (error.response) {
+    } else if (error.response && error.response.status) {
       store.dispatch(
         AlertActions.showAlert({
           type: 'error',
