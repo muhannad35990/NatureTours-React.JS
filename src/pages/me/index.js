@@ -9,30 +9,30 @@ import {
   Upload,
   Progress,
   Modal,
-} from 'antd';
-import Avatar from 'antd/lib/avatar/avatar';
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Form, Formik } from 'formik';
-import { useTranslation } from 'react-i18next'; // For translation
-import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
-import { UpdateMe } from '../../store/actions/userActions';
-import * as endpoints from '../../configs/endpointConfig';
+} from "antd";
+import Avatar from "antd/lib/avatar/avatar";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Form, Formik } from "formik";
+import { useTranslation } from "react-i18next"; // For translation
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
+import { UpdateMe } from "../../store/actions/userActions";
+import * as endpoints from "../../configs/endpointConfig";
 import {
   LoadingOutlined,
   UploadOutlined,
   UserOutlined,
-} from '@ant-design/icons';
-import AxiosInstance from '../../util/intercepter';
-import AutoHideAlert from '../../components/alert/AutoHideAlert';
-import { setUserData } from '../../store/actions/authActions';
-import showNotification from '../../components/alert/Alert';
+} from "@ant-design/icons";
+import AxiosInstance from "../../util/intercepter";
+import AutoHideAlert from "../../components/alert/AutoHideAlert";
+import { setUserData } from "../../store/actions/authActions";
+import showNotification from "../../components/alert/Alert";
 
 function Me() {
   const history = useHistory();
-  const { t } = useTranslation('words');
+  const { t } = useTranslation("words");
   const alert = useSelector((state) => state.alert.alert);
   const spinner = useSelector((state) => state.alert.spinner);
 
@@ -49,14 +49,14 @@ function Me() {
 
   const ProfileSchema = Yup.object().shape({
     FirstName: Yup.string()
-      .required(t('Firstname_is_required'))
-      .min(2, t('too_short')),
+      .required(t("Firstname_is_required"))
+      .min(2, t("too_short")),
     LastName: Yup.string()
-      .required(t('Lastname_is_required'))
-      .min(2, t('too_short')),
+      .required(t("Lastname_is_required"))
+      .min(2, t("too_short")),
     email: Yup.string()
-      .email(t('email_not_valid'))
-      .required(t('Email_is_required')),
+      .email(t("email_not_valid"))
+      .required(t("Email_is_required")),
   });
   const initialValues =
     auth && auth.user
@@ -78,7 +78,7 @@ function Me() {
     const fmData = new FormData();
     const config = {
       headers: {
-        'content-type': 'multipart/form-data',
+        "content-type": "multipart/form-data",
       },
       onUploadProgress: (event) => {
         const percent = Math.floor((event.loaded / event.total) * 100);
@@ -89,13 +89,13 @@ function Me() {
         onProgress({ percent: (event.loaded / event.total) * 100 });
       },
     };
-    fmData.append('photo', file);
+    fmData.append("photo", file);
 
     await AxiosInstance.patch(endpoints.UPDATE_ME, fmData, config).then(
       (response) => {
-        onSuccess('Ok');
+        onSuccess("Ok");
         dispatch(setUserData(response?.data?.user));
-        showNotification('success', 'Image updated successfully', 'Success');
+        showNotification("success", "Image updated successfully", "Success");
       }
     );
   };
@@ -108,7 +108,7 @@ function Me() {
     SetImagePreview({
       previewImage: `${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`,
       previewVisible: true,
-      previewTitle: 'user',
+      previewTitle: "user",
     });
   };
 
@@ -119,7 +119,7 @@ function Me() {
       <div className="user__profile">
         <PageHeader
           className="site-page-header"
-          onBack={() => history.push('/')}
+          onBack={() => history.push("/")}
           title="Back"
         />
 
@@ -192,14 +192,14 @@ function Me() {
                         type="text"
                         name="FirstName"
                         id="FirstName"
-                        placeholder={t('firstname')}
+                        placeholder={t("firstname")}
                         value={values.FirstName}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="form__input"
                       />
                       <label htmlFor="FirstName" className="form__label">
-                        {t('firstname')}
+                        {t("firstname")}
                       </label>
                       {errors.FirstName && touched.FirstName && (
                         <span className="form__error">{errors.FirstName}</span>
@@ -210,14 +210,14 @@ function Me() {
                         type="text"
                         name="LastName"
                         id="LastName"
-                        placeholder={t('lastname')}
+                        placeholder={t("lastname")}
                         value={values.LastName}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="form__input"
                       />
                       <label htmlFor="LastName" className="form__label">
-                        {t('lastname')}
+                        {t("lastname")}
                       </label>
                       {errors.LastName && touched.LastName && (
                         <span className="form__error">{errors.LastName}</span>
@@ -228,14 +228,14 @@ function Me() {
                         type="email"
                         name="email"
                         id="email"
-                        placeholder={t('email')}
+                        placeholder={t("email")}
                         value={values.email}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="form__input"
                       />
                       <label htmlFor="email" className="form__label">
-                        {t('email')}
+                        {t("email")}
                       </label>
                       {errors.email && touched.email && (
                         <span className="form__error">{errors.email}</span>
@@ -248,12 +248,12 @@ function Me() {
                     <button
                       type="submit"
                       className="btn btn--green"
-                      style={{ marginTop: '3rem' }}
+                      style={{ marginTop: "3rem" }}
                     >
                       {spinner ? (
-                        <LoadingOutlined style={{ fontSize: '2.5rem' }} spin />
+                        <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
                       ) : (
-                        'SAVE'
+                        "SAVE"
                       )}
                     </button>
                   </Col>
@@ -271,7 +271,7 @@ function Me() {
       >
         <img
           alt="example"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
           src={imagePreview.previewImage}
         />
       </Modal>
