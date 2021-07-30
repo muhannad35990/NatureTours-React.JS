@@ -5,9 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { autoLogin, loginUser } from "../../store/actions/authActions";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // For translation
-import { LoadingOutlined } from "@ant-design/icons";
+import {
+  LoadingOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
+} from "@ant-design/icons";
 import AutoHideAlert from "../../components/alert/AutoHideAlert";
 import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
+import InputPassword from "../../components/InputPassword/InputPassword";
 
 function Login() {
   const { t } = useTranslation("words");
@@ -100,15 +105,12 @@ function Login() {
               </div>
 
               <div className="form__group">
-                <input
-                  type="password"
+                <InputPassword
                   name="password"
                   id="password"
-                  placeholder={t("password")}
                   value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="form__input"
+                  handleChange={handleChange}
+                  handleBlur={handleBlur}
                 />
                 <label htmlFor="password" className="form__label">
                   {t("password")}
