@@ -9,6 +9,7 @@ import {
   Upload,
   Progress,
   Modal,
+  Divider,
 } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import React, { useEffect, useState } from "react";
@@ -29,6 +30,8 @@ import AxiosInstance from "../../util/intercepter";
 import AutoHideAlert from "../../components/alert/AutoHideAlert";
 import { setUserData } from "../../store/actions/authActions";
 import showNotification from "../../components/alert/Alert";
+import InputPassword from "../../components/InputPassword/InputPassword";
+import ChangePasswordModel from "../../components/changePassModel/ChangePasswordModel";
 
 function Me() {
   const history = useHistory();
@@ -42,6 +45,7 @@ function Me() {
   const [defaultFileList, setDefaultFileList] = useState([]);
   const [progress, setProgress] = useState(0);
   const [imagePreview, SetImagePreview] = useState({});
+  const [changePass, SetchangePass] = useState(false);
 
   useEffect(() => {
     dispatch(removeAllAlerts());
@@ -250,7 +254,7 @@ function Me() {
                       className="btn btn--green"
                       style={{ marginTop: "3rem" }}
                     >
-                      {spinner ? (
+                      {!changePass && spinner ? (
                         <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
                       ) : (
                         "SAVE"
@@ -262,6 +266,23 @@ function Me() {
             );
           }}
         </Formik>
+        <Row justify="center">
+          <Col span={12}>
+            <Divider />
+          </Col>
+        </Row>
+
+        <Row justify="center">
+          <Col span={12}>
+            <button
+              className="btn btn--green"
+              style={{ marginTop: "3rem" }}
+              onClick={() => SetchangePass(true)}
+            >
+              Change Current Password
+            </button>
+          </Col>
+        </Row>
       </div>
       <Modal
         visible={imagePreview.previewVisible}
@@ -275,6 +296,10 @@ function Me() {
           src={imagePreview.previewImage}
         />
       </Modal>
+      <ChangePasswordModel
+        show={changePass}
+        onCancel={() => SetchangePass(false)}
+      />
     </div>
   );
 }

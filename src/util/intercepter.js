@@ -1,7 +1,7 @@
 import axios from "axios";
 import showNotification from "../components/alert/Alert.js";
 import { BACKEND_URL } from "../configs/endpointConfig.js";
-
+import * as endpoints from "../configs/endpointConfig";
 import store from "../store";
 import * as AlertActions from "../store/actions/AlertActions";
 import * as authActions from "../store/actions/authActions";
@@ -10,6 +10,7 @@ const AxiosInstance = axios.create({
   baseURL: BACKEND_URL,
   timeout: 20000,
 });
+let retry = false;
 
 AxiosInstance.interceptors.request.use(
   async (config) => {
@@ -27,15 +28,13 @@ AxiosInstance.interceptors.request.use(
 AxiosInstance.interceptors.response.use(
   (response) => {
     store.dispatch(AlertActions.setSpiner(false));
+    console.log("resp::", response);
     return response;
   },
   (error) => {
-    console.log(error.response);
-    if (error.response && error.response.status === 401) {
-      refreshTheToken();
-      error.response.config.headers["Authorization"] =
-        "Bearer " + localStorage.getItem("token");
-      return AxiosInstance(error.response.config);
+    if (error.response && error.response.status === 401 && !retry) {
+      retry = true;
+      refreshTheToken(error);
     } else if (error.response && error.response.status) {
       store.dispatch(AlertActions.setSpiner(false));
       store.dispatch(
@@ -47,7 +46,7 @@ AxiosInstance.interceptors.response.use(
             : error.response.statusText,
         })
       );
-      return error.response;
+      return Promise.reject(error);
     } else {
       store.dispatch(AlertActions.setSpiner(false));
       store.dispatch(
@@ -58,17 +57,26 @@ AxiosInstance.interceptors.response.use(
             "Fail to Connect to the server! check your connection and try again",
         })
       );
-      return error.response;
+      return Promise.reject(error);
     }
   }
 );
 
-const refreshTheToken = async () => {
-  await store.dispatch(
-    authActions.autoLogin({
-      refreshToken: localStorage.getItem("refreshToken"),
+const refreshTheToken = async (error) => {
+  const data = JSON.parse(error.response.config.data);
+  error.response.config.data = data;
+
+  const refreshToken = localStorage.getItem("refreshToken");
+  AxiosInstance.post(endpoints.AUTO_LOGIN, { refreshToken })
+    .then((response) => {
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+      error.response.config.headers["Authorization"] =
+        "Bearer " + localStorage.getItem("token");
+      retry = false;
+      const rsp = AxiosInstance(error.response.config);
+      return rsp;
     })
-  );
-  return true;
+    .catch((err) => console.log("error in refreshing:", err.response));
 };
 export default AxiosInstance;

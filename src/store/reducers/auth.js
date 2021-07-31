@@ -1,5 +1,5 @@
-import * as types from '../actions/types';
-import history from '../../history';
+import * as types from "../actions/types";
+import history from "../../history";
 
 const initialState = {
   loggedIn: false,
@@ -17,14 +17,17 @@ const reducer = (state = initialState, action) => {
     case types.SET_USER_DATA:
       return { ...state, user: action.payload, loggedIn: true };
     case types.LOG_OUT:
-      localStorage.removeItem('token');
-      localStorage.removeItem('refreshToken');
-      history.push('login');
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+      history.push("login");
       return initialState;
     case types.FORGOT_PASSWORD:
       return { ...state };
     case types.RESET_PASSWORD:
       return { ...state };
+    case types.UPDATE_PASSWORD:
+      return { ...state };
+
     default:
       return state;
   }

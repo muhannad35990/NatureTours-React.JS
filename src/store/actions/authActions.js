@@ -26,3 +26,8 @@ export const resetPassword = (data) => ({
   type: types.RESET_PASSWORD,
   payload: data,
 });
+
+export const updatePassword = (data) => ({
+  type: types.UPDATE_PASSWORD,
+  payload: data,
+});
