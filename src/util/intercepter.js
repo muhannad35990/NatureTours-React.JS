@@ -28,13 +28,27 @@ AxiosInstance.interceptors.request.use(
 AxiosInstance.interceptors.response.use(
   (response) => {
     store.dispatch(AlertActions.setSpiner(false));
-    console.log("resp::", response);
+    if ((response && response.status === 200) || response.status === 201) {
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
+        store.dispatch(authActions.setUserData(response.data.user));
+      }
+
+      store.dispatch(
+        AlertActions.showAlert({
+          type: "success",
+          title: response.statusText,
+          message: response.data.message,
+        })
+      );
+    }
     return response;
   },
   (error) => {
     if (error.response && error.response.status === 401 && !retry) {
       retry = true;
-      refreshTheToken(error);
+      return refreshTheToken(error);
     } else if (error.response && error.response.status) {
       store.dispatch(AlertActions.setSpiner(false));
       store.dispatch(
@@ -67,15 +81,18 @@ const refreshTheToken = async (error) => {
   error.response.config.data = data;
 
   const refreshToken = localStorage.getItem("refreshToken");
-  AxiosInstance.post(endpoints.AUTO_LOGIN, { refreshToken })
+  axios
+    .post(endpoints.AUTO_LOGIN, { refreshToken })
     .then((response) => {
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("refreshToken", response.data.refreshToken);
       error.response.config.headers["Authorization"] =
         "Bearer " + localStorage.getItem("token");
       retry = false;
-      const rsp = AxiosInstance(error.response.config);
-      return rsp;
+      return AxiosInstance(error.response.config).then((resp) => {
+        console.log(resp);
+        return resp;
+      });
     })
     .catch((err) => console.log("error in refreshing:", err.response));
 };
