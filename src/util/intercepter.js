@@ -60,7 +60,7 @@ AxiosInstance.interceptors.response.use(
             : error.response.statusText,
         })
       );
-      return Promise.reject(error);
+      return error;
     } else {
       store.dispatch(AlertActions.setSpiner(false));
       store.dispatch(
@@ -71,7 +71,7 @@ AxiosInstance.interceptors.response.use(
             "Fail to Connect to the server! check your connection and try again",
         })
       );
-      return Promise.reject(error);
+      return error;
     }
   }
 );
@@ -94,6 +94,6 @@ const refreshTheToken = async (error) => {
         return resp;
       });
     })
-    .catch((err) => console.log("error in refreshing:", err.response));
+    .catch((err) => err);
 };
 export default AxiosInstance;
