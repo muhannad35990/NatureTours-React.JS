@@ -3,7 +3,7 @@ export { default as ForgotPassword } from "./forgotPassword";
 export { default as Login } from "./login";
 export { default as Register } from "./register";
 export { default as ResetPassword } from "./resetPassword";
-export { default as UserHome } from "./userHome";
+export { default as allTours } from "./allTours";
 export { default as NotFound } from "./NotFound";
 export { default as Home } from "./Home";
 export { default as NotAuth } from "./NotAuth";

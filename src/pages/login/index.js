@@ -45,7 +45,7 @@ function Login() {
     if (auth.loggedIn) {
       auth.user.role === "admin"
         ? history.push("/dashboard")
-        : history.push("/userHome");
+        : history.push("/allTours");
     }
   }, [auth]);
 
