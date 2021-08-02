@@ -86,10 +86,10 @@ function ChangePasswordModel({ show, onCancel }) {
                   value={values.passwordCurrent}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
+                  placeholder=" Current Password"
+                  label=" Current Password"
                 />
-                <label htmlFor="passwordCurrent" className="form__label">
-                  Current Password
-                </label>
+
                 {errors.passwordCurrent && touched.passwordCurrent && (
                   <span className="form__error">{errors.passwordCurrent}</span>
                 )}
@@ -101,10 +101,10 @@ function ChangePasswordModel({ show, onCancel }) {
                   value={values.password}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
+                  placeholder="New Password"
+                  label="New Password"
                 />
-                <label htmlFor="password" className="form__label">
-                  New Password
-                </label>
+
                 {errors.password && touched.password && (
                   <span className="form__error">{errors.password}</span>
                 )}
@@ -116,10 +116,10 @@ function ChangePasswordModel({ show, onCancel }) {
                   value={values.passwordConfirm}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
+                  placeholder="New Password Confirm"
+                  label="New Password Confirm"
                 />
-                <label htmlFor="passwordConfirm" className="form__label">
-                  New Password Confirm
-                </label>
+
                 {errors.passwordConfirm && touched.passwordConfirm && (
                   <span className="form__error">{errors.passwordConfirm}</span>
                 )}
