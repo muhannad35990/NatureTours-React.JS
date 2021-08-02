@@ -6,8 +6,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:prettier/recommended"
+        "plugin:react/recommended"
+        
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -21,12 +21,7 @@
     ],
     "rules": {
         "react/react-in-jsx-scope": "off" ,
-        "prettier/prettier": [
-            "error",
-            {
-              "endOfLine": "auto"
-            }
-          ]
-         
+        "react/prop-types": "off",
+        "no-unused-vars": "warn"    
     }
 }

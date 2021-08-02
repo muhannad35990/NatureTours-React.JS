@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { LoadingOutlined } from '@ant-design/icons';
-import AutoHideAlert from '../../components/alert/AutoHideAlert';
-import { useTranslation } from 'react-i18next'; // For translation
-import { useHistory, useParams } from 'react-router-dom';
-import { resetPassword } from '../../store/actions/authActions';
-import { removeAllAlerts, setSpiner } from '../../store/actions/AlertActions';
+import React, { useEffect } from "react";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { LoadingOutlined } from "@ant-design/icons";
+import AutoHideAlert from "../../components/alert/AutoHideAlert";
+import { useTranslation } from "react-i18next"; // For translation
+import { useHistory, useParams } from "react-router-dom";
+import { resetPassword } from "../../store/actions/authActions";
+import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
 
 function ResetPassword() {
-  const { t } = useTranslation('words');
+  const { t } = useTranslation("words");
   const routeParams = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -21,25 +21,25 @@ function ResetPassword() {
 
   useEffect(() => {
     if (auth.loggedIn) {
-      auth.user.role === 'admin'
-        ? history.push('/dashboard')
-        : history.push('/userHome');
+      auth.user.role === "admin"
+        ? history.push("/dashboard")
+        : history.push("/userHome");
     }
   }, [auth]);
 
   const SignInSchema = Yup.object().shape({
     password: Yup.string()
-      .required(t('Password_is_required'))
-      .min(6, t('Password_is_too_short')),
+      .required(t("Password_is_required"))
+      .min(6, t("Password_is_too_short")),
     passwordConfirm: Yup.string()
-      .required(t('Password_confirm_required'))
-      .min(6, t('Password_is_too_short'))
-      .oneOf([Yup.ref('password'), null], t('Passwords_must_match')),
+      .required(t("Password_confirm_required"))
+      .min(6, t("Password_is_too_short"))
+      .oneOf([Yup.ref("password"), null], t("Passwords_must_match")),
   });
 
   const initialValues = {
-    password: '',
-    passwordConfirm: '',
+    password: "",
+    passwordConfirm: "",
   };
 
   const doSend = (values) => {
@@ -67,7 +67,7 @@ function ResetPassword() {
         } = props;
         return (
           <div data-aos="zoom-in-up" className="form">
-            <h1>{`${t('reset_password')}`} </h1>
+            <h1>{`${t("reset_password")}`} </h1>
             {alert && alert.message && (
               <AutoHideAlert
                 title={alert.title}
@@ -82,14 +82,14 @@ function ResetPassword() {
                   type="password"
                   name="password"
                   id="password"
-                  placeholder={`new ${t('password')}`}
+                  placeholder={`new ${t("password")}`}
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="form__input"
                 />
                 <label htmlFor="password" className="form__label">
-                  {`new ${t('password')}`}
+                  {`new ${t("password")}`}
                 </label>
                 {errors.password && touched.password && (
                   <span className="form__error">{errors.password}</span>
@@ -100,14 +100,14 @@ function ResetPassword() {
                   type="password"
                   name="passwordConfirm"
                   id="passwordConfirm"
-                  placeholder={t('passwordConfirm')}
+                  placeholder={t("passwordConfirm")}
                   value={values.passwordConfirm}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="form__input"
                 />
                 <label htmlFor="passwordConfirm" className="form__label">
-                  {t('passwordConfirm')}
+                  {t("passwordConfirm")}
                 </label>
                 {errors.passwordConfirm && touched.passwordConfirm && (
                   <span className="form__error">{errors.passwordConfirm}</span>
@@ -117,12 +117,12 @@ function ResetPassword() {
               <button
                 type="submit"
                 className="btn btn--green"
-                style={{ marginTop: '5rem', marginBottom: '2rem' }}
+                style={{ marginTop: "5rem", marginBottom: "2rem" }}
               >
                 {spinner ? (
-                  <LoadingOutlined style={{ fontSize: '2.5rem' }} spin />
+                  <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
                 ) : (
-                  t('submit')
+                  t("submit")
                 )}
               </button>
             </form>

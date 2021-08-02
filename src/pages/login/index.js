@@ -104,17 +104,16 @@ function Login() {
                 )}
               </div>
 
-              <div className="form__group">
+              <div>
                 <InputPassword
                   name="password"
                   id="password"
                   value={values.password}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
+                  placeholder={t("password")}
+                  label={t("password")}
                 />
-                <label htmlFor="password" className="form__label">
-                  {t("password")}
-                </label>
                 {errors.password && touched.password && (
                   <span className="form__error">{errors.password}</span>
                 )}

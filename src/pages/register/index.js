@@ -152,13 +152,12 @@ function Register() {
                     name="password"
                     id="password"
                     placeholder={t("password")}
+                    label={t("password")}
                     value={values.password}
                     handleChange={handleChange}
                     handleBlur={handleBlur}
                   />
-                  <label htmlFor="password" className="form__label">
-                    {t("password")}
-                  </label>
+
                   {errors.password && touched.password && (
                     <span className="form__error">{errors.password}</span>
                   )}
@@ -168,14 +167,12 @@ function Register() {
                     name="passwordConfirm"
                     id="passwordConfirm"
                     placeholder={t("passwordConfirm")}
+                    label={t("passwordConfirm")}
                     value={values.passwordConfirm}
                     handleChange={handleChange}
                     handleBlur={handleBlur}
                   />
 
-                  <label htmlFor="passwordConfirm" className="form__label">
-                    {t("passwordConfirm")}
-                  </label>
                   {errors.passwordConfirm && touched.passwordConfirm && (
                     <span className="form__error">
                       {errors.passwordConfirm}

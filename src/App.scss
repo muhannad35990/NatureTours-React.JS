@@ -35,17 +35,17 @@ html {
 
 body {
   box-sizing: border-box;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 400;
   font-size: $default-font-size;
   line-height: 1.7;
   background-color: $color-grey-light-1;
 }
 
-@import 'pages/login/login';
-@import 'components/navBar/navBar';
-@import 'pages/Dashboard/dashboard';
-@import 'components/sideBar/sidebar';
-@import 'pages/me/me';
-@import 'pages/pageContainer/pageContainer';
-@import 'components/Loading/loading';
+@import "pages/login/login";
+@import "components/navBar/navBar";
+@import "pages/Dashboard/dashboard";
+@import "components/sideBar/sidebar";
+@import "pages/me/me";
+@import "pages/pageContainer/pageContainer";
+@import "components/Loading/loading";

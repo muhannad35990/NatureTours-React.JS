@@ -7,32 +7,43 @@ function InputPassword({
   handleChange,
   handleBlur,
   placeholder,
+  label,
 }) {
   const [showPass, setshowPass] = useState(false);
   return (
     <div
       style={{
-        display: "flex",
-        alignItems: "center",
-        position: "relative",
         backgroundColor: " rgba($color: #eee, $alpha: 1)",
+        position: "relative",
       }}
     >
-      <input
-        type={showPass ? "string" : "password"}
-        name={name}
-        id={id}
-        placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        className="form__input"
-      />
+      <div
+        className="form__group"
+        style={{
+          justifyContent: "center",
+        }}
+      >
+        <input
+          type={showPass ? "string" : "password"}
+          name={name}
+          id={id}
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className="form__input"
+        />
+        <label htmlFor="password" className="form__label">
+          {label}
+        </label>
+      </div>
+
       {!showPass ? (
         <EyeOutlined
           style={{
             position: "absolute",
-            right: "1rem",
+            right: "1.5rem",
+            top: "55%",
             fontSize: "2rem",
           }}
           onClick={() => setshowPass(!showPass)}
@@ -41,7 +52,8 @@ function InputPassword({
         <EyeInvisibleOutlined
           style={{
             position: "absolute",
-            right: "1rem",
+            right: "1.5rem",
+            top: "55%",
             fontSize: "2rem",
           }}
           onClick={() => setshowPass(!showPass)}
