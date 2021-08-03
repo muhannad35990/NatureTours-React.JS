@@ -7,3 +7,6 @@ export const FORGOT_PASSWORD = `${BACKEND_URL}/api/v1/users/forgotPassword`;
 export const RESET_PASSWORD = `${BACKEND_URL}/api/v1/users/resetPassword`;
 export const AUTO_LOGIN = `${BACKEND_URL}/api/v1/users/autologin`;
 export const UPDATE_PASSWORD = `${BACKEND_URL}/api/v1/users/updateMyPassword`;
+
+//Tours
+export const TOURS = `${BACKEND_URL}/api/v1/tours`;

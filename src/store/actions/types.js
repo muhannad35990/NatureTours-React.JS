@@ -10,3 +10,5 @@ export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 export const AUTO_LOGIN = "AUTO_LOGIN";
 export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
+export const GET_ALL_TOURS = "GET_ALL_TOURS";
+export const SET_TOURS_DATA = "SET_TOURS_DATA";

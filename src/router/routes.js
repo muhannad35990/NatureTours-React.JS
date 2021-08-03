@@ -4,7 +4,6 @@ import {
   Login,
   Register,
   ResetPassword,
-  allTours,
   NotFound,
   Home,
   NotAuth,
@@ -18,10 +17,6 @@ export default () => [
     path: "/",
     exact: true,
     component: Home,
-
-    meta: {
-      [AUTH_ONLY]: true,
-    },
   },
   {
     path: "/dashboard",
@@ -31,15 +26,6 @@ export default () => [
     meta: {
       [AUTH_ONLY]: true,
       [RESTRICT_TO]: ["admin"],
-    },
-  },
-  {
-    path: "/allTours",
-    exact: true,
-    component: allTours,
-    error: NotAuth,
-    meta: {
-      [AUTH_ONLY]: true,
     },
   },
   {
