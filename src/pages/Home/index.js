@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import RotatingCard from "../../components/RotatingCard/RotatingCard";
+import SearchBox from "../../components/SearchBox/SearchBox";
 import { getAllTours } from "../../store/actions/TourActions";
 
 function Home() {
@@ -18,6 +19,9 @@ function Home() {
         margin: "10rem 1rem",
       }}
     >
+      <Row justify="center" data-aos="fade-up">
+        <SearchBox />
+      </Row>
       <Row justify="center">
         {tours.map((tour, index) => (
           <Col
