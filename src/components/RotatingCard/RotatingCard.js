@@ -7,6 +7,8 @@ import {
 import { Col, Row } from "antd";
 import React from "react";
 import moment from "moment";
+import * as endpoints from "../../configs/endpointConfig";
+
 function RotatingCard({
   title,
   image,
@@ -20,9 +22,14 @@ function RotatingCard({
   return (
     <div data-aos="fade-up" className=" rotatecard">
       <div className=" rotatecard__side rotatecard__side--front">
-        <div className="rotatecard__picture rotatecard__picture--1">
-          <img src={image} alt="tour cover" />
-        </div>
+        <div
+          className="rotatecard__picture "
+          style={{
+            backgroundImage: `linear-gradient(to right bottom,
+                #7ed56f,
+                #28b485), url('${endpoints.BACKEND_URL}/img/tours/${image}')`,
+          }}
+        ></div>
         <h4 className="rotatecard__heading ">
           <span className="rotatecard__heading-span rotatecard__heading-span--1">
             {title}

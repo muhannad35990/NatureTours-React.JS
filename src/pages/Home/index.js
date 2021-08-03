@@ -31,7 +31,7 @@ function Home() {
           >
             <RotatingCard
               title={tour.name}
-              image={tour.image}
+              image={tour.imageCover}
               subtitle={tour.difficulty}
               desc={tour.description}
               location={tour.startLocation.description}
