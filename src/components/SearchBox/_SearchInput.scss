@@ -1,5 +1,5 @@
 .ant-input-group .ant-input {
-  padding: 1.35rem;
+  padding: 1.35rem !important;
 }
 .ant-input-search
   > .ant-input-group
@@ -16,5 +16,5 @@
   width: 5rem !important;
 }
 .ant-btn:active {
-  border-color: $color-primary-dark;
+  border-color: $color-primary-dark !important;
 }
