@@ -63,8 +63,17 @@ function RotatingCard({
       </div>
       <div className=" rotatecard__side rotatecard__side--back rotatecard__side--back--1">
         <div className="rotatecard__side--back__content">
-          <h1 className="rotatecard__only">only</h1>
-          <h1 className="rotatecard__price">$275</h1>
+          <div>
+            <h1 className="rotatecard__rating">4.5</h1>
+            <h5 className="rotatecard__numRating">rating (45)</h5>
+          </div>
+          <div>
+            <h1 className="rotatecard__price">$275</h1>
+            <h5 className="rotatecard__numRating">Per person</h5>
+          </div>
+
+          {/* <h1 className="rotatecard__price">$275</h1>
+          <h1 className="rotatecard__only">Per person</h1> */}
         </div>
 
         <a href="#dialog" className="button button--white">
