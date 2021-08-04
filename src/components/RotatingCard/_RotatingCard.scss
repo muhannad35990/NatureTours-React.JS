@@ -136,9 +136,18 @@
     background-color: $color-white;
     color: $color-grey-dark;
   }
+  &--green {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-primary;
+    }
+  }
   &:hover {
     box-shadow: 0rem 1rem 2rem rgba($color: #000000, $alpha: 0.2);
     transform: translateY(-3px);
+    color: $color-white;
     &::after {
       transform: scaleX(1.4) scaleY(1.6);
       opacity: 0;
