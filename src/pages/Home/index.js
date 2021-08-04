@@ -46,6 +46,7 @@ function Home() {
               rating={tour.ratingAverage}
               ratingQantity={tour.ratingQantity}
               price={tour.price}
+              id={tour._id}
             />
           </Col>
         ))}

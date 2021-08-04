@@ -2,7 +2,6 @@ import {
   CalendarOutlined,
   EnvironmentOutlined,
   FlagOutlined,
-  RadiusSettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Col, Row } from "antd";
@@ -22,7 +21,9 @@ function RotatingCard({
   rating,
   ratingQantity,
   price,
+  id,
 }) {
+  const cardDetail = `/tour/${id}`;
   return (
     <div data-aos="fade-up" className=" rotatecard">
       <div className=" rotatecard__side rotatecard__side--front">
@@ -77,7 +78,7 @@ function RotatingCard({
           </div>
         </div>
 
-        <a href="#dialog" className="button button--white">
+        <a href={cardDetail} className="button button--white">
           details
         </a>
       </div>

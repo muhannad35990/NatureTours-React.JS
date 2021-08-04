@@ -1,0 +1,40 @@
+.header {
+  height: 95vh;
+
+  background-size: cover;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  color: #fff !important;
+  &__content {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &__heading {
+    width: 30%;
+    font-size: 5rem;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    text-align: center;
+    color: $color-white;
+    &__icon {
+      margin-right: 0.5rem;
+      font-size: 1.6rem;
+      font-weight: 600 !important;
+    }
+    &-span {
+      padding: 1rem 1.5rem;
+      box-decoration-break: clone;
+      font-size: 2rem;
+      &--1 {
+        background-image: linear-gradient(
+          to right bottom,
+          $color-primary-light,
+          $color-primary-dark
+        );
+      }
+    }
+  }
+}
