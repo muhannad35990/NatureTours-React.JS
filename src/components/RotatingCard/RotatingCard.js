@@ -2,6 +2,7 @@ import {
   CalendarOutlined,
   EnvironmentOutlined,
   FlagOutlined,
+  RadiusSettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Col, Row } from "antd";
@@ -18,6 +19,9 @@ function RotatingCard({
   date,
   numStops,
   numPeople,
+  rating,
+  ratingQantity,
+  price,
 }) {
   return (
     <div data-aos="fade-up" className=" rotatecard">
@@ -64,16 +68,13 @@ function RotatingCard({
       <div className=" rotatecard__side rotatecard__side--back rotatecard__side--back--1">
         <div className="rotatecard__side--back__content">
           <div>
-            <h1 className="rotatecard__rating">4.5</h1>
-            <h5 className="rotatecard__numRating">rating (45)</h5>
+            <h1 className="rotatecard__rating">{rating}</h1>
+            <h5 className="rotatecard__numRating">rating ({ratingQantity})</h5>
           </div>
           <div>
-            <h1 className="rotatecard__price">$275</h1>
+            <h1 className="rotatecard__price">${price}</h1>
             <h5 className="rotatecard__numRating">Per person</h5>
           </div>
-
-          {/* <h1 className="rotatecard__price">$275</h1>
-          <h1 className="rotatecard__only">Per person</h1> */}
         </div>
 
         <a href="#dialog" className="button button--white">

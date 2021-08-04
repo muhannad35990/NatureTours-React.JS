@@ -68,7 +68,7 @@ function NavBar(props) {
   return (
     <div className="nav">
       <div className="nav__logo">
-        <Link to="/allTours">
+        <Link to="/">
           <img src={logo} alt="logo" className="nav__logo--img" />
         </Link>
       </div>

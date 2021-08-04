@@ -15,11 +15,12 @@ function Home() {
   }, []);
   return (
     <div
+      data-aos="fade-up"
       style={{
         margin: "10rem 1rem",
       }}
     >
-      <Row justify="center" data-aos="fade-up">
+      <Row justify="center">
         <SearchBox />
       </Row>
       <Row justify="center">
@@ -27,9 +28,9 @@ function Home() {
           <Col
             key={index}
             gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
-            xs={{ span: 16 }}
-            sm={{ span: 16 }}
-            md={{ span: 10 }}
+            xs={{ span: 24 }}
+            sm={{ span: 12 }}
+            md={{ span: 8 }}
             lg={{ span: 8 }}
             xl={{ span: 6 }}
           >
@@ -42,6 +43,9 @@ function Home() {
               date={tour.createdAt}
               numStops={tour.locations.length}
               numPeople={tour.maxGroupSize}
+              rating={tour.ratingAverage}
+              ratingQantity={tour.ratingQantity}
+              price={tour.price}
             />
           </Col>
         ))}

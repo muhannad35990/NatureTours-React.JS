@@ -1,14 +1,26 @@
 import { Input, Select } from "antd";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getAllTours } from "../../store/actions/TourActions";
 const { Option } = Select;
 const { Search } = Input;
-const selectBefore = (
-  <Select defaultValue="Difficulty" className="select-before">
-    <Option value="Difficulty">Difficulty</Option>
-    <Option value="title">title</Option>
-  </Select>
-);
+
 function SearchBox() {
+  const [seletedValue, setseletedValue] = useState("difficulty");
+  const dispatch = useDispatch();
+  const dofilter = (value) => {
+    const filter = `${seletedValue}=${value}`;
+    dispatch(getAllTours(filter));
+  };
+  const handleSelectChange = (val) => {
+    setseletedValue(val);
+  };
+  const selectBefore = (
+    <Select defaultValue="difficulty" onChange={handleSelectChange}>
+      <Option value="difficulty">difficulty</Option>
+      <Option value="name">name</Option>
+    </Select>
+  );
   return (
     <Search
       addonBefore={selectBefore}
@@ -17,6 +29,7 @@ function SearchBox() {
         width: "50%",
         marginBottom: "3rem",
       }}
+      onSearch={dofilter}
     />
   );
 }
