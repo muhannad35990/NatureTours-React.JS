@@ -15,6 +15,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Avatar, Col } from "antd";
+import MapBox from "../../components/mapBox/MapBox";
 
 function TourDetails() {
   const dispatch = useDispatch();
@@ -133,6 +134,9 @@ function TourDetails() {
             alt=""
           />
         ))}
+      </section>
+      <section className="mapContainer">
+        <MapBox />
       </section>
       <section className="waitSection">
         <div className="Whatwaiting">

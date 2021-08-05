@@ -20,6 +20,7 @@
     "i18next": "^20.3.2",
     "i18next-browser-languagedetector": "^6.1.2",
     "i18next-xhr-backend": "^3.2.2",
+    "mapbox-gl": "^2.4.0",
     "moment": "^2.29.1",
     "node-sass": "^5.0.0",
     "prettier": "^2.3.2",

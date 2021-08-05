@@ -136,3 +136,8 @@
     transform: skewY(6deg), scale(1.2);
   }
 }
+.mapContainer {
+  transform: skewY(-6deg);
+  height: 40rem;
+  overflow: hidden;
+}
