@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "!mapbox-gl";
+import { useSelector } from "react-redux";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibXVoYW5uYWQzNTk5MCIsImEiOiJja3J5eGJ5aGsxNHB2Mm9uODUzejEwanAxIn0.rzqtpU0RJv8KrLpRCp-ddw";
@@ -9,6 +10,8 @@ function MapBox() {
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
+
+  const tour = useSelector((state) => state.tours.tour);
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -33,6 +36,7 @@ function MapBox() {
       setLat(e.lngLat.lat.toFixed(4));
     });
   });
+
   return (
     <div>
       <div className="sidebar">
