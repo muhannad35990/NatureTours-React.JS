@@ -4,14 +4,23 @@ import { useParams } from "react-router-dom";
 import { getTour } from "../../store/actions/TourActions";
 import * as endpoints from "../../configs/endpointConfig";
 import Loading from "../../components/Loading";
+import moment from "moment";
 
-import { EnvironmentOutlined, FieldTimeOutlined } from "@ant-design/icons";
-import { Avatar } from "antd";
+import {
+  CalendarOutlined,
+  EnvironmentOutlined,
+  FieldTimeOutlined,
+  LineChartOutlined,
+  StarOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Avatar, Col } from "antd";
 
 function TourDetails() {
   const dispatch = useDispatch();
   const tour = useSelector((state) => state.tours.tour);
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
+  const backenduserImg = `${endpoints.BACKEND_URL}/img/users/`;
   const routeParams = useParams();
   const imgurl = `${backendImg}${tour?.images[0]}`;
 
@@ -48,6 +57,83 @@ function TourDetails() {
           </div>
         </div>
       </div>
+
+      <section>
+        <div className="details">
+          <div style={{ display: "flex" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "50%",
+                padding: "15rem 10%",
+                backgroundColor: "#ddd",
+              }}
+            >
+              <div>
+                <h1 className="details__mainTitle">QUICK FACTS</h1>
+                <div className="details__factItem">
+                  <CalendarOutlined className="details__icon" />
+                  <h5 className="details__item"> NEXT DATE </h5>
+                  <h5 className="details__subItem">
+                    {moment(tour.createdAt).format("MMMM, YYYY")}
+                  </h5>
+                </div>
+                <div className="details__factItem">
+                  <LineChartOutlined className="details__icon" />
+                  <h5 className="details__item"> DIFFICULTY </h5>
+                  <h5 className="details__subItem"> {tour.difficulty} </h5>
+                </div>
+                <div className="details__factItem">
+                  <UserOutlined className="details__icon" />
+                  <h5 className="details__item">PARTICIPANTS </h5>
+                  <h5 className="details__subItem">{tour.maxGroupSize}</h5>
+                </div>
+                <div className="details__factItem">
+                  <StarOutlined className="details__icon" />
+                  <h5 className="details__item"> RATING </h5>
+                  <h5 className="details__subItem"> {tour.ratingAverage}/5 </h5>
+                </div>
+              </div>
+
+              <div style={{ marginTop: "3rem" }}>
+                <h1 className="details__mainTitle">YOUR TOUR GUIDES</h1>
+                <div>
+                  {tour.guides.map((t, index) => (
+                    <div className="details__guide" key={index}>
+                      <Avatar
+                        src={`${backenduserImg}${t.photo}`}
+                        icon={<UserOutlined />}
+                      />
+                      <h5 className="details__item details__guide__role">
+                        {t.role}
+                      </h5>
+                      <h5 className="details__subItem"> {t.name}</h5>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="details__about">
+              <div>
+                <h1 className="details__mainTitle">ABOUT {tour.name} TOUR</h1>
+                <p className="details__about__text">{tour.description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="gallery">
+        {tour.images.map((img, index) => (
+          <img
+            className="gallery__image"
+            key={index}
+            src={backendImg.concat(img)}
+            alt=""
+          />
+        ))}
+      </section>
       <section className="waitSection">
         <div className="Whatwaiting">
           <Avatar.Group
@@ -84,7 +170,8 @@ function TourDetails() {
               yours today!
             </p>
           </div>
-          <a href="#" className="button button--green">
+
+          <a href="/login" className="button button--green">
             LOGIN TO BOOK TOUR
           </a>
         </div>
