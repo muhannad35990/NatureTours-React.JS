@@ -137,7 +137,9 @@
   }
 }
 .mapContainer {
-  transform: skewY(-6deg);
-  height: 40rem;
+  background-size: cover;
+  clip-path: polygon(0 25%, 100% 0, 100% 100%, 0 100%);
+  margin-top: -5rem;
+  height: 60rem;
   overflow: hidden;
 }

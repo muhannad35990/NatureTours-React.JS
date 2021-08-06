@@ -38,7 +38,7 @@ function MapBox() {
   });
 
   return (
-    <div>
+    <div style={{ position: "relative" }}>
       <div className="sidebar">
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
       </div>
