@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getTour } from "../../store/actions/TourActions";
+import { getTour, getTourReviews } from "../../store/actions/TourActions";
 import * as endpoints from "../../configs/endpointConfig";
 import Loading from "../../components/Loading";
 import moment from "moment";
@@ -14,19 +14,22 @@ import {
   StarOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Avatar, Col } from "antd";
+import { Avatar } from "antd";
 import MapBox from "../../components/mapBox/MapBox";
+import Review from "../../components/Review/Review";
 
 function TourDetails() {
   const dispatch = useDispatch();
   const tour = useSelector((state) => state.tours.tour);
+  const tourReviews = useSelector((state) => state.tours.reviews);
+
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
   const backenduserImg = `${endpoints.BACKEND_URL}/img/users/`;
   const routeParams = useParams();
-  const imgurl = `${backendImg}${tour?.images[0]}`;
 
   useEffect(() => {
     dispatch(getTour(routeParams.id));
+    dispatch(getTourReviews(routeParams.id));
   }, [routeParams]);
   return !tour ? (
     <Loading />
@@ -138,6 +141,15 @@ function TourDetails() {
       <section className="mapContainer">
         <MapBox />
       </section>
+
+      <section className="reviewContainer">
+        <div className="reviewContainer__box">
+          {tourReviews.map((review, index) => (
+            <Review key={index} review={review} />
+          ))}
+        </div>
+      </section>
+
       <section className="waitSection">
         <div className="Whatwaiting">
           <Avatar.Group

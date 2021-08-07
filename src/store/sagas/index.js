@@ -8,7 +8,7 @@ import {
   autoLoginUserSaga,
   updateCurrentPasswordSaga,
 } from "./auth";
-import { getAllToursSaga, getTourSaga } from "./tours";
+import { getAllToursSaga, getTourSaga, getTourReviewsSaga } from "./tours";
 import { updateMeSaga } from "./user";
 
 export function* watchAuth() {
@@ -23,4 +23,5 @@ export function* watchAuth() {
   //tours
   yield all([takeEvery(types.GET_ALL_TOURS, getAllToursSaga)]);
   yield all([takeEvery(types.GET_TOUR, getTourSaga)]);
+  yield all([takeEvery(types.GET_TOUR_REVIEWS, getTourReviewsSaga)]);
 }

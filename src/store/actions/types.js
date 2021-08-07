@@ -14,3 +14,5 @@ export const GET_ALL_TOURS = "GET_ALL_TOURS";
 export const SET_TOURS_DATA = "SET_TOURS_DATA";
 export const GET_TOUR = "GET_TOUR";
 export const SET_TOUR = "SET_TOUR";
+export const SET_TOUR_REVIEWS = "SET_TOUR_REVIEWS";
+export const GET_TOUR_REVIEWS = "GET_TOUR_REVIEWS";

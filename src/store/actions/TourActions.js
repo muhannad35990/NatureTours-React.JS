@@ -18,3 +18,12 @@ export const setTour = (data) => ({
   type: types.SET_TOUR,
   payload: data,
 });
+
+export const getTourReviews = (data) => ({
+  type: types.GET_TOUR_REVIEWS,
+  payload: data,
+});
+export const setTourReviews = (data) => ({
+  type: types.SET_TOUR_REVIEWS,
+  payload: data,
+});

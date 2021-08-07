@@ -3,6 +3,7 @@ import * as types from "../actions/types";
 const initialState = {
   tours: [],
   tour: null,
+  reviews: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -11,6 +12,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, tours: action.payload };
     case types.SET_TOUR:
       return { ...state, tour: action.payload };
+    case types.SET_TOUR_REVIEWS:
+      return { ...state, reviews: action.payload };
 
     default:
       return state;

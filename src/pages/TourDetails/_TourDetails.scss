@@ -143,3 +143,25 @@
   height: 60rem;
   overflow: hidden;
 }
+.reviewContainer {
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  clip-path: polygon(0 25%, 100% 0, 100% 75%, 0 100%);
+  background-image: linear-gradient(
+    to right,
+    hsla(111, 55%, 64%, 0.8),
+    hsla(160, 64%, 43%, 0.8)
+  );
+  width: 100vw;
+  margin-top: -15rem;
+  height: 60rem;
+
+  padding: 2rem;
+  overflow: hidden;
+  &__box {
+    display: flex;
+    padding: 2rem 5rem;
+    overflow-x: auto;
+  }
+}

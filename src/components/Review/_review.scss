@@ -1,0 +1,32 @@
+.review__card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  width: 20rem;
+  min-width: 25rem;
+  height: 25rem;
+  background-color: #fff;
+  padding: 2rem 1rem;
+  margin: 0 2rem;
+  &__firstline {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  &__avatar {
+  }
+  &__name {
+    margin-left: 1rem;
+    font-size: 1.5rem;
+  }
+  &__content {
+    font-size: 1.3rem;
+    color: $color-grey-dark;
+  }
+  &__rating {
+    width: 100%;
+  }
+}
