@@ -17,23 +17,23 @@ function MapBox() {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v11",
-      center: [lng, lat],
-      zoom: zoom,
+      scrollZoom: false,
+      // center: [lng, lat],
+      // zoom: zoom,
     });
     const bounds = new mapboxgl.LngLatBounds();
     map.current.on("load", () => {
       tour.locations.forEach((loc) => {
-        const popup = new mapboxgl.Popup({ offset: 25 }).setText(
-          loc.description
-        );
-        new mapboxgl.Marker()
+        new mapboxgl.Marker().setLngLat(loc.coordinates).addTo(map.current);
+        new mapboxgl.Popup({ offset: 30 })
           .setLngLat(loc.coordinates)
-          .setPopup(popup)
+          .setHTML(`<p>Day ${loc.day}:  ${loc.description}</p>`)
           .addTo(map.current);
-
         bounds.extend(loc.coordinates);
       });
-      map.current.fitBounds(bounds);
+      map.current.fitBounds(bounds, {
+        padding: { top: 200, bottom: 150, left: 100, right: 100 },
+      });
     });
   });
 
