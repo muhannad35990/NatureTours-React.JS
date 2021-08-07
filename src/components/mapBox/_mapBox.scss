@@ -1,5 +1,7 @@
 .mapboxgl-map {
   height: 60rem;
+  position: relative;
+  transform: skewY(-6deg);
 }
 .sidebar {
   background-color: rgba(35, 55, 75, 0.9);
@@ -13,10 +15,26 @@
   margin: 1rem;
   border-radius: 4px;
 }
-.marker {
-  background-image: url("../../img/marker-green.png");
-  background-size: cover;
+
+.mapboxgl-marker {
+  background-image: url("../../img/pin.png");
   width: 32px;
   height: 40px;
   cursor: pointer;
+  position: absolute;
+  top: 0;
+}
+.mapboxgl-popup {
+  position: absolute;
+  top: 0;
+  background-color: rgba(35, 55, 75, 0.6);
+  max-width: 40rem !important;
+
+  color: #ffffff;
+  padding: 2rem;
+  border-radius: 2rem;
+}
+.mapboxgl-popup-close-button {
+  color: red;
+  margin-left: 2rem;
 }

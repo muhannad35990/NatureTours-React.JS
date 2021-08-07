@@ -138,8 +138,8 @@
 }
 .mapContainer {
   background-size: cover;
-  clip-path: polygon(0 25%, 100% 0, 100% 100%, 0 100%);
-  margin-top: -5rem;
+  clip-path: polygon(0 25%, 100% 0, 100% 75%, 0 100%);
+  margin-top: -10rem;
   height: 60rem;
   overflow: hidden;
 }
