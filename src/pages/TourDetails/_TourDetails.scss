@@ -140,8 +140,7 @@
   background-size: cover;
   clip-path: polygon(0 25%, 100% 0, 100% 75%, 0 100%);
   margin-top: -10rem;
-  height: 60rem;
-  overflow: hidden;
+  height: 70rem;
 }
 .reviewContainer {
   display: flex;
@@ -153,9 +152,9 @@
     hsla(111, 55%, 64%, 0.8),
     hsla(160, 64%, 43%, 0.8)
   );
-  width: 100vw;
-  margin-top: -15rem;
-  height: 60rem;
+  width: 100%;
+  margin-top: -18rem;
+  height: 70rem;
 
   padding: 2rem;
   overflow: hidden;
@@ -163,5 +162,72 @@
     display: flex;
     padding: 2rem 5rem;
     overflow-x: auto;
+  }
+}
+
+.footer {
+  background-color: $color-grey-dark-3;
+  padding: 5rem;
+  margin-top: -20rem;
+  &__logoContainer {
+    margin: 10rem 0;
+    text-align: center;
+  }
+  &__logo {
+    width: 15rem;
+  }
+  &__content {
+    display: flex;
+    margin-bottom: 10rem;
+
+    &__navigation {
+      padding-top: 2rem;
+      border-top: 1px solid $color-grey-dark-2;
+      display: inline-block;
+      text-align: center;
+    }
+    &--right {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+    &--left {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+    &__paragraph {
+      padding: 2rem 0;
+      border-top: 1px solid $color-grey-dark-2;
+      display: inline-block;
+      text-align: start;
+      width: 75%;
+      color: white;
+      font-size: 1.3rem;
+      font-weight: 100;
+      font-style: normal;
+    }
+  }
+}
+.list {
+  list-style: none;
+  text-align: center;
+  color: $color-grey-light-1;
+  text-transform: uppercase;
+  font-family: inherit;
+
+  &__item {
+    display: inline-block;
+    transition: all 0.2s;
+    &:hover {
+      box-shadow: 1 2rem 4rem rgba($color: #000000, $alpha: 0.2);
+      transform: scale(1.2) rotate(5deg);
+      color: $color-primary;
+      background-color: $color-grey-dark-3;
+      cursor: pointer;
+    }
+  }
+  &__item:not(:last-child) {
+    margin-right: 1.5rem;
   }
 }
