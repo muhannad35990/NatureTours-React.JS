@@ -201,11 +201,11 @@ function TourDetails() {
           <div className="footer__content--right">
             <div className="footer__content__navigation">
               <ul className="list">
-                <li className="list__item">company</li>
+                <li className="list__item">about us</li>
                 <li className="list__item">contanct</li>
                 <li className="list__item">careers</li>
-                <li className="list__item">privicy policy</li>
-                <li className="list__item">terms</li>
+                <li className="list__item">bacome a guide</li>
+                <li className="list__item">Download apps</li>
               </ul>
             </div>
           </div>
