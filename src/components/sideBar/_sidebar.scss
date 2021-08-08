@@ -54,7 +54,7 @@
     }
   }
   &__item__selected {
-    background-color: #55c57a;
+    background-color: $color-primary !important;
   }
 }
 .copywrite {

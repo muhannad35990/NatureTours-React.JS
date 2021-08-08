@@ -33,6 +33,7 @@ import showNotification from "../../components/alert/Alert";
 import InputPassword from "../../components/InputPassword/InputPassword";
 import ChangePasswordModel from "../../components/changePassModel/ChangePasswordModel";
 import SideBar from "../../components/sideBar";
+import Layout from "../Layout/Layout";
 
 function Me() {
   const history = useHistory();
@@ -121,7 +122,7 @@ function Me() {
 
   return (
     <div className="Me">
-      <SideBar />
+      <Layout />
       <div className="user__profile">
         {/* <PageHeader
           className="site-page-header"
@@ -180,7 +181,7 @@ function Me() {
             return (
               <Form onSubmit={handleSubmit}>
                 <Row justify="center">
-                  <Col span={12}>
+                  <Col span={8}>
                     {alert && alert.message && (
                       <AutoHideAlert
                         title={alert.title}
@@ -192,7 +193,7 @@ function Me() {
                   </Col>
                 </Row>
                 <Row justify="center">
-                  <Col span={12}>
+                  <Col span={8}>
                     <div className="form__group">
                       <input
                         type="text"
@@ -250,7 +251,7 @@ function Me() {
                   </Col>
                 </Row>
                 <Row justify="center">
-                  <Col span={12}>
+                  <Col span={8}>
                     <button
                       type="submit"
                       className="btn btn--green"
@@ -269,13 +270,13 @@ function Me() {
           }}
         </Formik>
         <Row justify="center">
-          <Col span={12}>
+          <Col span={8}>
             <Divider />
           </Col>
         </Row>
 
         <Row justify="center">
-          <Col span={12}>
+          <Col span={8}>
             <button
               className="btn btn--green"
               style={{ marginTop: "3rem" }}

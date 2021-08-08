@@ -7,3 +7,6 @@ export { default as Home } from "./Home";
 export { default as NotAuth } from "./NotAuth";
 export { default as Me } from "./me";
 export { default as TourDetails } from "./TourDetails";
+export { default as MyBookings } from "./MyBookings";
+export { default as MyReviews } from "./MyReviews";
+export { default as Billing } from "./Billing";

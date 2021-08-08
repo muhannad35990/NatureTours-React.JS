@@ -8,7 +8,11 @@ import {
   NotAuth,
   Me,
   TourDetails,
+  MyBookings,
+  MyReviews,
+  Billing,
 } from "../pages";
+import Layout from "../pages/Layout/Layout";
 
 import { AUTH_ONLY, RESTRICT_TO } from "./types";
 
@@ -37,6 +41,33 @@ export default () => [
     path: "/Me",
     exact: true,
     component: Me,
+    error: NotAuth,
+    meta: {
+      [AUTH_ONLY]: true,
+    },
+  },
+  {
+    path: "/MyBookings",
+    exact: true,
+    component: MyBookings,
+    error: NotAuth,
+    meta: {
+      [AUTH_ONLY]: true,
+    },
+  },
+  {
+    path: "/MyReviews",
+    exact: true,
+    component: MyReviews,
+    error: NotAuth,
+    meta: {
+      [AUTH_ONLY]: true,
+    },
+  },
+  {
+    path: "/Billing",
+    exact: true,
+    component: Billing,
     error: NotAuth,
     meta: {
       [AUTH_ONLY]: true,
