@@ -1,4 +1,3 @@
-export { default as Dashboard } from "./Dashboard";
 export { default as ForgotPassword } from "./forgotPassword";
 export { default as Login } from "./login";
 export { default as Register } from "./register";

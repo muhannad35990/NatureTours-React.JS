@@ -1,34 +1,65 @@
-.ant-btn-primary {
-  background-color: $color-primary !important;
-  border-color: $color-primary !important;
+.sidebar {
+  background-color: $color-grey-dark-1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 30rem;
+  height: 100%;
+  margin-top: 5rem;
+  &__items {
+    list-style: none;
+    margin-top: 2rem;
+    width: 100%;
+  }
+  &__icon {
+    color: white !important;
+    margin-right: 2rem !important;
+    z-index: 10 !important;
+  }
+  &__item {
+    display: flex;
+    position: relative;
+    font-size: 2rem;
+    text-transform: uppercase;
+    padding: 2rem;
+
+    & > a {
+      text-decoration: none !important;
+      color: white !important;
+      font-size: 1.6rem !important;
+      z-index: 10 !important;
+    }
+    &:hover {
+      cursor: pointer;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 3px;
+      background-color: $color-primary;
+      transform: scaleY(0);
+      transition: transform 0.2s, width 0.4s cubic-bezier(1, 0, 0, 1) 0.2s,
+        background-color 0.1s;
+    }
+    &:hover::before {
+      transform: scaleY(1);
+      width: 100%;
+    }
+    &__item:active::before {
+      background-color: $color-primary-light;
+    }
+  }
+  &__item__selected {
+    background-color: #55c57a;
+  }
 }
-.ant-menu-item-selected {
-  color: $color-primary-light !important;
-}
-.ant-menu-vertical .ant-menu-item::after,
-.ant-menu-vertical-left .ant-menu-item::after,
-.ant-menu-vertical-right .ant-menu-item::after,
-.ant-menu-inline .ant-menu-item::after {
-  border-right: 3px solid $color-primary !important;
-}
-.ant-menu-light .ant-menu-item:hover,
-.ant-menu-light .ant-menu-item-active,
-.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
-.ant-menu-light .ant-menu-submenu-active,
-.ant-menu-light .ant-menu-submenu-title:hover {
-  color: $color-primary !important;
-}
-html {
-  --antd-wave-shadow-color: $color-primary !important;
-}
-.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: $color-primary !important;
-  color: white !important;
-}
-.ant-menu {
-  height: 100% !important;
-  border-right: 1px solid #f0f0f0;
-}
-.ant-menu-submenu-arrow {
-  color: $color-primary !important;
+.copywrite {
+  padding: 2rem 3rem;
+  font-size: 1.3rem;
+  color: $color-grey-light-2;
+  text-align: center;
 }

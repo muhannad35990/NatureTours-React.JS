@@ -21,9 +21,7 @@ function ResetPassword() {
 
   useEffect(() => {
     if (auth.loggedIn) {
-      auth.user.role === "admin"
-        ? history.push("/dashboard")
-        : history.push("/userHome");
+      history.push("/");
     }
   }, [auth]);
 

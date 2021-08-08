@@ -1,54 +1,45 @@
-import React, { useState } from 'react';
-import { Menu, Button } from 'antd';
+import React, { useState } from "react";
+
 import {
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
-} from '@ant-design/icons';
-const { SubMenu } = Menu;
+  BookOutlined,
+  CommentOutlined,
+  DollarCircleOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+import { Link, useLocation } from "react-router-dom";
 function SideBar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
+  const location = useLocation();
+  console.log(location.pathname);
   return (
-    <div style={{ width: 256, height: '90vh' }}>
-      <Button
-        type="primary"
-        onClick={toggleCollapsed}
-        style={{ marginBottom: 16 }}
-      >
-        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
-      </Button>
-      <Menu mode="inline" theme="light" inlineCollapsed={collapsed}>
-        <Menu.Item key="1" icon={<PieChartOutlined />}>
-          Option 1
-        </Menu.Item>
-        <Menu.Item key="2" icon={<DesktopOutlined />}>
-          Option 2
-        </Menu.Item>
-        <Menu.Item key="3" icon={<ContainerOutlined />}>
-          Option 3
-        </Menu.Item>
-        <SubMenu key="sub1" icon={<MailOutlined />} title="Navigation One">
-          <Menu.Item key="5">Option 5</Menu.Item>
-          <Menu.Item key="6">Option 6</Menu.Item>
-          <Menu.Item key="7">Option 7</Menu.Item>
-          <Menu.Item key="8">Option 8</Menu.Item>
-        </SubMenu>
-        <SubMenu key="sub2" icon={<AppstoreOutlined />} title="Navigation Two">
-          <Menu.Item key="9">Option 9</Menu.Item>
-          <Menu.Item key="10">Option 10</Menu.Item>
-          <SubMenu key="sub3" title="Submenu">
-            <Menu.Item key="11">Option 11</Menu.Item>
-            <Menu.Item key="12">Option 12</Menu.Item>
-          </SubMenu>
-        </SubMenu>
-      </Menu>
+    <div className="sidebar">
+      <ul className="sidebar__items">
+        <li
+          className={`sidebar__item ${
+            location.pathname === "/me"
+          }?'sidebar__item__selected':''`}
+        >
+          <SettingOutlined style={{ fontSize: 20 }} className="sidebar__icon" />
+          <Link to="/me">SETTINGS</Link>
+        </li>
+        <li className="sidebar__item">
+          <BookOutlined style={{ fontSize: 20 }} className="sidebar__icon" />
+          <Link to="/myBookings">MY BOOKINGS</Link>
+        </li>
+        <li className="sidebar__item">
+          <CommentOutlined style={{ fontSize: 20 }} className="sidebar__icon" />
+          <Link to="/myReviews">my reviews</Link>
+        </li>
+        <li className="sidebar__item">
+          <DollarCircleOutlined
+            style={{ fontSize: 20 }}
+            className="sidebar__icon"
+          />
+          <Link to="/billing">billing</Link>
+        </li>
+      </ul>
+      <p className="copywrite">
+        &copy;2021 by MUHANNAD HAMMADA . All rights reserved.
+      </p>
     </div>
   );
 }

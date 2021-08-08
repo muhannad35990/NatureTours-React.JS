@@ -1,5 +1,4 @@
 import {
-  Dashboard,
   ForgotPassword,
   Login,
   Register,
@@ -24,16 +23,16 @@ export default () => [
     exact: true,
     component: TourDetails,
   },
-  {
-    path: "/dashboard",
-    exact: true,
-    component: Dashboard,
-    error: NotAuth,
-    meta: {
-      [AUTH_ONLY]: true,
-      [RESTRICT_TO]: ["admin"],
-    },
-  },
+  // {
+  //   path: "/dashboard",
+  //   exact: true,
+  //   component: Dashboard,
+  //   error: NotAuth,
+  //   meta: {
+  //     [AUTH_ONLY]: true,
+  //     [RESTRICT_TO]: ["admin"],
+  //   },
+  // },
   {
     path: "/Me",
     exact: true,

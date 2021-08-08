@@ -50,9 +50,8 @@ function Register() {
   }, []);
   useEffect(() => {
     if (auth.loggedIn) {
-      auth.user.role === "admin"
-        ? history.push("/dashboard")
-        : history.push("/userHome");
+ 
+        history.push("/");
     }
   }, [auth]);
   const signup = (values) => {

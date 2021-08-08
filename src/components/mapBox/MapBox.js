@@ -55,7 +55,7 @@ function MapBox() {
 
   return (
     <div>
-      {/* <div className="sidebar">
+      {/* <div className="sidebar-map ">
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
       </div> */}
       <div ref={(el) => (mapContainer.current = el)} />

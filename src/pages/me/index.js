@@ -32,6 +32,7 @@ import { setUserData } from "../../store/actions/authActions";
 import showNotification from "../../components/alert/Alert";
 import InputPassword from "../../components/InputPassword/InputPassword";
 import ChangePasswordModel from "../../components/changePassModel/ChangePasswordModel";
+import SideBar from "../../components/sideBar";
 
 function Me() {
   const history = useHistory();
@@ -120,12 +121,13 @@ function Me() {
 
   return (
     <div className="Me">
+      <SideBar />
       <div className="user__profile">
-        <PageHeader
+        {/* <PageHeader
           className="site-page-header"
           onBack={() => history.push("/")}
           title="Back"
-        />
+        /> */}
 
         <Row justify="center">
           <div onClick={handleProfilePreview} className="uploaded__image">

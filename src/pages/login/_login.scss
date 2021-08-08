@@ -45,7 +45,7 @@
     margin-left: 2rem;
     margin-top: 0.3rem;
     display: block;
-    color: $color-grey-dark;
+    color: $color-grey-dark-1;
     transition: all 0.3s;
     order: -1;
   }
@@ -67,7 +67,7 @@
   cursor: pointer;
   &--white {
     background-color: $color-white;
-    color: $color-grey-dark;
+    color: $color-grey-dark-1;
 
     &::after {
       background-color: $color-white;

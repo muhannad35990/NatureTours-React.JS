@@ -43,9 +43,7 @@ function Login() {
 
   useEffect(() => {
     if (auth.loggedIn) {
-      auth.user.role === "admin"
-        ? history.push("/dashboard")
-        : history.push("/");
+      history.push("/");
     }
   }, [auth]);
 
