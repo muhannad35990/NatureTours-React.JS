@@ -1,6 +1,7 @@
 import { Col, Row } from "antd";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Footer from "../../components/Footer/Footer";
 
 import RotatingCard from "../../components/RotatingCard/RotatingCard";
 import SearchBox from "../../components/SearchBox/SearchBox";
@@ -51,6 +52,7 @@ function Home() {
           </Col>
         ))}
       </Row>
+      <Footer />
     </div>
   );
 }
