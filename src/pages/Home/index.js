@@ -26,7 +26,7 @@ function Home() {
       <Row justify="center">
         <SearchBox />
       </Row>
-      <Row justify="center">
+      <Row justify="center" style={{ minHeight: "80%" }}>
         {tours.map((tour, index) => (
           <Col
             key={index}

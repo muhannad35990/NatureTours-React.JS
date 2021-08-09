@@ -17,6 +17,7 @@ import {
 import { Avatar } from "antd";
 import MapBox from "../../components/mapBox/MapBox";
 import Review from "../../components/Review/Review";
+import Footer from "../../components/Footer/Footer";
 
 function TourDetails() {
   const dispatch = useDispatch();
@@ -193,6 +194,7 @@ function TourDetails() {
           </a>
         </div>
       </section>
+      <Footer />
     </div>
   );
 }

@@ -32,7 +32,6 @@ import { setUserData } from "../../store/actions/authActions";
 import showNotification from "../../components/alert/Alert";
 import InputPassword from "../../components/InputPassword/InputPassword";
 import ChangePasswordModel from "../../components/changePassModel/ChangePasswordModel";
-import SideBar from "../../components/sideBar";
 
 function Me() {
   const history = useHistory();

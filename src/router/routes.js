@@ -43,33 +43,7 @@ export default () => [
       [AUTH_ONLY]: true,
     },
   },
-  {
-    path: "/MyBookings",
-    exact: true,
-    component: Dashboard,
-    error: NotAuth,
-    meta: {
-      [AUTH_ONLY]: true,
-    },
-  },
-  {
-    path: "/MyReviews",
-    exact: true,
-    component: Dashboard,
-    error: NotAuth,
-    meta: {
-      [AUTH_ONLY]: true,
-    },
-  },
-  {
-    path: "/Billing",
-    exact: true,
-    component: Dashboard,
-    error: NotAuth,
-    meta: {
-      [AUTH_ONLY]: true,
-    },
-  },
+
   {
     path: "/forgotPassword",
     exact: true,
