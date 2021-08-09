@@ -11,6 +11,7 @@ const PageContainer = ({ children, history }) => {
         flexDirection: "column",
         justifyContent: "space-between",
         height: "100%",
+       
       }}
     >
       <NavBar />

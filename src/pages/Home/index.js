@@ -20,6 +20,7 @@ function Home() {
       style={{
         height: "100%",
         width: "100%",
+        marginTop: "10rem",
       }}
     >
       <Row justify="center">
