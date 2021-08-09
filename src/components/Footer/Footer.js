@@ -15,7 +15,6 @@ function Footer() {
               <li className="list__item">contanct</li>
               <li className="list__item">careers</li>
               <li className="list__item">bacome a guide</li>
-              <li className="list__item">Download apps</li>
             </ul>
           </div>
         </div>

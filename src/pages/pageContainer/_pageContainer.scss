@@ -1,6 +1,8 @@
 .container {
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
+  margin-top: 10rem;
+  flex: 1;
 }

@@ -8,11 +8,8 @@ import {
   NotAuth,
   Me,
   TourDetails,
-  MyBookings,
-  MyReviews,
-  Billing,
+  Dashboard,
 } from "../pages";
-import Layout from "../pages/Layout/Layout";
 
 import { AUTH_ONLY, RESTRICT_TO } from "./types";
 
@@ -38,9 +35,9 @@ export default () => [
   //   },
   // },
   {
-    path: "/Me",
+    path: "/me",
     exact: true,
-    component: Me,
+    component: Dashboard,
     error: NotAuth,
     meta: {
       [AUTH_ONLY]: true,
@@ -49,7 +46,7 @@ export default () => [
   {
     path: "/MyBookings",
     exact: true,
-    component: MyBookings,
+    component: Dashboard,
     error: NotAuth,
     meta: {
       [AUTH_ONLY]: true,
@@ -58,7 +55,7 @@ export default () => [
   {
     path: "/MyReviews",
     exact: true,
-    component: MyReviews,
+    component: Dashboard,
     error: NotAuth,
     meta: {
       [AUTH_ONLY]: true,
@@ -67,7 +64,7 @@ export default () => [
   {
     path: "/Billing",
     exact: true,
-    component: Billing,
+    component: Dashboard,
     error: NotAuth,
     meta: {
       [AUTH_ONLY]: true,

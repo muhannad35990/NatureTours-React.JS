@@ -15,7 +15,7 @@ function SideBar() {
       <ul className="sidebar__items">
         <li
           className={`sidebar__item ${
-            location.pathname === "/Me" || location.pathname === "/me"
+            location.pathname === "/me" || location.pathname === "/Me"
               ? "sidebar__item__selected"
               : ""
           }`}
@@ -25,9 +25,7 @@ function SideBar() {
         </li>
         <li
           className={`sidebar__item ${
-            location.pathname === "/MyBookings" || location.pathname === "/me"
-              ? "sidebar__item__selected"
-              : ""
+            location.pathname === "/myBookings" ? "sidebar__item__selected" : ""
           }`}
         >
           <BookOutlined style={{ fontSize: 20 }} className="sidebar__icon" />
@@ -35,9 +33,7 @@ function SideBar() {
         </li>
         <li
           className={`sidebar__item ${
-            location.pathname === "/MyReviews" || location.pathname === "/me"
-              ? "sidebar__item__selected"
-              : ""
+            location.pathname === "/myReviews" ? "sidebar__item__selected" : ""
           }`}
         >
           <CommentOutlined style={{ fontSize: 20 }} className="sidebar__icon" />
@@ -45,9 +41,7 @@ function SideBar() {
         </li>
         <li
           className={`sidebar__item ${
-            location.pathname === "/billing" || location.pathname === "/me"
-              ? "sidebar__item__selected"
-              : ""
+            location.pathname === "/billing" ? "sidebar__item__selected" : ""
           }`}
         >
           <DollarCircleOutlined

@@ -7,15 +7,17 @@ const PageContainer = ({ children, history }) => {
   return (
     <div
       style={{
-        height: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
+        height: "100%",
       }}
     >
       <NavBar />
-      <main className="container">{children}</main>
-      <Footer />
+      <main className="container">
+        {children}
+        <Footer />
+      </main>
     </div>
   );
 };

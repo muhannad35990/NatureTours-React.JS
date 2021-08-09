@@ -2,7 +2,7 @@ import React from "react";
 import SideBar from "../../components/sideBar";
 
 function MyBookings() {
-  return <div> <SideBar /></div>;
+  return <div>my bookings</div>;
 }
 
 export default MyBookings;

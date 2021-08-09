@@ -33,7 +33,6 @@ import showNotification from "../../components/alert/Alert";
 import InputPassword from "../../components/InputPassword/InputPassword";
 import ChangePasswordModel from "../../components/changePassModel/ChangePasswordModel";
 import SideBar from "../../components/sideBar";
-import Layout from "../Layout/Layout";
 
 function Me() {
   const history = useHistory();
@@ -122,7 +121,6 @@ function Me() {
 
   return (
     <div className="Me">
-      <Layout />
       <div className="user__profile">
         {/* <PageHeader
           className="site-page-header"

@@ -10,3 +10,4 @@ export { default as TourDetails } from "./TourDetails";
 export { default as MyBookings } from "./MyBookings";
 export { default as MyReviews } from "./MyReviews";
 export { default as Billing } from "./Billing";
+export { default as Dashboard } from "./Dashboard";

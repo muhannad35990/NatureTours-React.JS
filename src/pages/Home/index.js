@@ -18,8 +18,8 @@ function Home() {
     <div
       data-aos="fade-up"
       style={{
-        marginTop: "15rem",
         height: "100%",
+        width: "100%",
       }}
     >
       <Row justify="center">
