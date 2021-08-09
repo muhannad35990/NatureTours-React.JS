@@ -11,14 +11,10 @@ const PageContainer = ({ children, history }) => {
         flexDirection: "column",
         justifyContent: "space-between",
         height: "100%",
-       
       }}
     >
       <NavBar />
-      <main className="container">
-        {children}
-        <Footer />
-      </main>
+      <main className="container">{children}</main>
     </div>
   );
 };
