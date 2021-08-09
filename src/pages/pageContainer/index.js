@@ -5,7 +5,14 @@ import Footer from "../../components/Footer/Footer";
 
 const PageContainer = ({ children, history }) => {
   return (
-    <div>
+    <div
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
       <NavBar />
       <main className="container">{children}</main>
       <Footer />

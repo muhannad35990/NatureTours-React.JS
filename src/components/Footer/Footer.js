@@ -23,9 +23,7 @@ function Footer() {
           <div className="footer__content__paragraph">
             <p>
               Copyright © by MUHANNAD HAMMADA. Lorem ipsum dolor sit amet
-              consectetur adipisicing elit. Voluptatibus laudantium magni
-              provident nam saepe ipsam, eaque ut deleniti sint, maiores
-              veritatis non iure reprehenderit. Aut ad itaque alias vel aliquam.
+              consectetur adipisicing elit.
             </p>
           </div>
         </div>

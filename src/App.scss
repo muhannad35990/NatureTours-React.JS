@@ -43,7 +43,9 @@ body {
   line-height: 1.7;
   background-color: $color-grey-light-1;
 }
-
+#root {
+  height: 100%;
+}
 @import "pages/login/login";
 @import "components/navBar/navBar";
 @import "components/sideBar/sidebar";

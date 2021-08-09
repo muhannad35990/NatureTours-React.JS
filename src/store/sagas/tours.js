@@ -19,8 +19,11 @@ export function* getTourSaga(action) {
   yield put(TourActions.setTour(response.data.data));
 }
 export function* getTourReviewsSaga(action) {
+  console.log("in the saga ");
+  console.log("action is : ", action.payload);
   const response = yield AxiosInstance.get(
     `${endpoints.TOURS}/${action.payload}/Reviews`
   );
+  console.log("respoonse is : ", response);
   yield put(TourActions.setTourReviews(response.data.data.docs));
 }
