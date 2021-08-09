@@ -3,6 +3,7 @@ import { Table, Input, Button, Space } from "antd";
 
 import { useDispatch, useSelector } from "react-redux";
 import { GetUserReviews } from "../../store/actions/ReviewActions";
+import Loading from "../../components/Loading";
 
 function MyReviews() {
   const dispatch = useDispatch();
@@ -25,61 +26,59 @@ function MyReviews() {
     this.setState({ searchText: "" });
   };
 
-  const data = [
-    {
-      key: "1",
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-    },
-    {
-      key: "2",
-      name: "Joe Black",
-      age: 42,
-      address: "London No. 1 Lake Park",
-    },
-    {
-      key: "3",
-      name: "Jim Green",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-    },
-    {
-      key: "4",
-      name: "Jim Red",
-      age: 32,
-      address: "London No. 2 Lake Park",
-    },
-  ];
   const columns = [
     {
       title: "Name",
-      dataIndex: "name",
+      dataIndex: ["tour", "name"],
       key: "name",
       width: "30%",
       sorter: (a, b) => a.address.length - b.address.length,
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Duration",
+      dataIndex: ["tour", "duration"],
+      key: "duration",
       width: "20%",
-      sorter: (a, b) => a.address.length - b.address.length,
+      sorter: (a, b) => a.duration.length - b.duration.length,
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Address",
-      dataIndex: "address",
-      key: "address",
+      title: "Difficulty",
+      dataIndex: ["tour", "difficulty"],
+      key: "difficulty",
+      sorter: (a, b) => a.difficulty.length - b.difficulty.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Price",
+      dataIndex: ["tour", "price"],
+      key: "price",
 
-      sorter: (a, b) => a.address.length - b.address.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Review",
+      dataIndex: "review",
+      key: "review",
+      sorter: (a, b) => a.review.length - b.review.length,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
+      sorter: (a, b) => a.rating.length - b.rating.length,
       sortDirections: ["descend", "ascend"],
     },
   ];
   return (
     <div>
-      <Table columns={columns} dataSource={data} />;
+      {userReviews ? (
+        <Table columns={columns} dataSource={userReviews} />
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 }

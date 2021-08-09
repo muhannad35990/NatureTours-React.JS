@@ -27,7 +27,6 @@ AxiosInstance.interceptors.request.use(
 
 AxiosInstance.interceptors.response.use(
   (response) => {
-    console.log("intercepter response is : ", response);
     store.dispatch(AlertActions.setSpiner(false));
     if ((response && response.status === 200) || response.status === 201) {
       if (response.data.token) {
