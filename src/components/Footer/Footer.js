@@ -3,7 +3,7 @@ import logogreen from "../../img/logo-green.png";
 
 function Footer() {
   return (
-    <footer className="footer">
+    <div className="footer">
       <figure className="footer__logoContainer">
         <img src={logogreen} alt="logogreen" className="footer__logo" />
       </figure>
@@ -30,7 +30,7 @@ function Footer() {
           </div>
         </div>
       </div>
-    </footer>
+    </div>
   );
 }
 

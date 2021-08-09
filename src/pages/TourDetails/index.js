@@ -193,9 +193,6 @@ function TourDetails() {
           </a>
         </div>
       </section>
-      <div style={{ marginTop: "-15rem" }}>
-        <Footer />
-      </div>
     </div>
   );
 }

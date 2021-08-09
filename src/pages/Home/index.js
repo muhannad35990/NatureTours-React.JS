@@ -52,7 +52,6 @@ function Home() {
           </Col>
         ))}
       </Row>
-      <Footer />
     </div>
   );
 }
