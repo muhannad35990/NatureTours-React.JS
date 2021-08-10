@@ -1,4 +1,4 @@
-import { Col, Rate, Row } from "antd";
+import { Col, Popconfirm, Rate, Row } from "antd";
 import Form from "antd/lib/form/Form";
 import Modal from "antd/lib/modal/Modal";
 import { Formik } from "formik";
@@ -17,10 +17,16 @@ import {
   LoadingOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
+import {
+  DeleteUserReview,
+  GetUserReviews,
+} from "../../../store/actions/ReviewActions";
 
 function ReviewModel({ show, onCancel, record }) {
   const alert = useSelector((state) => state.alert.alert);
   const spinner = useSelector((state) => state.alert.spinner);
+  const auth = useSelector((state) => state.auth);
+  const [isDeleteSpinner, setIsDeleteSpinner] = useState(false);
 
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
@@ -39,6 +45,13 @@ function ReviewModel({ show, onCancel, record }) {
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
     // dispatch(updatePassword(values));
+  };
+  const doTheDelete = () => {
+    //delete review from the database
+    setIsDeleteSpinner(true);
+    dispatch(setSpiner(true));
+    dispatch(DeleteUserReview(record.id));
+    dispatch(GetUserReviews(auth.user._id));
   };
 
   return (
@@ -110,7 +123,7 @@ function ReviewModel({ show, onCancel, record }) {
                       className="btn btn--green"
                       style={{ marginTop: "3rem" }}
                     >
-                      {spinner ? (
+                      {spinner && !isDeleteSpinner ? (
                         <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
                       ) : (
                         <div>
@@ -126,22 +139,36 @@ function ReviewModel({ show, onCancel, record }) {
                     </button>
                   </Col>
                   <Col span={12}>
-                    <button
-                      type="submit"
-                      className="btn btn--red"
-                      style={{ marginTop: "3rem" }}
+                    <Popconfirm
+                      title="Are you sure to delete this review?"
+                      onConfirm={doTheDelete}
+                      okText="Yes"
+                      cancelText="No"
+                      key="popUp"
                     >
-                      {spinner ? (
-                        <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
-                      ) : (
-                        <div>
-                          <DeleteOutlined
-                            style={{ fontSize: "1.6rem", marginRight: "1rem" }}
+                      <button
+                        type="submit"
+                        className="btn btn--red"
+                        style={{ marginTop: "3rem" }}
+                      >
+                        {spinner && isDeleteSpinner ? (
+                          <LoadingOutlined
+                            style={{ fontSize: "2.5rem" }}
+                            spin
                           />
-                          <span>DELETE</span>
-                        </div>
-                      )}
-                    </button>
+                        ) : (
+                          <div>
+                            <DeleteOutlined
+                              style={{
+                                fontSize: "1.6rem",
+                                marginRight: "1rem",
+                              }}
+                            />
+                            <span>DELETE</span>
+                          </div>
+                        )}
+                      </button>
+                    </Popconfirm>
                   </Col>
                 </Row>
               </form>

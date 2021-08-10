@@ -7,7 +7,10 @@ import Icon, {
   NodeIndexOutlined,
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { GetUserReviews } from "../../store/actions/ReviewActions";
+import {
+  DeleteUserReview,
+  GetUserReviews,
+} from "../../store/actions/ReviewActions";
 import Loading from "../../components/Loading";
 import ReviewModel from "../../components/Models/ReviewModel/ReviewModel";
 import * as endpoints from "../../configs/endpointConfig";
@@ -18,7 +21,6 @@ function MyReviews() {
   const auth = useSelector((state) => state.auth);
   const userReviews = useSelector((state) => state.reviews.userReviews);
   const [showReview, setShowReview] = useState(false);
-  const [showConfirmModel, setShowConfirmModel] = useState(false);
   const [currentRecord, setcurrentRecord] = useState(null);
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
 
@@ -40,10 +42,13 @@ function MyReviews() {
   };
   const doTheDelete = () => {
     //delete review from the database
+    dispatch(DeleteUserReview(currentRecord.id));
+    dispatch(GetUserReviews(auth.user._id));
   };
 
   const columns = [
     {
+      key: ["tour", "imageCover"],
       title: "image",
       dataIndex: ["tour", "imageCover"], // this is the value that is parsed from the DB / server side
       render: (image) => (
@@ -53,15 +58,15 @@ function MyReviews() {
     {
       title: "Name",
       dataIndex: ["tour", "name"],
-      key: "name",
-      width: "30%",
+      key: ["tour", "name"],
+      width: "30rem",
       sorter: (a, b) => a.address.length - b.address.length,
       sortDirections: ["descend", "ascend"],
     },
     {
       title: "Duration",
       dataIndex: ["tour", "duration"],
-      key: "duration",
+      key: ["tour", "duration"],
       width: "12rem",
       sorter: (a, b) => a.duration.length - b.duration.length,
       sortDirections: ["descend", "ascend"],
@@ -69,7 +74,7 @@ function MyReviews() {
     {
       title: "Difficulty",
       dataIndex: ["tour", "difficulty"],
-      key: "difficulty",
+      key: ["tour", "difficulty"],
       width: "12rem",
       sorter: (a, b) => a.difficulty.length - b.difficulty.length,
       sortDirections: ["descend", "ascend"],
@@ -77,7 +82,7 @@ function MyReviews() {
     {
       title: "Price",
       dataIndex: ["tour", "price"],
-      key: "price",
+      key: ["tour", "price"],
       width: "10rem",
       sortDirections: ["descend", "ascend"],
     },
@@ -94,7 +99,9 @@ function MyReviews() {
       dataIndex: "rating",
       key: "rating",
       width: "30rem",
-      render: (rating) => <Rate allowHalf disabled defaultValue={rating} />,
+      render: (rating) => (
+        <Rate key="rateStar" allowHalf disabled defaultValue={rating} />
+      ),
     },
     {
       title: "Action",
@@ -103,6 +110,7 @@ function MyReviews() {
         <Space size="middle">
           <button
             className="table_btn table_btn-edit"
+            key="btnedit"
             onClick={() => {
               setcurrentRecord(record);
               setShowReview(true);
@@ -113,15 +121,15 @@ function MyReviews() {
           <Popconfirm
             title="Are you sure to delete this review?"
             onConfirm={doTheDelete}
-            onCancel={() => setShowConfirmModel(false)}
             okText="Yes"
             cancelText="No"
+            key="popUp"
           >
             <button
               className="table_btn  table_btn-edit"
+              key="btndelete"
               onClick={() => {
                 setcurrentRecord(record);
-                setShowConfirmModel(true);
               }}
             >
               <DeleteOutlined />

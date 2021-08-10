@@ -8,7 +8,11 @@ import {
   autoLoginUserSaga,
   updateCurrentPasswordSaga,
 } from "./auth";
-import { getUserReviewsSaga } from "./review";
+import {
+  getUserReviewsSaga,
+  updateUserReviewsSaga,
+  deleteUserReviewsSaga,
+} from "./review";
 import { getAllToursSaga, getTourSaga, getTourReviewsSaga } from "./tours";
 import { updateMeSaga } from "./user";
 
@@ -28,4 +32,6 @@ export function* watchAuth() {
 
   //reviews
   yield all([takeEvery(types.GET_USER_REVIEWS, getUserReviewsSaga)]);
+  yield all([takeEvery(types.UPDATE_USER_REVIEWS, updateUserReviewsSaga)]);
+  yield all([takeEvery(types.DELETE_USER_REVIEWS, deleteUserReviewsSaga)]);
 }

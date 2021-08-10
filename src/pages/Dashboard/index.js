@@ -19,42 +19,46 @@ function Dashboard() {
             className={`sidebar__item ${
               currentTab === "settings" ? "sidebar__item__selected" : ""
             }`}
+            onClick={() => setcurrentTab("settings")}
           >
             <SettingOutlined
               style={{ fontSize: 20 }}
               className="sidebar__icon"
             />
-            <Link onClick={() => setcurrentTab("settings")}>SETTINGS</Link>
+            <a>SETTINGS</a>
           </li>
           <li
             className={`sidebar__item ${
               currentTab === "bookings" ? "sidebar__item__selected" : ""
             }`}
+            onClick={() => setcurrentTab("bookings")}
           >
             <BookOutlined style={{ fontSize: 20 }} className="sidebar__icon" />
-            <Link onClick={() => setcurrentTab("bookings")}>MY BOOKINGS</Link>
+            <a>MY BOOKINGS</a>
           </li>
           <li
             className={`sidebar__item ${
               currentTab === "reviews" ? "sidebar__item__selected" : ""
             }`}
+            onClick={() => setcurrentTab("reviews")}
           >
             <CommentOutlined
               style={{ fontSize: 20 }}
               className="sidebar__icon"
             />
-            <Link onClick={() => setcurrentTab("reviews")}>my reviews</Link>
+            <a>my reviews</a>
           </li>
           <li
             className={`sidebar__item ${
               currentTab === "billing" ? "sidebar__item__selected" : ""
             }`}
+            onClick={() => setcurrentTab("billing")}
           >
             <DollarCircleOutlined
               style={{ fontSize: 20 }}
               className="sidebar__icon"
             />
-            <Link onClick={() => setcurrentTab("billing")}>billing</Link>
+            <a>billing</a>
           </li>
         </ul>
         <p className="copywrite">

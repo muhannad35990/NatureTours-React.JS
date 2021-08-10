@@ -10,3 +10,6 @@ export const UPDATE_PASSWORD = `${BACKEND_URL}/api/v1/users/updateMyPassword`;
 export const USERS = `${BACKEND_URL}/api/v1/users`;
 //Tours
 export const TOURS = `${BACKEND_URL}/api/v1/tours`;
+
+//reviews
+export const REVIEWS = `${BACKEND_URL}/api/v1/reviews`;

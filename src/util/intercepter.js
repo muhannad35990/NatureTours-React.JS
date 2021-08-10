@@ -28,7 +28,11 @@ AxiosInstance.interceptors.request.use(
 AxiosInstance.interceptors.response.use(
   (response) => {
     store.dispatch(AlertActions.setSpiner(false));
-    if ((response && response.status === 200) || response.status === 201) {
+    if (
+      (response && response.status === 200) ||
+      response.status === 201 ||
+      response.status === 204
+    ) {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("refreshToken", response.data.refreshToken);
