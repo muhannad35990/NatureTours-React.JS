@@ -22,6 +22,7 @@ import Footer from "../../components/Footer/Footer";
 function TourDetails() {
   const dispatch = useDispatch();
   const tour = useSelector((state) => state.tours.tour);
+  const auth = useSelector((state) => state.auth);
   const tourReviews = useSelector((state) => state.tours.reviews);
 
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
@@ -188,10 +189,15 @@ function TourDetails() {
               yours today!
             </p>
           </div>
-
-          <a href="/login" className="button button--green">
-            LOGIN TO BOOK TOUR
-          </a>
+          {!auth.loggedIn ? (
+            <a href="/login" className="button button--green">
+              LOGIN TO BOOK TOUR
+            </a>
+          ) : (
+            <a href="/boogin" className="button button--green">
+              BOOK THE TOUR NOW
+            </a>
+          )}
         </div>
       </section>
       <Footer />
