@@ -82,6 +82,14 @@
       background-color: $color-primary;
     }
   }
+  &--red {
+    background-color: red;
+    color: $color-white;
+
+    &::after {
+      background-color: red;
+    }
+  }
   &:hover {
     box-shadow: 0rem 1rem 2rem rgba($color: #000000, $alpha: 0.2);
     transform: translateY(-3px);

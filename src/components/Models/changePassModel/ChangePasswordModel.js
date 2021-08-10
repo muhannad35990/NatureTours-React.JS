@@ -4,13 +4,16 @@ import Modal from "antd/lib/modal/Modal";
 import { Formik } from "formik";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
-import AutoHideAlert from "../alert/AutoHideAlert";
-import InputPassword from "../InputPassword/InputPassword";
+import {
+  removeAllAlerts,
+  setSpiner,
+} from "../../../store/actions/AlertActions";
+import AutoHideAlert from "../../alert/AutoHideAlert";
+import InputPassword from "../../InputPassword/InputPassword";
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next"; // For translation
 import { LoadingOutlined } from "@ant-design/icons";
-import { updatePassword } from "../../store/actions/authActions";
+import { updatePassword } from "../../../store/actions/authActions";
 
 function ChangePasswordModel({ show, onCancel }) {
   const alert = useSelector((state) => state.alert.alert);

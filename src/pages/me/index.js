@@ -30,11 +30,9 @@ import AxiosInstance from "../../util/intercepter";
 import AutoHideAlert from "../../components/alert/AutoHideAlert";
 import { setUserData } from "../../store/actions/authActions";
 import showNotification from "../../components/alert/Alert";
-import InputPassword from "../../components/InputPassword/InputPassword";
-import ChangePasswordModel from "../../components/changePassModel/ChangePasswordModel";
+import ChangePasswordModel from "../../components/Models/changePassModel/ChangePasswordModel";
 
 function Me() {
-  const history = useHistory();
   const { t } = useTranslation("words");
   const alert = useSelector((state) => state.alert.alert);
   const spinner = useSelector((state) => state.alert.spinner);

@@ -2,3 +2,19 @@
   display: flex;
   height: 100%;
 }
+.table_btn {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1.6rem;
+  cursor: pointer;
+  &-edit {
+    color: $color-grey-dark-2;
+  }
+  &-delete {
+    color: red;
+  }
+}
+.table__image {
+  width: 10rem;
+}
