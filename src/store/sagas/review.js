@@ -13,24 +13,22 @@ export function* getUserReviewsSaga(action) {
   yield put(ReviewActions.setUserReviews(response.data.data.docs));
 }
 export function* updateUserReviewsSaga(action) {
+  console.log(action.payload);
   const response = yield AxiosInstance.patch(
-    `${endpoints.REVIEWS}/${action.payload}`
+    `${endpoints.REVIEWS}/${action.payload.reviewId}`,
+    { review: action.payload.review, rating: action.payload.rating }
   );
 
-  yield put(ReviewActions.setUserReviews(response.data.data.docs));
-  yield put(
-    AlertActions.showAlert({
-      type: "success",
-      title: response.statusText,
-      message: "Updated successfully",
-    })
-  );
+  const auth = yield select((state) => state.auth);
+  yield put(ReviewActions.GetUserReviews(auth.user._id));
+  yield put(AlertActions.setSpiner(false));
+  showNotification("success", "Updated succssfully!", "Success");
 }
+
 export function* deleteUserReviewsSaga(action) {
   const response = yield AxiosInstance.delete(
     `${endpoints.REVIEWS}/${action.payload}`
   );
-
   const auth = yield select((state) => state.auth);
   yield put(ReviewActions.GetUserReviews(auth.user._id));
   yield put(AlertActions.setSpiner(false));

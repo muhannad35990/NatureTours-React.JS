@@ -20,6 +20,7 @@ import {
 import {
   DeleteUserReview,
   GetUserReviews,
+  UpdateUserReview,
 } from "../../../store/actions/ReviewActions";
 
 function ReviewModel({ show, onCancel, record }) {
@@ -27,24 +28,26 @@ function ReviewModel({ show, onCancel, record }) {
   const spinner = useSelector((state) => state.alert.spinner);
   const auth = useSelector((state) => state.auth);
   const [isDeleteSpinner, setIsDeleteSpinner] = useState(false);
+  const [rate, setRate] = useState(1);
 
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(removeAllAlerts());
-  }, []);
+    if (record) setRate(record.rating);
+  }, [record]);
 
   const reviewModelSchema = Yup.object().shape({
     review: Yup.string()
       .required(t("review_is_required"))
       .min(5, t("review_is_too_short")),
-    rating: Yup.number().required("rating is required").min(1).max(5),
   });
-  const initialValues = { review: record?.review, rating: record?.rating };
+  const initialValues = { review: record?.review };
   const doUpdateReview = async (values) => {
+    values = { review: values.review, rating: rate, reviewId: record.id };
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
-    // dispatch(updatePassword(values));
+    dispatch(UpdateUserReview(values, record.id));
   };
   const doTheDelete = () => {
     //delete review from the database
@@ -111,11 +114,17 @@ function ReviewModel({ show, onCancel, record }) {
                   <label htmlFor="email" className="form__label">
                     Review
                   </label>
-                  {errors.email && touched.email && (
+                  {errors.review && touched.review && (
                     <span className="form__error">{errors.review}</span>
                   )}
                 </div>
-                <Rate allowHalf value={record.rating} />
+                <Rate
+                  allowHalf
+                  name="rating"
+                  id="rating"
+                  value={rate}
+                  onChange={(val) => setRate(val)}
+                />
                 <Row>
                   <Col span={12}>
                     <button

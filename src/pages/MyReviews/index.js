@@ -100,7 +100,7 @@ function MyReviews() {
       key: "rating",
       width: "30rem",
       render: (rating) => (
-        <Rate key="rateStar" allowHalf disabled defaultValue={rating} />
+        <Rate key="rateStar" allowHalf disabled value={rating} />
       ),
     },
     {
@@ -142,7 +142,7 @@ function MyReviews() {
 
   return (
     <div>
-      <Table columns={columns} dataSource={userReviews} />
+      {userReviews && <Table columns={columns} dataSource={userReviews} />}
       <ReviewModel
         show={showReview}
         onCancel={() => setShowReview(false)}
