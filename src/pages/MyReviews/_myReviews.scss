@@ -18,3 +18,9 @@
 .table__image {
   width: 10rem;
 }
+.ant-pagination-item-active {
+  border-color: $color-primary-dark !important;
+}
+.ant-pagination-item-active a {
+  color: $color-primary-dark !important;
+}
