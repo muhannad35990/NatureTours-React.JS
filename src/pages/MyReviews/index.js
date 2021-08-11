@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Table, Input, Button, Space, Rate, Popconfirm } from "antd";
 import Icon, {
   DeleteOutlined,
   EditOutlined,
   FileImageOutlined,
   NodeIndexOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -15,31 +16,22 @@ import Loading from "../../components/Loading";
 import ReviewModel from "../../components/Models/ReviewModel/ReviewModel";
 import * as endpoints from "../../configs/endpointConfig";
 import Avatar from "antd/lib/avatar/avatar";
-
+import getColumnSearchProps from "../../util/getColumnSearchProps";
 function MyReviews() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const userReviews = useSelector((state) => state.reviews.userReviews);
   const [showReview, setShowReview] = useState(false);
   const [currentRecord, setcurrentRecord] = useState(null);
-  const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
+  const refSearchInput = useRef();
 
+  const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
   useEffect(() => {
     dispatch(GetUserReviews(auth.user._id));
   }, [auth]);
 
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    this.setState({
-      searchText: selectedKeys[0],
-      searchedColumn: dataIndex,
-    });
-  };
-
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    this.setState({ searchText: "" });
-  };
   const doTheDelete = () => {
     //delete review from the database
     dispatch(DeleteUserReview(currentRecord.id));
@@ -62,6 +54,14 @@ function MyReviews() {
       width: "30rem",
       sorter: (a, b) => a.tour.name.localeCompare(b.tour.name),
       sortDirections: ["descend", "ascend"],
+      ...getColumnSearchProps(
+        ["tour", "name"],
+        refSearchInput,
+        searchText,
+        setSearchText,
+        searchedColumn,
+        setSearchedColumn
+      ),
     },
     {
       title: "Duration",
@@ -70,6 +70,14 @@ function MyReviews() {
       width: "12rem",
       sorter: (a, b) => a.tour.duration - b.tour.duration,
       sortDirections: ["descend", "ascend"],
+      ...getColumnSearchProps(
+        ["tour", "duration"],
+        refSearchInput,
+        searchText,
+        setSearchText,
+        searchedColumn,
+        setSearchedColumn
+      ),
     },
     {
       title: "Difficulty",
@@ -78,6 +86,14 @@ function MyReviews() {
       width: "12rem",
       sorter: (a, b) => a.tour.difficulty.localeCompare(b.tour.difficulty),
       sortDirections: ["descend", "ascend"],
+      ...getColumnSearchProps(
+        ["tour", "difficulty"],
+        refSearchInput,
+        searchText,
+        setSearchText,
+        searchedColumn,
+        setSearchedColumn
+      ),
     },
     {
       title: "Price",
@@ -94,6 +110,14 @@ function MyReviews() {
       sorter: (a, b) => a.review.localeCompare(b.review),
       sortDirections: ["descend", "ascend"],
       width: "20%",
+      ...getColumnSearchProps(
+        ["review"],
+        refSearchInput,
+        searchText,
+        setSearchText,
+        searchedColumn,
+        setSearchedColumn
+      ),
     },
     {
       title: "Rating",
@@ -145,7 +169,9 @@ function MyReviews() {
 
   return (
     <div>
-      {userReviews && <Table columns={columns} dataSource={userReviews} />}
+      {userReviews && (
+        <Table key="reviewTable" columns={columns} dataSource={userReviews} />
+      )}
       <ReviewModel
         show={showReview}
         onCancel={() => setShowReview(false)}
