@@ -60,7 +60,7 @@ function MyReviews() {
       dataIndex: ["tour", "name"],
       key: ["tour", "name"],
       width: "30rem",
-      sorter: (a, b) => a.address.length - b.address.length,
+      sorter: (a, b) => a.tour.name.localeCompare(b.tour.name),
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -68,7 +68,7 @@ function MyReviews() {
       dataIndex: ["tour", "duration"],
       key: ["tour", "duration"],
       width: "12rem",
-      sorter: (a, b) => a.duration.length - b.duration.length,
+      sorter: (a, b) => a.tour.duration - b.tour.duration,
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -76,7 +76,7 @@ function MyReviews() {
       dataIndex: ["tour", "difficulty"],
       key: ["tour", "difficulty"],
       width: "12rem",
-      sorter: (a, b) => a.difficulty.length - b.difficulty.length,
+      sorter: (a, b) => a.tour.difficulty.localeCompare(b.tour.difficulty),
       sortDirections: ["descend", "ascend"],
     },
     {
@@ -84,13 +84,14 @@ function MyReviews() {
       dataIndex: ["tour", "price"],
       key: ["tour", "price"],
       width: "10rem",
+      sorter: (a, b) => a.tour.price - b.tour.price,
       sortDirections: ["descend", "ascend"],
     },
     {
       title: "Review",
       dataIndex: "review",
       key: "review",
-      sorter: (a, b) => a.review.length - b.review.length,
+      sorter: (a, b) => a.review.localeCompare(b.review),
       sortDirections: ["descend", "ascend"],
       width: "20%",
     },
@@ -102,6 +103,8 @@ function MyReviews() {
       render: (rating) => (
         <Rate key="rateStar" allowHalf disabled value={rating} />
       ),
+      sorter: (a, b) => a.rating - b.rating,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "Action",
