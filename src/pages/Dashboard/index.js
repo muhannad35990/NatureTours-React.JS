@@ -2,15 +2,22 @@ import React, { useState } from "react";
 
 import {
   BookOutlined,
+  CarOutlined,
   CommentOutlined,
   DollarCircleOutlined,
   SettingOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { MyBookings, Me, MyReviews, Billing } from "../index";
-import { Link } from "react-router-dom";
+
+import { Divider } from "antd";
+import { useSelector } from "react-redux";
+import Users from "../Users";
 
 function Dashboard() {
   const [currentTab, setcurrentTab] = useState("settings");
+  const auth = useSelector((state) => state.auth);
+
   return (
     <div style={{ display: "flex", height: "100%", width: "100%" }}>
       <div className="sidebar">
@@ -60,6 +67,73 @@ function Dashboard() {
             />
             <a>billing</a>
           </li>
+          {/* admins only section */}
+          {auth.user.role === "admin" && (
+            <div>
+              <Divider
+                style={{
+                  color: "#fff",
+                  fontSize: "1.3rem",
+                  borderTopColor: "#777",
+                }}
+              >
+                ADMINS ONLY
+              </Divider>
+              <li
+                className={`sidebar__item ${
+                  currentTab === "manage_tours" ? "sidebar__item__selected" : ""
+                }`}
+                onClick={() => setcurrentTab("manage_tours")}
+              >
+                <CarOutlined
+                  style={{ fontSize: 20 }}
+                  className="sidebar__icon"
+                />
+                <a>manage tours</a>
+              </li>
+              <li
+                className={`sidebar__item ${
+                  currentTab === "manage_users" ? "sidebar__item__selected" : ""
+                }`}
+                onClick={() => setcurrentTab("manage_users")}
+              >
+                <UserOutlined
+                  style={{ fontSize: 20 }}
+                  className="sidebar__icon"
+                />
+
+                <a>manage users</a>
+              </li>
+              <li
+                className={`sidebar__item ${
+                  currentTab === "manage_reviews"
+                    ? "sidebar__item__selected"
+                    : ""
+                }`}
+                onClick={() => setcurrentTab("manage_reviews")}
+              >
+                <CommentOutlined
+                  style={{ fontSize: 20 }}
+                  className="sidebar__icon"
+                />
+                <a>manage reviews</a>
+              </li>
+              <li
+                className={`sidebar__item ${
+                  currentTab === "manage_bookings"
+                    ? "sidebar__item__selected"
+                    : ""
+                }`}
+                onClick={() => setcurrentTab("manage_bookings")}
+              >
+                <BookOutlined
+                  style={{ fontSize: 20 }}
+                  className="sidebar__icon"
+                />
+                <a>manage bookings</a>
+              </li>
+            </div>
+          )}
         </ul>
         <p className="copywrite">
           &copy;2021 by MUHANNAD HAMMADA . All rights reserved.
@@ -75,6 +149,8 @@ function Dashboard() {
           <MyReviews />
         ) : currentTab === "billing" ? (
           <Billing />
+        ) : currentTab === "manage_users" ? (
+          <Users />
         ) : (
           ""
         )}

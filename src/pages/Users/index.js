@@ -21,28 +21,23 @@ import Highlighter from "react-highlight-words";
 import get from "lodash.get";
 import isequal from "lodash.isequal";
 
-function MyReviews() {
+import { GetAllUsers } from "../../store/actions/userActions";
+
+function Users() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  const userReviews = useSelector((state) => state.reviews.userReviews);
+  const users = useSelector((state) => state.users.users);
   const [showReview, setShowReview] = useState(false);
   const [currentRecord, setcurrentRecord] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [index, setIndex] = useState(0);
   const refSearchInput = useRef();
-
-  const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
+  const backendImg = `${endpoints.BACKEND_URL}/img/users/`;
   useEffect(() => {
-    if (searchText === "" || searchText === null)
-      dispatch(GetUserReviews(auth.user._id));
-  }, [auth, searchText]);
+    dispatch(GetAllUsers());
+  }, []);
 
-  const doTheDelete = () => {
-    //delete review from the database
-    dispatch(DeleteUserReview(currentRecord.id));
-    dispatch(GetUserReviews(auth.user._id));
-  };
   function getColumnSearchProps(dataIndex, searchInput) {
     return {
       filterDropdown: ({
@@ -110,7 +105,11 @@ function MyReviews() {
         ),
     };
   }
-
+  const doTheDelete = () => {
+    //delete review from the database
+    dispatch(DeleteUserReview(currentRecord.id));
+    dispatch(GetUserReviews(auth.user._id));
+  };
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -124,67 +123,39 @@ function MyReviews() {
   };
   const columns = [
     {
-      key: ["tour", "imageCover"],
+      key: "photo",
 
-      dataIndex: ["tour", "imageCover"], // this is the value that is parsed from the DB / server side
+      dataIndex: "photo", // this is the value that is parsed from the DB / server side
       render: (image) => (
         <Avatar src={`${backendImg}${image}`} icon={<FileImageOutlined />} />
       ),
     },
     {
       title: "Name",
-      dataIndex: ["tour", "name"],
-      key: ["tour", "name"],
+      dataIndex: "name",
+      key: "name",
       width: "30rem",
       sorter: (a, b) => a.tour.name.localeCompare(b.tour.name),
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps(["tour", "name"], refSearchInput),
+      ...getColumnSearchProps("name", refSearchInput),
     },
     {
-      title: "Duration",
-      dataIndex: ["tour", "duration"],
-      key: ["tour", "duration"],
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
       width: "12rem",
       sorter: (a, b) => a.tour.duration - b.tour.duration,
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps(["tour", "duration"], refSearchInput),
+      ...getColumnSearchProps("email", refSearchInput),
     },
     {
-      title: "Difficulty",
-      dataIndex: ["tour", "difficulty"],
-      key: ["tour", "difficulty"],
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
       width: "12rem",
       sorter: (a, b) => a.tour.difficulty.localeCompare(b.tour.difficulty),
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps(["tour", "difficulty"], refSearchInput),
-    },
-    {
-      title: "Price",
-      dataIndex: ["tour", "price"],
-      key: ["tour", "price"],
-      width: "10rem",
-      sorter: (a, b) => a.tour.price - b.tour.price,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Review",
-      dataIndex: "review",
-      key: "review",
-      sorter: (a, b) => a.review.localeCompare(b.review),
-      sortDirections: ["descend", "ascend"],
-      width: "20%",
-      ...getColumnSearchProps(["review"], refSearchInput),
-    },
-    {
-      title: "Rating",
-      dataIndex: "rating",
-      key: "rating",
-      width: "30rem",
-      render: (rating) => (
-        <Rate key="rateStar" allowHalf disabled value={rating} />
-      ),
-      sorter: (a, b) => a.rating - b.rating,
-      sortDirections: ["descend", "ascend"],
+      ...getColumnSearchProps("role", refSearchInput),
     },
     {
       title: "Action",
@@ -225,21 +196,11 @@ function MyReviews() {
 
   return (
     <div>
-      {userReviews && (
-        <Table
-          key={index}
-          columns={columns}
-          dataSource={userReviews}
-          rowKey="name"
-        />
+      {users && (
+        <Table key={index} columns={columns} dataSource={users} rowKey="name" />
       )}
-      <ReviewModel
-        show={showReview}
-        onCancel={() => setShowReview(false)}
-        record={currentRecord}
-      />
     </div>
   );
 }
 
-export default MyReviews;
+export default Users;

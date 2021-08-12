@@ -1,21 +1,21 @@
-import { put } from 'redux-saga/effects';
-import * as authActions from '../actions/authActions';
-import * as AlertActions from '../actions/AlertActions';
-import * as userActions from '../actions/userActions';
-import * as endpoints from '../../configs/endpointConfig';
-import showNotification from '../../components/alert/Alert';
-import AxiosInstance from '../../util/intercepter';
+import { put } from "redux-saga/effects";
+import * as authActions from "../actions/authActions";
+import * as AlertActions from "../actions/AlertActions";
+import * as userActions from "../actions/userActions";
+import * as endpoints from "../../configs/endpointConfig";
+import showNotification from "../../components/alert/Alert";
+import AxiosInstance from "../../util/intercepter";
 
 export function* updateMeSaga(action) {
   try {
     const fmData = new FormData();
-    fmData.append('FirstName', action.payload.FirstName);
-    fmData.append('LastName', action.payload.LastName);
-    fmData.append('email', action.payload.email);
+    fmData.append("FirstName", action.payload.FirstName);
+    fmData.append("LastName", action.payload.LastName);
+    fmData.append("email", action.payload.email);
 
     const response = yield AxiosInstance.patch(endpoints.UPDATE_ME, fmData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
     yield put(AlertActions.setSpiner(false));
@@ -24,15 +24,15 @@ export function* updateMeSaga(action) {
 
       yield put(
         AlertActions.showAlert({
-          type: 'success',
+          type: "success",
           title: response.statusText,
-          message: 'Updated successfully',
+          message: "Updated successfully",
         })
       );
     } else {
       yield put(
         AlertActions.showAlert({
-          type: 'error',
+          type: "error",
           title: response.statusText,
           message: response.data.message,
         })
@@ -43,7 +43,7 @@ export function* updateMeSaga(action) {
     if (e.response)
       yield put(
         AlertActions.showAlert({
-          type: 'error',
+          type: "error",
           title: e.response.statusText,
           message: e.response.data.message,
         })
@@ -51,13 +51,18 @@ export function* updateMeSaga(action) {
     else {
       yield put(
         AlertActions.showAlert({
-          type: 'error',
-          title: 'Network Error',
+          type: "error",
+          title: "Network Error",
           message:
-            'Fail to Connect to the server! check your connection and try again',
+            "Fail to Connect to the server! check your connection and try again",
         })
       );
     }
     // showNotification("error", e.response.data.message, "Error");
   }
+}
+export function* getAllusersSaga(action) {
+  const response = yield AxiosInstance.get(endpoints.USERS);
+
+  yield put(userActions.setAllUsers(response.data.data.docs));
 }

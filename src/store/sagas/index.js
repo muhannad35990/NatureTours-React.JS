@@ -14,7 +14,7 @@ import {
   deleteUserReviewsSaga,
 } from "./review";
 import { getAllToursSaga, getTourSaga, getTourReviewsSaga } from "./tours";
-import { updateMeSaga } from "./user";
+import { getAllusersSaga, updateMeSaga } from "./user";
 
 export function* watchAuth() {
   //auth
@@ -34,4 +34,7 @@ export function* watchAuth() {
   yield all([takeEvery(types.GET_USER_REVIEWS, getUserReviewsSaga)]);
   yield all([takeEvery(types.UPDATE_USER_REVIEWS, updateUserReviewsSaga)]);
   yield all([takeEvery(types.DELETE_USER_REVIEWS, deleteUserReviewsSaga)]);
+
+  //users
+  yield all([takeEvery(types.GET_USERS, getAllusersSaga)]);
 }

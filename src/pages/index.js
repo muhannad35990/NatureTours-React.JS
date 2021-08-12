@@ -11,3 +11,7 @@ export { default as MyBookings } from "./MyBookings";
 export { default as MyReviews } from "./MyReviews";
 export { default as Billing } from "./Billing";
 export { default as Dashboard } from "./Dashboard";
+export { default as Users } from "./Users";
+export { default as Bookings } from "./Bookings";
+export { default as Reviews } from "./Reviews";
+export { default as Tours } from "./Tours";
