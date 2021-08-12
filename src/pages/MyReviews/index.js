@@ -16,7 +16,11 @@ import Loading from "../../components/Loading";
 import ReviewModel from "../../components/Models/ReviewModel/ReviewModel";
 import * as endpoints from "../../configs/endpointConfig";
 import Avatar from "antd/lib/avatar/avatar";
-import getColumnSearchProps from "../../util/getColumnSearchProps";
+
+import Highlighter from "react-highlight-words";
+import get from "lodash.get";
+import isequal from "lodash.isequal";
+
 function MyReviews() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -25,19 +29,99 @@ function MyReviews() {
   const [currentRecord, setcurrentRecord] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [index, setIndex] = useState(0);
   const refSearchInput = useRef();
 
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
   useEffect(() => {
-    dispatch(GetUserReviews(auth.user._id));
-  }, [auth]);
+    if (searchText === "" || searchText === null)
+      dispatch(GetUserReviews(auth.user._id));
+  }, [auth, searchText]);
 
   const doTheDelete = () => {
     //delete review from the database
     dispatch(DeleteUserReview(currentRecord.id));
     dispatch(GetUserReviews(auth.user._id));
   };
+  function getColumnSearchProps(dataIndex, searchInput) {
+    return {
+      filterDropdown: ({
+        setSelectedKeys,
+        selectedKeys,
+        confirm,
+        clearFilters,
+      }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            ref={(node) => (searchInput = node)}
+            placeholder={`Search ${dataIndex}`}
+            value={selectedKeys[0]}
+            onChange={(e) =>
+              setSelectedKeys(e.target.value ? [e.target.value] : [])
+            }
+            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            style={{ width: 188, marginBottom: 8, display: "block" }}
+          />
+          <Space>
+            <Button
+              type="primary"
+              onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+              icon={<SearchOutlined />}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Search
+            </Button>
+            <Button
+              onClick={() => handleReset(clearFilters)}
+              size="small"
+              style={{ width: 90 }}
+            >
+              Reset
+            </Button>
+          </Space>
+        </div>
+      ),
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      ),
+      onFilter: (value, record) =>
+        get(record, dataIndex)
+          ? get(record, dataIndex)
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase())
+          : "",
+      onFilterDropdownVisibleChange: (visible) => {
+        if (visible) {
+          setTimeout(() => searchInput.select(), 100);
+        }
+      },
+      render: (text) =>
+        isequal(searchedColumn, dataIndex) ? (
+          <Highlighter
+            highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
+            searchWords={[searchText]}
+            autoEscape
+            textToHighlight={text ? text.toString() : ""}
+          />
+        ) : (
+          text
+        ),
+    };
+  }
 
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = (clearFilters) => {
+    clearFilters();
+    setSearchText("");
+    setIndex(index + 1);
+  };
   const columns = [
     {
       key: ["tour", "imageCover"],
@@ -54,14 +138,7 @@ function MyReviews() {
       width: "30rem",
       sorter: (a, b) => a.tour.name.localeCompare(b.tour.name),
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps(
-        ["tour", "name"],
-        refSearchInput,
-        searchText,
-        setSearchText,
-        searchedColumn,
-        setSearchedColumn
-      ),
+      ...getColumnSearchProps(["tour", "name"], refSearchInput),
     },
     {
       title: "Duration",
@@ -70,14 +147,7 @@ function MyReviews() {
       width: "12rem",
       sorter: (a, b) => a.tour.duration - b.tour.duration,
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps(
-        ["tour", "duration"],
-        refSearchInput,
-        searchText,
-        setSearchText,
-        searchedColumn,
-        setSearchedColumn
-      ),
+      ...getColumnSearchProps(["tour", "duration"], refSearchInput),
     },
     {
       title: "Difficulty",
@@ -86,14 +156,7 @@ function MyReviews() {
       width: "12rem",
       sorter: (a, b) => a.tour.difficulty.localeCompare(b.tour.difficulty),
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps(
-        ["tour", "difficulty"],
-        refSearchInput,
-        searchText,
-        setSearchText,
-        searchedColumn,
-        setSearchedColumn
-      ),
+      ...getColumnSearchProps(["tour", "difficulty"], refSearchInput),
     },
     {
       title: "Price",
@@ -110,14 +173,7 @@ function MyReviews() {
       sorter: (a, b) => a.review.localeCompare(b.review),
       sortDirections: ["descend", "ascend"],
       width: "20%",
-      ...getColumnSearchProps(
-        ["review"],
-        refSearchInput,
-        searchText,
-        setSearchText,
-        searchedColumn,
-        setSearchedColumn
-      ),
+      ...getColumnSearchProps(["review"], refSearchInput),
     },
     {
       title: "Rating",
@@ -170,7 +226,7 @@ function MyReviews() {
   return (
     <div>
       {userReviews && (
-        <Table key="reviewTable" columns={columns} dataSource={userReviews} />
+        <Table key={index} columns={columns} dataSource={userReviews} />
       )}
       <ReviewModel
         show={showReview}
