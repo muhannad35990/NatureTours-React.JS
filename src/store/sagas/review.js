@@ -13,7 +13,6 @@ export function* getUserReviewsSaga(action) {
   yield put(ReviewActions.setUserReviews(response.data.data.docs));
 }
 export function* updateUserReviewsSaga(action) {
-  console.log(action.payload);
   const response = yield AxiosInstance.patch(
     `${endpoints.REVIEWS}/${action.payload.reviewId}`,
     { review: action.payload.review, rating: action.payload.rating }

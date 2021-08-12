@@ -1,3 +1,4 @@
+//auth
 export const REGISTER_USER = "REGISTER_USER";
 export const LOGIN_USER = "LOGIN_USER";
 export const SET_USER_DATA = "SET_USER_DATA";
@@ -10,15 +11,21 @@ export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 export const AUTO_LOGIN = "AUTO_LOGIN";
 export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
+//tours
 export const GET_ALL_TOURS = "GET_ALL_TOURS";
 export const SET_TOURS_DATA = "SET_TOURS_DATA";
 export const GET_TOUR = "GET_TOUR";
 export const SET_TOUR = "SET_TOUR";
+//reviews
 export const SET_TOUR_REVIEWS = "SET_TOUR_REVIEWS";
 export const GET_TOUR_REVIEWS = "GET_TOUR_REVIEWS";
 export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
 export const SET_USER_REVIEWS = "SET_USER_REVIEWS";
 export const UPDATE_USER_REVIEWS = "UPDATE_USER_REVIEWS";
 export const DELETE_USER_REVIEWS = "DELETE_USER_REVIEWS";
+//users
 export const SET_USERS = "SET_USERS";
 export const GET_USERS = "GET_USERS";
+export const INSERT_NEW_USER = "INSERT_NEW_USER";
+export const UPDATE_USER = "UPDATE_USER";
+export const DELETE_USER = "DELETE_USER";

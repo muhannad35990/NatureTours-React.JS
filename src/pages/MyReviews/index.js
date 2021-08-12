@@ -125,7 +125,7 @@ function MyReviews() {
   const columns = [
     {
       key: ["tour", "imageCover"],
-
+      width: "5rem",
       dataIndex: ["tour", "imageCover"], // this is the value that is parsed from the DB / server side
       render: (image) => (
         <Avatar src={`${backendImg}${image}`} icon={<FileImageOutlined />} />

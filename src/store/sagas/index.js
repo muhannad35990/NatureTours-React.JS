@@ -14,7 +14,13 @@ import {
   deleteUserReviewsSaga,
 } from "./review";
 import { getAllToursSaga, getTourSaga, getTourReviewsSaga } from "./tours";
-import { getAllusersSaga, updateMeSaga } from "./user";
+import {
+  deleteUserSaga,
+  getAllusersSaga,
+  insertNewUserSaga,
+  updateMeSaga,
+  updateUserSaga,
+} from "./user";
 
 export function* watchAuth() {
   //auth
@@ -37,4 +43,7 @@ export function* watchAuth() {
 
   //users
   yield all([takeEvery(types.GET_USERS, getAllusersSaga)]);
+  yield all([takeEvery(types.INSERT_NEW_USER, insertNewUserSaga)]);
+  yield all([takeEvery(types.UPDATE_USER, updateUserSaga)]);
+  yield all([takeEvery(types.DELETE_USER, deleteUserSaga)]);
 }

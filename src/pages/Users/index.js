@@ -4,7 +4,6 @@ import Icon, {
   DeleteOutlined,
   EditOutlined,
   FileImageOutlined,
-  NodeIndexOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,8 +11,7 @@ import {
   DeleteUserReview,
   GetUserReviews,
 } from "../../store/actions/ReviewActions";
-import Loading from "../../components/Loading";
-import ReviewModel from "../../components/Models/ReviewModel/ReviewModel";
+
 import * as endpoints from "../../configs/endpointConfig";
 import Avatar from "antd/lib/avatar/avatar";
 
@@ -22,16 +20,17 @@ import get from "lodash.get";
 import isequal from "lodash.isequal";
 
 import { GetAllUsers } from "../../store/actions/userActions";
+import UserModel from "../../components/Models/UserModel/UserModel";
 
 function Users() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const users = useSelector((state) => state.users.users);
-  const [showReview, setShowReview] = useState(false);
+  const [showUser, setShowUser] = useState(false);
   const [currentRecord, setcurrentRecord] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(100);
   const refSearchInput = useRef();
   const backendImg = `${endpoints.BACKEND_URL}/img/users/`;
   useEffect(() => {
@@ -124,18 +123,19 @@ function Users() {
   const columns = [
     {
       key: "photo",
-
+      width: "5rem",
       dataIndex: "photo", // this is the value that is parsed from the DB / server side
       render: (image) => (
         <Avatar src={`${backendImg}${image}`} icon={<FileImageOutlined />} />
       ),
     },
+
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: "30rem",
-      sorter: (a, b) => a.tour.name.localeCompare(b.tour.name),
+      width: "20%",
+      sorter: (a, b) => a.name.localeCompare(b.name),
       sortDirections: ["descend", "ascend"],
       ...getColumnSearchProps("name", refSearchInput),
     },
@@ -143,8 +143,8 @@ function Users() {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      width: "12rem",
-      sorter: (a, b) => a.tour.duration - b.tour.duration,
+      width: "30%",
+      sorter: (a, b) => a.email - b.email,
       sortDirections: ["descend", "ascend"],
       ...getColumnSearchProps("email", refSearchInput),
     },
@@ -152,8 +152,8 @@ function Users() {
       title: "Role",
       dataIndex: "role",
       key: "role",
-      width: "12rem",
-      sorter: (a, b) => a.tour.difficulty.localeCompare(b.tour.difficulty),
+      width: "10%",
+      sorter: (a, b) => a.role.localeCompare(b.role),
       sortDirections: ["descend", "ascend"],
       ...getColumnSearchProps("role", refSearchInput),
     },
@@ -167,7 +167,7 @@ function Users() {
             key="btnedit"
             onClick={() => {
               setcurrentRecord(record);
-              setShowReview(true);
+              setShowUser(true);
             }}
           >
             <EditOutlined />
@@ -197,8 +197,13 @@ function Users() {
   return (
     <div>
       {users && (
-        <Table key={index} columns={columns} dataSource={users} rowKey="name" />
+        <Table key={index} columns={columns} dataSource={users} rowKey="_id" />
       )}
+      <UserModel
+        show={showUser}
+        onCancel={() => setShowUser(false)}
+        record={currentRecord}
+      />
     </div>
   );
 }

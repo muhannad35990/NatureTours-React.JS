@@ -63,6 +63,31 @@ export function* updateMeSaga(action) {
 }
 export function* getAllusersSaga(action) {
   const response = yield AxiosInstance.get(endpoints.USERS);
-
   yield put(userActions.setAllUsers(response.data.data.docs));
+}
+export function* insertNewUserSaga(action) {
+  const response = yield AxiosInstance.post(endpoints.USERS);
+}
+export function* updateUserSaga(action) {
+  const data = {
+    name: action.payload.name,
+    email: action.payload.email,
+    role: action.payload.role,
+  };
+
+  const response = yield AxiosInstance.patch(
+    `${endpoints.USERS}/${action.payload.userId}`,
+    data
+  );
+
+  yield put(userActions.GetAllUsers());
+  showNotification("success", "Updated succssfully!", "Success");
+}
+export function* deleteUserSaga(action) {
+  const response = yield AxiosInstance.delete(
+    `${endpoints.USERS}/${action.payload.userId}`
+  );
+  console.log(response);
+  yield put(userActions.GetAllUsers());
+  showNotification("success", "Deleted succssfully!", "Success");
 }

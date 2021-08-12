@@ -1,5 +1,4 @@
-import { Col, Popconfirm, Rate, Row } from "antd";
-import Form from "antd/lib/form/Form";
+import { Col, Popconfirm, Rate, Row, Select } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -9,7 +8,6 @@ import {
   setSpiner,
 } from "../../../store/actions/AlertActions";
 import AutoHideAlert from "../../alert/AutoHideAlert";
-
 import * as Yup from "yup";
 import { useTranslation } from "react-i18next"; // For translation
 import {
@@ -17,60 +15,73 @@ import {
   LoadingOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
-import {
-  DeleteUserReview,
-  GetUserReviews,
-  UpdateUserReview,
-} from "../../../store/actions/ReviewActions";
 
-function ReviewModel({ show, onCancel, record }) {
+import { Option } from "antd/lib/mentions";
+import {
+  deleteUser,
+  GetAllUsers,
+  updateUser,
+} from "../../../store/actions/userActions";
+
+function UserModel({ show, onCancel, record }) {
   const alert = useSelector((state) => state.alert.alert);
   const spinner = useSelector((state) => state.alert.spinner);
-  const auth = useSelector((state) => state.auth);
-  const [isDeleteSpinner, setIsDeleteSpinner] = useState(false);
-  const [rate, setRate] = useState(1);
 
+  const [isDeleteSpinner, setIsDeleteSpinner] = useState(false);
+  const [selectval, setSelectval] = useState(record?.role);
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(removeAllAlerts());
-    if (record) setRate(record.rating);
+    setSelectval(record?.role);
   }, [record]);
+  const roles = ["user", "guide", "lead-guide", "admin"];
+  const userModelSchema = Yup.object().shape({
+    name: Yup.string()
+      .required(t("Firstname_is_required"))
+      .min(2, t("too_short")),
 
-  const reviewModelSchema = Yup.object().shape({
-    review: Yup.string()
-      .required(t("review_is_required"))
-      .min(5, t("review_is_too_short")),
+    email: Yup.string()
+      .email(t("email_not_valid"))
+      .required(t("Email_is_required")),
   });
-  const initialValues = { review: record?.review };
-  const doUpdateReview = async (values) => {
-    values = { review: values.review, rating: rate, reviewId: record.id };
+  const initialuserModelValues = {
+    name: record?.name,
+    email: record?.email,
+  };
+  const doUpdateUser = async (values) => {
+    values = {
+      name: values.name,
+      email: values.email,
+      role: selectval,
+      userId: record._id,
+    };
+
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
-    dispatch(UpdateUserReview(values));
+    dispatch(updateUser(values));
   };
   const doTheDelete = () => {
     //delete review from the database
     setIsDeleteSpinner(true);
     dispatch(setSpiner(true));
-    dispatch(DeleteUserReview(record.id));
-    dispatch(GetUserReviews(auth.user._id));
+    dispatch(deleteUser(record._id));
+    dispatch(GetAllUsers());
   };
 
   return (
-    record !== null &&
-    record.tour !== null && (
+    record !== null && (
       <Modal
         visible={show}
-        title={record.tour.name}
+        title={record.name}
         footer={null}
         onCancel={onCancel}
         destroyOnClose={true}
       >
         <Formik
-          initialValues={initialValues}
-          validationSchema={reviewModelSchema}
-          onSubmit={doUpdateReview}
+          initialValues={initialuserModelValues}
+          validationSchema={userModelSchema}
+          onSubmit={doUpdateUser}
         >
           {(props) => {
             const {
@@ -100,31 +111,62 @@ function ReviewModel({ show, onCancel, record }) {
                 </Row>
 
                 <div className="form__group">
-                  <textarea
+                  <input
                     type="text"
-                    name="review"
-                    id="review"
-                    rows="5"
-                    placeholder="Your review"
-                    value={values.review}
+                    name="name"
+                    id="name"
+                    placeholder="name"
+                    value={values.name}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="form__input"
+                  />
+                  <label htmlFor="name" className="form__label">
+                    name
+                  </label>
+                  {errors.name && touched.name && (
+                    <span className="form__error">{errors.name}</span>
+                  )}
+                </div>
+                <div className="form__group">
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="email"
+                    value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="form__input"
                   />
                   <label htmlFor="email" className="form__label">
-                    Review
+                    email
                   </label>
-                  {errors.review && touched.review && (
-                    <span className="form__error">{errors.review}</span>
+                  {errors.email && touched.email && (
+                    <span className="form__error">{errors.email}</span>
                   )}
                 </div>
-                <Rate
-                  allowHalf
-                  name="rating"
-                  id="rating"
-                  value={rate}
-                  onChange={(val) => setRate(val)}
-                />
+                <div className="form__group">
+                  <label htmlFor="role" className="form__label">
+                    Role
+                  </label>
+                  <Select
+                    name="role"
+                    id="role"
+                    type="text"
+                    value={selectval}
+                    style={{ width: 200 }}
+                    onChange={(val) => setSelectval(val)}
+                    onBlur={handleBlur}
+                  >
+                    {roles.map((val) => (
+                      <Option key={val} value={val}>
+                        {val}
+                      </Option>
+                    ))}
+                  </Select>
+                </div>
+
                 <Row>
                   <Col span={12}>
                     <button
@@ -189,4 +231,4 @@ function ReviewModel({ show, onCancel, record }) {
   );
 }
 
-export default ReviewModel;
+export default UserModel;
