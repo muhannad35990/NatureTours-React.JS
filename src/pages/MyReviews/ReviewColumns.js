@@ -77,7 +77,13 @@ function ReviewColumns(
       key: "rating",
       width: "30rem",
       render: (rating) => (
-        <Rate key="rateStar" allowHalf disabled value={rating} />
+        <Rate
+          key="rateStar"
+          style={{ fontSize: "1.2rem" }}
+          allowHalf
+          disabled
+          value={rating}
+        />
       ),
       sorter: (a, b) => a.rating - b.rating,
       sortDirections: ["descend", "ascend"],

@@ -13,6 +13,7 @@ import { MyBookings, Me, MyReviews, Billing } from "../index";
 import { Divider } from "antd";
 import { useSelector } from "react-redux";
 import Users from "../Users";
+import Tours from "../Tours";
 
 function Dashboard() {
   const [currentTab, setcurrentTab] = useState("settings");
@@ -151,6 +152,8 @@ function Dashboard() {
           <Billing />
         ) : currentTab === "manage_users" ? (
           <Users />
+        ) : currentTab === "manage_tours" ? (
+          <Tours />
         ) : (
           ""
         )}
