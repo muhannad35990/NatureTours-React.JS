@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { autoLogin, loginUser } from "../../store/actions/authActions";
+import { loginUser } from "../../store/actions/authActions";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // For translation
-import {
-  LoadingOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined,
-} from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import AutoHideAlert from "../../components/alert/AutoHideAlert";
 import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
 import InputPassword from "../../components/InputPassword/InputPassword";

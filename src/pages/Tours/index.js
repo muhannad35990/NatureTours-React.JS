@@ -8,6 +8,8 @@ import {
 import UserModel from "../../components/Models/UserModel/UserModel";
 import ToursColumns from "./ToursColumns";
 import { getAllTours } from "../../store/actions/TourActions";
+import PopupModel from "../../components/Models/PopupModel/PopupModel";
+import ToursForm from "../../components/ToursForm/ToursForm";
 
 function Tours() {
   const dispatch = useDispatch();
@@ -38,6 +40,9 @@ function Tours() {
   );
   return (
     <div>
+      <PopupModel>
+        <ToursForm />
+      </PopupModel>
       {tours && (
         <Table key={index} columns={columns} dataSource={tours} rowKey="_id" />
       )}
