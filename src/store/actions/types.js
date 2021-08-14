@@ -16,6 +16,9 @@ export const GET_ALL_TOURS = "GET_ALL_TOURS";
 export const SET_TOURS_DATA = "SET_TOURS_DATA";
 export const GET_TOUR = "GET_TOUR";
 export const SET_TOUR = "SET_TOUR";
+export const DELETE_TOUR = "DELETE_TOUR";
+export const UPDATE_TOUR = "UPDATE_TOUR";
+export const INSERT_NEW_TOUR = "INSERT_NEW_TOUR";
 //reviews
 export const SET_TOUR_REVIEWS = "SET_TOUR_REVIEWS";
 export const GET_TOUR_REVIEWS = "GET_TOUR_REVIEWS";
@@ -23,6 +26,7 @@ export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
 export const SET_USER_REVIEWS = "SET_USER_REVIEWS";
 export const UPDATE_USER_REVIEWS = "UPDATE_USER_REVIEWS";
 export const DELETE_USER_REVIEWS = "DELETE_USER_REVIEWS";
+export const INSERT_NEW_REVIEW = "INSERT_NEW_REVIEW";
 //users
 export const SET_USERS = "SET_USERS";
 export const GET_USERS = "GET_USERS";

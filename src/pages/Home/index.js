@@ -20,13 +20,26 @@ function Home() {
       style={{
         height: "100%",
         width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
         marginTop: "10rem",
       }}
     >
       <Row justify="center">
         <SearchBox />
       </Row>
-      <Row justify="center" style={{ minHeight: "80%" }}>
+      <Row
+        type="flex"
+        justify="center"
+        style={{
+          minHeight: "80%",
+          alignItems: "center",
+          justifyContent: "center",
+          justifyItems: "center",
+          textAlign: "center",
+        }}
+      >
         {tours.map((tour, index) => (
           <Col
             key={index}

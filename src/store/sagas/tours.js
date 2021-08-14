@@ -2,6 +2,7 @@ import AxiosInstance from "../../util/intercepter";
 import * as endpoints from "../../configs/endpointConfig";
 import * as TourActions from "../actions/TourActions";
 import { put } from "redux-saga/effects";
+import showNotification from "../../components/alert/Alert";
 
 export function* getAllToursSaga(action) {
   const filter = action.payload;
@@ -18,6 +19,29 @@ export function* getTourSaga(action) {
   );
   yield put(TourActions.setTour(response.data.data));
 }
+export function* insertNewTourSaga(action) {
+  const response = yield AxiosInstance.post(
+    `${endpoints.TOURS}`,
+    action.payload
+  );
+  yield put(TourActions.getAllTours());
+}
+export function* updateTourSaga(action) {
+  const data = action.payload.data;
+  const response = yield AxiosInstance.patch(
+    `${endpoints.TOURS}/${action.payload.tourId}`,
+    data
+  );
+  yield put(TourActions.getAllTours());
+}
+export function* deleteTourSaga(action) {
+  const response = yield AxiosInstance.delete(
+    `${endpoints.TOURS}/${action.payload.tourId}`
+  );
+  yield put(TourActions.getAllTours());
+  showNotification("success", "Deleted succssfully!", "Success");
+}
+
 export function* getTourReviewsSaga(action) {
   const response = yield AxiosInstance.get(
     `${endpoints.TOURS}/${action.payload}/Reviews`
