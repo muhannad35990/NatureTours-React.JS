@@ -77,7 +77,7 @@ function TourModel({ show, onCancel, record }) {
           });
         });
         setFileList(modimages);
-      } else setFileList([]);
+      }
     }
   }, [tour]);
 
@@ -104,8 +104,6 @@ function TourModel({ show, onCancel, record }) {
     };
     fmData.append("images", file);
 
-    fileList;
-    console.log(fmData, tour.id);
     await AxiosInstance.patch(
       `${endpoints.TOURS}/${tour.id}`,
       fmData,
@@ -114,7 +112,6 @@ function TourModel({ show, onCancel, record }) {
       console.log(response);
       onSuccess("Ok");
       dispatch(getTour(tour.id));
-      // dispatch(setUserData(response?.data?.user));
       showNotification("success", "Image updated successfully", "Success");
     });
   };
@@ -143,22 +140,14 @@ function TourModel({ show, onCancel, record }) {
   };
   const doTourDelete = () => {};
 
-  const doUpdateUser = async (values) => {
-    values = {
-      name: values.name,
-      email: values.email,
-      userId: tour._id,
-    };
-
+  const handleDeleteTourImage = async ({ file, fileList, event }) => {
     dispatch(removeAllAlerts());
-    dispatch(setSpiner(true));
-    // dispatch(updateUser(values));
-  };
-  const handleDeleteTourImage = ({ file, fileList, event }) => {
-    dispatch(removeAllAlerts());
-    const newImages = [];
-    fileList.forEach((item) => newImages.push(item.name));
-    dispatch(updateTour({ data: { images: newImages }, tourId: file.tourId }));
+    await AxiosInstance.delete(
+      `${endpoints.TOURS}/${tour.id}/${file.name}`
+    ).then((response) => {
+      dispatch(getTour(tour.id));
+      showNotification("success", "Image deleted successfully", "Success");
+    });
     setFileList(fileList);
   };
 
@@ -186,7 +175,7 @@ function TourModel({ show, onCancel, record }) {
                 accept="image/*"
                 fileList={fileList}
                 onPreview={handlePreview}
-                onRemove={handleDeleteTourImage}
+                onChange={handleDeleteTourImage}
                 customRequest={uploadImage}
               >
                 {fileList.length >= 3 ? null : uploadButton}
