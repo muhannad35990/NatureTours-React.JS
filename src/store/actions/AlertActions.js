@@ -1,4 +1,4 @@
-import * as types from './types';
+import * as types from "./types";
 
 export const showAlert = (data) => ({
   type: types.SHOW_ALERT,
@@ -10,5 +10,13 @@ export const removeAllAlerts = () => ({
 });
 export const setSpiner = (data) => ({
   type: types.SET_SPINNER,
+  payload: data,
+});
+export const setProgress = (data) => ({
+  type: types.SET_PROGRESS,
+  payload: data,
+});
+export const reSetProgress = (data) => ({
+  type: types.RESET_PROGRESS,
   payload: data,
 });

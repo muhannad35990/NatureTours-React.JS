@@ -33,3 +33,7 @@ export const GET_USERS = "GET_USERS";
 export const INSERT_NEW_USER = "INSERT_NEW_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
+
+//progress
+export const SET_PROGRESS = "SET_PROGRESS";
+export const RESET_PROGRESS = "RESET_PROGRESS";

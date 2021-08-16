@@ -1,6 +1,6 @@
-import * as types from '../actions/types';
+import * as types from "../actions/types";
 
-const initialState = { alert: {}, spinner: false };
+const initialState = { alert: {}, spinner: false, progress: null };
 
 const alert = (state = initialState, action) => {
   switch (action.type) {
@@ -11,6 +11,10 @@ const alert = (state = initialState, action) => {
       return { ...state, alert: {} };
     case types.SET_SPINNER:
       return { ...state, spinner: action.payload };
+    case types.SET_PROGRESS:
+      return { ...state, progress: action.payload };
+    case types.RESET_PROGRESS:
+      return { ...state, progress: null };
 
     default:
       return state;

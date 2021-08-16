@@ -13,7 +13,7 @@ import {
 } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+
 import { Form, Formik } from "formik";
 import { useTranslation } from "react-i18next"; // For translation
 import * as Yup from "yup";

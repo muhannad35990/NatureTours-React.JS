@@ -5,11 +5,11 @@ import {
   DeleteUserReview,
   GetUserReviews,
 } from "../../store/actions/ReviewActions";
-import UserModel from "../../components/Models/UserModel/UserModel";
+
 import ToursColumns from "./ToursColumns";
 import { getAllTours } from "../../store/actions/TourActions";
-import PopupModel from "../../components/Models/PopupModel/PopupModel";
-import ToursForm from "../../components/ToursForm/ToursForm";
+
+import TourModel from "../../components/Models/TourModel";
 
 function Tours() {
   const dispatch = useDispatch();
@@ -22,7 +22,6 @@ function Tours() {
 
   useEffect(() => {
     dispatch(getAllTours());
-    console.log(tours);
   }, []);
 
   const doTheDelete = () => {
@@ -40,13 +39,11 @@ function Tours() {
   );
   return (
     <div>
-      <PopupModel>
-        <ToursForm />
-      </PopupModel>
       {tours && (
         <Table key={index} columns={columns} dataSource={tours} rowKey="_id" />
       )}
-      <UserModel
+
+      <TourModel
         show={showTour}
         onCancel={() => setshowTour(false)}
         record={currentRecord}

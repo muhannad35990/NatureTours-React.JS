@@ -28,9 +28,10 @@ export function* insertNewTourSaga(action) {
 }
 export function* updateTourSaga(action) {
   const data = action.payload.data;
+  console.log(action.payload);
   const response = yield AxiosInstance.patch(
     `${endpoints.TOURS}/${action.payload.tourId}`,
-    data
+    { data }
   );
   yield put(TourActions.getAllTours());
 }
