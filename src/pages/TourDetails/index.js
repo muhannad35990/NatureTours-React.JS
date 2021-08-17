@@ -24,13 +24,11 @@ function TourDetails() {
   const tour = useSelector((state) => state.tours.tour);
   const auth = useSelector((state) => state.auth);
   const tourReviews = useSelector((state) => state.tours.reviews);
-
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
   const backenduserImg = `${endpoints.BACKEND_URL}/img/users/`;
   const routeParams = useParams();
 
   useEffect(() => {
-    console.log(routeParams.id);
     dispatch(getTour(routeParams.id));
     dispatch(getTourReviews(routeParams.id));
   }, [routeParams]);

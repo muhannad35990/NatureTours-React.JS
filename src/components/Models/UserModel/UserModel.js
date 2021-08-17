@@ -26,11 +26,11 @@ import {
 function UserModel({ show, onCancel, record }) {
   const alert = useSelector((state) => state.alert.alert);
   const spinner = useSelector((state) => state.alert.spinner);
-
   const [isDeleteSpinner, setIsDeleteSpinner] = useState(false);
   const [selectval, setSelectval] = useState(record?.role);
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(removeAllAlerts());
     setSelectval(record?.role);

@@ -1,0 +1,37 @@
+.changeCoverImageBtn {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  z-index: 10000 !important;
+  color: red;
+  top: 6rem;
+  right: 4rem;
+}
+.previewImageBtn {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  z-index: 10000 !important;
+  color: red;
+  top: 12rem;
+  right: 4rem;
+}
+.circleButton {
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  background-image: linear-gradient(
+    to right bottom,
+    $color-primary-light,
+    $color-primary-dark
+  ) !important;
+  border: 1px solid $color-primary !important;
+  color: $color-white !important;
+}
+.btnIcon {
+  font-size: 2rem !important;
+}
+.ant-upload-list-picture-card-container {
+  width: 20rem !important;
+  height: 20rem !important;
+}
