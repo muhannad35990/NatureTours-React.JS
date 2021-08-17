@@ -44,6 +44,7 @@ import AxiosInstance from "../../../util/intercepter";
 import showNotification from "../../alert/Alert";
 import Avatar from "antd/lib/avatar/avatar";
 import {
+  getAllTours,
   getTour,
   setTour,
   updateTour,
@@ -163,7 +164,10 @@ function TourModel({ show, onCancel, record }) {
       previewTitle: "Tour Cover image",
     });
   };
-  const handleCancelPreview = () => SetImagePreview({ previewVisible: false });
+  const handleCancelPreview = () => {
+    dispatch(getAllTours());
+    SetImagePreview({ previewVisible: false });
+  };
 
   const tourModelSchema = Yup.object().shape({
     name: Yup.string()
@@ -214,6 +218,8 @@ function TourModel({ show, onCancel, record }) {
             backgroundImage: `linear-gradient(to right bottom,
             hsla(111, 55%, 64%, 0.8),
             hsla(160, 64%, 43%, 0.8)), url('${tourImgBackend}/${tour.imageCover}')`,
+            backgroundSize: "cover",
+            backgroundBlendMode: "screen",
           }}
         >
           <div className="header__content">
