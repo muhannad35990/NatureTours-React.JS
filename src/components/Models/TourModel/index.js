@@ -14,6 +14,7 @@ import Modal from "antd/lib/modal/Modal";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Draggable from "react-draggable";
 import {
   removeAllAlerts,
   reSetProgress,
@@ -49,6 +50,7 @@ import {
   setTour,
   updateTour,
 } from "../../../store/actions/TourActions";
+import DraggableModel from "../DraggableModel";
 
 function TourModel({ show, onCancel, record }) {
   const tour = useSelector((state) => state.tours.tour);
@@ -58,6 +60,7 @@ function TourModel({ show, onCancel, record }) {
   const [isDeleteSpinner, setIsDeleteSpinner] = useState(false);
   const [newCoverImage, setNewCoverImage] = useState(null);
   const auth = useSelector((state) => state.auth);
+
   const [fileList, setFileList] = useState([]);
   const [imagePreview, SetImagePreview] = useState({});
   const { t } = useTranslation("words");
@@ -203,17 +206,16 @@ function TourModel({ show, onCancel, record }) {
   );
   return (
     tour !== null && (
-      <Modal
+      <DraggableModel
+        name={tour.name}
         visible={show}
-        footer={null}
         onCancel={onCancel}
-        destroyOnClose={true}
         width={1000}
       >
         <div
           className="header"
           style={{
-            marginTop: "2rem",
+            marginTop: "-2.5rem",
             height: "30rem",
             backgroundImage: `linear-gradient(to right bottom,
             hsla(111, 55%, 64%, 0.8),
@@ -312,25 +314,133 @@ function TourModel({ show, onCancel, record }) {
                     )}
                   </Col>
                 </Row>
-
-                <div className="form__group">
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    placeholder="name"
-                    value={values.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    className="form__input"
-                  />
-                  <label htmlFor="name" className="form__label">
-                    name
-                  </label>
-                  {errors.name && touched.name && (
-                    <span className="form__error">{errors.name}</span>
-                  )}
-                </div>
+                <Row gutter={[32, 24]}>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        placeholder="name"
+                        value={values.name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label htmlFor="name" className="form__label">
+                        name
+                      </label>
+                      {errors.name && touched.name && (
+                        <span className="form__error">{errors.name}</span>
+                      )}
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="duration"
+                        id="duration"
+                        placeholder="duration"
+                        value={values.duration}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label htmlFor="duration" className="form__label">
+                        duration
+                      </label>
+                      {errors.duration && touched.duration && (
+                        <span className="form__error">{errors.duration}</span>
+                      )}
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="difficulty"
+                        id="difficulty"
+                        placeholder="difficulty"
+                        value={values.difficulty}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label htmlFor="difficulty" className="form__label">
+                        difficulty
+                      </label>
+                      {errors.difficulty && touched.difficulty && (
+                        <span className="form__error">{errors.difficulty}</span>
+                      )}
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="maxGroupSize"
+                        id="maxGroupSize"
+                        placeholder="maxGroupSize"
+                        value={values.maxGroupSize}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label htmlFor="maxGroupSize" className="form__label">
+                        max Group Size
+                      </label>
+                      {errors.maxGroupSize && touched.maxGroupSize && (
+                        <span className="form__error">
+                          {errors.maxGroupSize}
+                        </span>
+                      )}
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="price"
+                        id="price"
+                        placeholder="price"
+                        value={values.price}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label htmlFor="price" className="form__label">
+                        max Group Size
+                      </label>
+                      {errors.price && touched.price && (
+                        <span className="form__error">{errors.price}</span>
+                      )}
+                    </div>
+                  </Col>
+                  <Col span={24}>
+                    <div className="form__group">
+                      <textarea
+                        type="text"
+                        name="description"
+                        id="description"
+                        rows="5"
+                        placeholder="Tour description"
+                        value={values.description}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label htmlFor="email" className="form__label">
+                        description
+                      </label>
+                      {errors.description && touched.description && (
+                        <span className="form__error">
+                          {errors.description}
+                        </span>
+                      )}
+                    </div>
+                  </Col>
+                </Row>
 
                 <Row>
                   <Col span={12}>
@@ -391,7 +501,7 @@ function TourModel({ show, onCancel, record }) {
             );
           }}
         </Formik>
-      </Modal>
+      </DraggableModel>
     )
   );
 }
