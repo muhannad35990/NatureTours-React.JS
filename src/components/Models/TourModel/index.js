@@ -1,6 +1,7 @@
 import {
   Button,
   Col,
+  Divider,
   Image,
   Popconfirm,
   Progress,
@@ -9,12 +10,14 @@ import {
   Select,
   Space,
   Upload,
+  Collapse,
 } from "antd";
+
 import Modal from "antd/lib/modal/Modal";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Draggable from "react-draggable";
+
 import {
   removeAllAlerts,
   reSetProgress,
@@ -26,6 +29,7 @@ import * as Yup from "yup";
 import { useTranslation } from "react-i18next"; // For translation
 import {
   DeleteOutlined,
+  DragOutlined,
   EditOutlined,
   EyeOutlined,
   LoadingOutlined,
@@ -34,15 +38,11 @@ import {
   UploadOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import {
-  deleteUser,
-  GetAllUsers,
-  updateUser,
-} from "../../../store/actions/userActions";
 import * as endpoints from "../../../configs/endpointConfig";
 import AxiosInstance from "../../../util/intercepter";
-import showNotification from "../../alert/Alert";
+
 import Avatar from "antd/lib/avatar/avatar";
 import {
   getAllTours,
@@ -50,7 +50,8 @@ import {
   setTour,
   updateTour,
 } from "../../../store/actions/TourActions";
-import DraggableModel from "../DraggableModel";
+
+import MapBox from "../../mapBox/MapBox";
 
 function TourModel({ show, onCancel, record }) {
   const tour = useSelector((state) => state.tours.tour);
@@ -66,9 +67,57 @@ function TourModel({ show, onCancel, record }) {
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
   const tourImgBackend = `${endpoints.BACKEND_URL}/img/tours`;
+  const gutter = [32, 24];
+  const { Panel } = Collapse;
+  const [locationItems, setLocationItems] = useState([]);
+
+  const tourModelSchema = Yup.object().shape({
+    name: Yup.string()
+      .required(t("Firstname_is_required"))
+      .min(2, t("too_short")),
+    duration: Yup.number()
+      .integer()
+      .positive()
+      .required("duration is required!"),
+    price: Yup.number().integer().positive().required("price is required!"),
+    maxGroupSize: Yup.number()
+      .integer()
+      .positive()
+      .required("max Group Size is required!"),
+    difficulty: Yup.string()
+      .required("difficulty is required!")
+      .oneOf(
+        ["easy", "medium", "difficult"],
+        "difficulty should be easy or medium or difficult"
+      ),
+    description: Yup.string(),
+    startLocation_address: Yup.string().required(
+      "Start location address is required!"
+    ),
+    startLocation_decription: Yup.string().required(
+      "Start location decription is required!"
+    ),
+    startLocation_X: Yup.string(),
+    startLocation_Y: Yup.string(),
+    locations: Yup.array(),
+  });
+  const initialTourModelValues = {
+    name: tour?.name,
+    duration: tour?.duration,
+    price: tour?.price,
+    maxGroupSize: tour?.maxGroupSize,
+    difficulty: tour?.difficulty,
+    description: tour?.description,
+    startLocation_address: tour?.startLocation.address,
+    startLocation_decription: tour?.startLocation.description,
+    startLocation_X: tour?.startLocation.coordinates[0],
+    startLocation_Y: tour?.startLocation.coordinates[1],
+    locations: tour?.locations,
+  };
 
   useEffect(() => {
     dispatch(setTour(record));
+    setLocationItems(record?.locations);
   }, [record]);
 
   useEffect(() => {
@@ -89,6 +138,48 @@ function TourModel({ show, onCancel, record }) {
     }
   }, [tour?.images]);
 
+  const grid = 8;
+  const getItemStyle = (isDragging, draggableStyle) => ({
+    // some basic styles to make the items look a bit nicer
+    userSelect: "none",
+    padding: grid,
+    margin: `0 0 ${grid}px 0`,
+
+    // change background colour if dragging
+    background: isDragging ? "lightgreen" : "white",
+
+    // styles we need to apply on draggables
+    ...draggableStyle,
+  });
+
+  const getListStyle = (isDraggingOver) => ({
+    background: isDraggingOver ? "lightblue" : "white",
+    padding: grid,
+    width: "100%",
+    border: "1px solid #ddd",
+  });
+  const genExtra = () => (
+    <DeleteOutlined
+      style={{ fontSize: "1.6rem" }}
+      onClick={(event) => {
+        // If you don't want click extra trigger collapse, you can prevent this:
+        event.stopPropagation();
+      }}
+    />
+  );
+  const reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
+    setLocationItems(result);
+    return result;
+  };
+  const onDragEnd = (result) => {
+    if (!result.destination) {
+      return;
+    }
+    reorder(locationItems, result.source.index, result.destination.index);
+  };
   const doUpdateTour = async (values) => {
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
@@ -172,19 +263,6 @@ function TourModel({ show, onCancel, record }) {
     SetImagePreview({ previewVisible: false });
   };
 
-  const tourModelSchema = Yup.object().shape({
-    name: Yup.string()
-      .required(t("Firstname_is_required"))
-      .min(2, t("too_short")),
-
-    email: Yup.string()
-      .email(t("email_not_valid"))
-      .required(t("Email_is_required")),
-  });
-  const initialTourModelValues = {
-    name: tour?.name,
-    email: tour?.email,
-  };
   const doTourDelete = () => {};
 
   const handleDeleteTourImage = async (file) => {
@@ -206,11 +284,13 @@ function TourModel({ show, onCancel, record }) {
   );
   return (
     tour !== null && (
-      <DraggableModel
-        name={tour.name}
+      <Modal
+        title={tour.name}
         visible={show}
         onCancel={onCancel}
         width={1000}
+        footer={null}
+        destroyOnClose={true}
       >
         <div
           className="header"
@@ -314,7 +394,8 @@ function TourModel({ show, onCancel, record }) {
                     )}
                   </Col>
                 </Row>
-                <Row gutter={[32, 24]}>
+                <Divider>Trip information</Divider>
+                <Row gutter={gutter}>
                   <Col span={12}>
                     <div className="form__group">
                       <input
@@ -410,7 +491,7 @@ function TourModel({ show, onCancel, record }) {
                         className="form__input"
                       />
                       <label htmlFor="price" className="form__label">
-                        max Group Size
+                        price ($)
                       </label>
                       {errors.price && touched.price && (
                         <span className="form__error">{errors.price}</span>
@@ -441,7 +522,254 @@ function TourModel({ show, onCancel, record }) {
                     </div>
                   </Col>
                 </Row>
-
+                <Divider>Start Location</Divider>
+                <Row gutter={gutter}>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="startLocation_address"
+                        id="startLocation_address"
+                        placeholder="address"
+                        value={values.startLocation_address}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label
+                        htmlFor="startLocation_address"
+                        className="form__label"
+                      >
+                        Address
+                      </label>
+                      {errors.startLocation_address &&
+                        touched.startLocation_address && (
+                          <span className="form__error">
+                            {errors.startLocation_address}
+                          </span>
+                        )}
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="startLocation_decription"
+                        id="startLocation_decription"
+                        placeholder="decription"
+                        value={values.startLocation_decription}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label
+                        htmlFor="startLocation_decription"
+                        className="form__label"
+                      >
+                        Decription
+                      </label>
+                      {errors.startLocation_decription &&
+                        touched.startLocation_decription && (
+                          <span className="form__error">
+                            {errors.startLocation_decription}
+                          </span>
+                        )}
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="startLocation_X"
+                        id="startLocation_X"
+                        placeholder="lng"
+                        value={values.startLocation_X}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label htmlFor="startLocation_X" className="form__label">
+                        lng
+                      </label>
+                      {errors.startLocation_X && touched.startLocation_X && (
+                        <span className="form__error">
+                          {errors.startLocation_X}
+                        </span>
+                      )}
+                    </div>
+                  </Col>
+                  <Col span={12}>
+                    <div className="form__group">
+                      <input
+                        type="text"
+                        name="startLocation_Y"
+                        id="startLocation_Y"
+                        placeholder="lat"
+                        value={values.startLocation_Y}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        className="form__input"
+                      />
+                      <label htmlFor="startLocation_Y" className="form__label">
+                        lat
+                      </label>
+                      {errors.startLocation_Y && touched.startLocation_Y && (
+                        <span className="form__error">
+                          {errors.startLocation_Y}
+                        </span>
+                      )}
+                    </div>
+                  </Col>
+                </Row>
+                <Divider>Loactions</Divider>
+                <Row gutter={gutter}>
+                  <Col span={24}>
+                    <DragDropContext onDragEnd={onDragEnd}>
+                      <Droppable droppableId="droppable">
+                        {(provided, snapshot) => (
+                          <div
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                            style={getListStyle(snapshot.isDraggingOver)}
+                          >
+                            {locationItems.map((item, index) => (
+                              <Draggable
+                                key={item._id}
+                                draggableId={item._id}
+                                index={index}
+                              >
+                                {(provided, snapshot) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    style={getItemStyle(
+                                      snapshot.isDragging,
+                                      provided.draggableProps.style
+                                    )}
+                                  >
+                                    <Collapse
+                                      defaultActiveKey={["1"]}
+                                      expandIcon={({ isActive }) => (
+                                        <DragOutlined
+                                          rotate={isActive ? 45 : 0}
+                                          style={{ fontSize: "1.7rem" }}
+                                        />
+                                      )}
+                                    >
+                                      <Panel
+                                        header={item.description}
+                                        key={item._id}
+                                        extra={genExtra()}
+                                      >
+                                        <Row gutter={gutter}>
+                                          <Col span={12}>
+                                            <div className="form__group">
+                                              <input
+                                                type="text"
+                                                name={`locaction description${item._id}`}
+                                                id={`locactions_description${item._id}`}
+                                                placeholder="description"
+                                                value={item.description}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                className="form__input"
+                                              />
+                                              <label
+                                                htmlFor={`locactions_description${item._id}`}
+                                                className="form__label"
+                                              >
+                                                description
+                                              </label>
+                                            </div>
+                                          </Col>
+                                          <Col span={12}>
+                                            <div className="form__group">
+                                              <input
+                                                type="text"
+                                                name={`locaction days${item._id}`}
+                                                id={`locactions_days${item._id}`}
+                                                placeholder="days"
+                                                value={item.day}
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                className="form__input"
+                                              />
+                                              <label
+                                                htmlFor={`locactions_description${item._id}`}
+                                                className="form__label"
+                                              >
+                                                days
+                                              </label>
+                                            </div>
+                                          </Col>
+                                          <Col span={12}>
+                                            <div className="form__group">
+                                              <input
+                                                type="text"
+                                                name={`locactionX${item._id}`}
+                                                id={`locactionsX${item._id}`}
+                                                placeholder="lng"
+                                                value={
+                                                  values.locations[index]
+                                                    .coordinates[0]
+                                                }
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                className="form__input"
+                                              />
+                                              <label
+                                                htmlFor={`locactionsX${item._id}`}
+                                                className="form__label"
+                                              >
+                                                lng
+                                              </label>
+                                            </div>
+                                          </Col>
+                                          <Col span={12}>
+                                            <div className="form__group">
+                                              <input
+                                                type="text"
+                                                name={`locactionY${item._id}`}
+                                                id={`locactionsY${item._id}`}
+                                                placeholder="lat"
+                                                value={
+                                                  values.locations[index]
+                                                    .coordinates[1]
+                                                }
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                className="form__input"
+                                              />
+                                              <label
+                                                htmlFor={`locactionsY${item._id}`}
+                                                className="form__label"
+                                              >
+                                                lat
+                                              </label>
+                                            </div>
+                                          </Col>
+                                        </Row>
+                                      </Panel>
+                                    </Collapse>
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={24}>
+                    <div className="model__container">
+                      <MapBox />
+                    </div>
+                  </Col>
+                </Row>
                 <Row>
                   <Col span={12}>
                     <button
@@ -501,7 +829,7 @@ function TourModel({ show, onCancel, record }) {
             );
           }}
         </Formik>
-      </DraggableModel>
+      </Modal>
     )
   );
 }

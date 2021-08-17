@@ -1,7 +1,14 @@
-.mapboxgl-map {
+.mapContainer .mapboxgl-map {
   height: 70rem;
   position: relative;
   transform: skewY(-7deg);
+  width: 100%;
+}
+.model__container .mapboxgl-map {
+  height: 40rem;
+  position: relative;
+  width: 100%;
+  margin-top: 1rem;
 }
 .sidebar-map {
   background-color: rgba(35, 55, 75, 0.9);
@@ -67,4 +74,7 @@
   position: absolute;
   top: 0;
   right: 0;
+}
+.mapboxgl-ctrl-attrib-inner {
+  display: none;
 }
