@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "!mapbox-gl";
 import { useSelector } from "react-redux";
 import { Dropdown, Menu } from "antd";
+import AddNewCoordinateModel from "../Models/AddNewCoordinateModel";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibXVoYW5uYWQzNTk5MCIsImEiOiJja3J5eGJ5aGsxNHB2Mm9uODUzejEwanAxIn0.rzqtpU0RJv8KrLpRCp-ddw";
@@ -11,7 +12,7 @@ function MapBox({ isRightClickEnabled }) {
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(4);
-
+  const [showAddModel, setShowAddModel] = useState(false);
   const tour = useSelector((state) => state.tours.tour);
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -33,7 +34,12 @@ function MapBox({ isRightClickEnabled }) {
         bounds.extend(loc.coordinates);
       });
       map.current.fitBounds(bounds, {
-        padding: { top: 200, bottom: 150, left: 100, right: 100 },
+        padding: {
+          top: isRightClickEnabled ? 100 : 200,
+          bottom: isRightClickEnabled ? 100 : 150,
+          left: 100,
+          right: 100,
+        },
       });
     });
   });
@@ -54,7 +60,7 @@ function MapBox({ isRightClickEnabled }) {
     });
   });
   function handleMenuClick(e) {
-    console.log("click", lng, lat);
+    setShowAddModel(true);
   }
   const menu = (
     <Menu onClick={handleMenuClick}>
@@ -62,18 +68,26 @@ function MapBox({ isRightClickEnabled }) {
     </Menu>
   );
   return (
-    <Dropdown
-      overlay={menu}
-      trigger={["contextMenu"]}
-      disabled={!isRightClickEnabled}
-    >
-      <div>
-        {/* <div className="sidebar-map ">
+    <>
+      <Dropdown
+        overlay={menu}
+        trigger={["contextMenu"]}
+        disabled={!isRightClickEnabled}
+      >
+        <div>
+          {/* <div className="sidebar-map ">
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
       </div> */}
-        <div ref={(el) => (mapContainer.current = el)} />
-      </div>
-    </Dropdown>
+          <div ref={(el) => (mapContainer.current = el)} />
+        </div>
+      </Dropdown>
+      <AddNewCoordinateModel
+        visible={showAddModel}
+        onCancel={() => setShowAddModel(false)}
+        lng={lng}
+        lat={lat}
+      />
+    </>
   );
 }
 

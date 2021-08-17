@@ -35,15 +35,13 @@ import {
   LoadingOutlined,
   PlusOutlined,
   SaveOutlined,
-  UploadOutlined,
-  UserOutlined,
 } from "@ant-design/icons";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 import * as endpoints from "../../../configs/endpointConfig";
 import AxiosInstance from "../../../util/intercepter";
 
-import Avatar from "antd/lib/avatar/avatar";
+
 import {
   getAllTours,
   getTour,
@@ -687,9 +685,9 @@ function TourModel({ show, onCancel, record }) {
                                             <div className="form__group">
                                               <input
                                                 type="text"
-                                                name={`locaction days${item._id}`}
-                                                id={`locactions_days${item._id}`}
-                                                placeholder="days"
+                                                name={`locaction day${item._id}`}
+                                                id={`locactions_day${item._id}`}
+                                                placeholder="day"
                                                 value={item.day}
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -699,7 +697,7 @@ function TourModel({ show, onCancel, record }) {
                                                 htmlFor={`locactions_description${item._id}`}
                                                 className="form__label"
                                               >
-                                                days
+                                                day
                                               </label>
                                             </div>
                                           </Col>
