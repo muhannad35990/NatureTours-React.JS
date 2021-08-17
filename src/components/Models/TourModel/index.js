@@ -77,10 +77,10 @@ function TourModel({ show, onCancel, record }) {
             name: img,
           });
         });
-        setFileList(modimages);
       }
+      setFileList(modimages);
     }
-  }, [tour]);
+  }, [tour?.images]);
 
   const doUpdateTour = async (values) => {
     dispatch(removeAllAlerts());
@@ -110,10 +110,8 @@ function TourModel({ show, onCancel, record }) {
       fmData,
       config
     ).then((response) => {
-      console.log(response);
       onSuccess("Ok");
       dispatch(getTour(tour.id));
-      showNotification("success", "Image updated successfully", "Success");
     });
   };
   const handlePreview = (image) => {
@@ -141,17 +139,17 @@ function TourModel({ show, onCancel, record }) {
   };
   const doTourDelete = () => {};
 
-  const handleDeleteTourImage = async ({ file, fileList, event }) => {
+  const handleDeleteTourImage = async (file) => {
     dispatch(removeAllAlerts());
     await AxiosInstance.delete(
       `${endpoints.TOURS}/${tour.id}/${file.name}`
     ).then((response) => {
       dispatch(getTour(tour.id));
-      showNotification("success", "Image deleted successfully", "Success");
     });
+  };
+  const handleChange = () => {
     setFileList(fileList);
   };
-
   const uploadButton = (
     <div>
       <PlusOutlined />
@@ -187,7 +185,8 @@ function TourModel({ show, onCancel, record }) {
                 accept="image/*"
                 fileList={fileList}
                 onPreview={handlePreview}
-                onChange={handleDeleteTourImage}
+                onChange={handleChange}
+                onRemove={handleDeleteTourImage}
                 customRequest={uploadImage}
               >
                 {fileList.length >= 3 ? null : uploadButton}
