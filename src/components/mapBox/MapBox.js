@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "!mapbox-gl";
 import { useSelector } from "react-redux";
+import { Dropdown, Menu } from "antd";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibXVoYW5uYWQzNTk5MCIsImEiOiJja3J5eGJ5aGsxNHB2Mm9uODUzejEwanAxIn0.rzqtpU0RJv8KrLpRCp-ddw";
-function MapBox() {
+function MapBox({ isRightClickEnabled }) {
   let mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-70.9);
@@ -52,14 +53,27 @@ function MapBox() {
       setLat(e.lngLat.lat.toFixed(4));
     });
   });
-
+  function handleMenuClick(e) {
+    console.log("click", lng, lat);
+  }
+  const menu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="1">Add new Trip</Menu.Item>
+    </Menu>
+  );
   return (
-    <div>
-      {/* <div className="sidebar-map ">
+    <Dropdown
+      overlay={menu}
+      trigger={["contextMenu"]}
+      disabled={!isRightClickEnabled}
+    >
+      <div>
+        {/* <div className="sidebar-map ">
         Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
       </div> */}
-      <div ref={(el) => (mapContainer.current = el)} />
-    </div>
+        <div ref={(el) => (mapContainer.current = el)} />
+      </div>
+    </Dropdown>
   );
 }
 

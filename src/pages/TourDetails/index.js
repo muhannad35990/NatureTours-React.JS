@@ -140,7 +140,7 @@ function TourDetails() {
         ))}
       </section>
       <section className="mapContainer">
-        <MapBox />
+        <MapBox isRightClickEnabled={false} />
       </section>
 
       <section className="reviewContainer">

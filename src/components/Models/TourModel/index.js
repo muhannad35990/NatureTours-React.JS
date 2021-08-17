@@ -766,7 +766,7 @@ function TourModel({ show, onCancel, record }) {
                 <Row>
                   <Col span={24}>
                     <div className="model__container">
-                      <MapBox />
+                      <MapBox isRightClickEnabled={true} />
                     </div>
                   </Col>
                 </Row>
