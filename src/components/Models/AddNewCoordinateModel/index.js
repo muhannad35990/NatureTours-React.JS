@@ -5,10 +5,12 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { LoadingOutlined, SaveOutlined } from "@ant-design/icons";
+import ObjectId from "mongo-objectid";
 import {
   removeAllAlerts,
   setSpiner,
 } from "../../../store/actions/AlertActions";
+import { updateTour } from "../../../store/actions/TourActions";
 
 function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
   const dispatch = useDispatch();
@@ -18,8 +20,8 @@ function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
   const locationModelSchema = Yup.object().shape({
     description: Yup.string().required("decription is required"),
     day: Yup.number("should be number").positive("should be positive"),
-    location_X: Yup.string().required("coordinate is required"),
-    location_Y: Yup.string().required("coordinate is required"),
+    location_X: Yup.number().required("coordinate is required"),
+    location_Y: Yup.number().required("coordinate is required"),
   });
   const initialLocationModelValues = {
     description: "",
@@ -29,8 +31,20 @@ function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
   };
   const doUpdateTourLocations = async (values) => {
     dispatch(removeAllAlerts());
-    dispatch(setSpiner(true));
-    console.log(values);
+    const id = new ObjectId();
+    const newLocation = {
+      type: "Point",
+      coordinates: [
+        Number.parseFloat(values.location_X),
+        Number.parseFloat(values.location_Y),
+      ],
+      _id: id.hex,
+      description: values.description,
+      day: Number.parseInt(values.day),
+    };
+
+    const data = { locations: newLocation };
+    dispatch(updateTour({ tourId: tour.id, data: data }));
   };
 
   return (

@@ -8184,6 +8184,11 @@ moment@^2.24.0, moment@^2.25.3, moment@^2.29.1:
   resolved "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
+mongo-objectid@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/mongo-objectid/-/mongo-objectid-1.2.2.tgz#1905eefca5c068b3bcb06685aed92ab201a243a4"
+  integrity sha512-tgpARlHojuPmCIr+NFke8iShAH342zqpG7H3bUTXImj8z9eOtsGYcgneeFKDLsrlIi/ZJi9r18Wsr1dSwTLlWQ==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/move-concurrently/-/move-concurrently-1.0.1.tgz"
