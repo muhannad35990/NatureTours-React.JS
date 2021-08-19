@@ -25,11 +25,7 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
         // center: [lng, lat],
         // zoom: zoom,
       });
-    }
-  });
-  useEffect(() => {
-    const bounds = new mapboxgl.LngLatBounds();
-    if (locations) {
+      const bounds = new mapboxgl.LngLatBounds();
       markers.forEach((marker) => marker.remove());
       popUps.forEach((popup) => popup.remove());
       setMarkers([]);
@@ -42,11 +38,48 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
         const popup = new mapboxgl.Popup({ offset: 30 })
           .setLngLat(loc.coordinates)
           .setHTML(
-            `<div><p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
+            ` <p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
               loc.description
-            }   </p>${
-              locations.length === 1 ? `<p> ${loc.address}</p>` : ""
-            }</div>`
+            }   </p> 
+            } `
+          )
+          .addTo(map.current);
+
+        setMarkers((val) => [...val, marker]);
+        setPopUps((val) => [...val, popup]);
+        bounds.extend(loc.coordinates);
+      });
+
+      map.current.fitBounds(bounds, {
+        padding: {
+          top: isRightClickEnabled ? 100 : 200,
+          bottom: isRightClickEnabled ? 100 : 150,
+          left: 100,
+          right: 100,
+        },
+      });
+    }
+  });
+  useEffect(() => {
+    const bounds = new mapboxgl.LngLatBounds();
+
+    if (locations.length > 1) {
+      markers.forEach((marker) => marker.remove());
+      popUps.forEach((popup) => popup.remove());
+      setMarkers([]);
+      setPopUps([]);
+
+      locations.forEach((loc) => {
+        const marker = new mapboxgl.Marker()
+          .setLngLat(loc.coordinates)
+          .addTo(map.current);
+        const popup = new mapboxgl.Popup({ offset: 30 })
+          .setLngLat(loc.coordinates)
+          .setHTML(
+            ` <p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
+              loc.description
+            }   </p> 
+            } `
           )
           .addTo(map.current);
 
@@ -66,7 +99,7 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
     }
   }, [locations]);
   useEffect(() => {
-    if (popLocation) {
+    if (popLocation !== null) {
       markers.forEach((marker) => marker.remove());
       popUps.forEach((popup) => popup.remove());
       setMarkers([]);
@@ -100,17 +133,23 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
   function handleMenuClick(e) {
     setShowAddModel(true);
   }
-  const menu = (
+  const menu1 = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="1">Add new Trip</Menu.Item>
+    </Menu>
+  );
+  const menu2 = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="1">Add this Location</Menu.Item>
     </Menu>
   );
   return (
     <>
       <Dropdown
-        overlay={menu}
+        key={`${isRightClickEnabled ? "drop1" : "drop2"}`}
+        overlay={isRightClickEnabled && menu1}
         trigger={["contextMenu"]}
-        disabled={!isRightClickEnabled}
+        disabled={false}
       >
         <div>
           {/* <div className="sidebar-map ">

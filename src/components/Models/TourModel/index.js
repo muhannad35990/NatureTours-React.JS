@@ -101,22 +101,19 @@ function TourModel({ show, onCancel, record }) {
     locations: Yup.array(),
   });
   const initialTourModelValues = {
-    name: tour?.name,
-    duration: tour?.duration,
-    price: tour?.price,
-    maxGroupSize: tour?.maxGroupSize,
-    difficulty: tour?.difficulty,
-    description: tour?.description,
+    name: record?.name,
+    duration: record?.duration,
+    price: record?.price,
+    maxGroupSize: record?.maxGroupSize,
+    difficulty: record?.difficulty,
+    description: record?.description,
     startLocation: {
-      address: tour?.startLocation.address,
-      decription: tour?.startLocation.description,
-      coordinates: [
-        tour?.startLocation.coordinates[0],
-        tour?.startLocation.coordinates[1],
-      ],
+      address: record?.startLocation?.address,
+      decription: record?.startLocation?.description,
+      coordinates: record?.startLocation?.coordinates,
     },
 
-    locations: tour?.locations,
+    locations: record?.locations,
   };
 
   useEffect(() => {
@@ -198,6 +195,14 @@ function TourModel({ show, onCancel, record }) {
       maxGroupSize: parseInt(values.maxGroupSize),
       difficulty: values.difficulty,
       description: values.description,
+      startLocation: {
+        address: values.startLocation.address,
+        decription: values.startLocation.description,
+        coordinates: [
+          parseInt(values.startLocation.coordinates[0]),
+          parseInt(values.startLocation.coordinates[1]),
+        ],
+      },
     };
     console.log(finalValues);
     dispatch(removeAllAlerts());
@@ -371,6 +376,7 @@ function TourModel({ show, onCancel, record }) {
             </div>
           </Space>
           <Modal
+            key="imageModel"
             visible={imagePreview.previewVisible}
             title={imagePreview.previewTitle}
             footer={null}
@@ -387,6 +393,7 @@ function TourModel({ show, onCancel, record }) {
           initialValues={initialTourModelValues}
           validationSchema={tourModelSchema}
           onSubmit={doUpdateTour}
+          key="formik"
         >
           {(props) => {
             const {
@@ -401,7 +408,7 @@ function TourModel({ show, onCancel, record }) {
               handleReset,
             } = props;
             return (
-              <form onSubmit={handleSubmit}>
+              <form id="form" key="form" onSubmit={handleSubmit}>
                 <Row justify="center">
                   <Col span={24}>
                     {alert && alert.message && (
@@ -442,6 +449,7 @@ function TourModel({ show, onCancel, record }) {
                         type="text"
                         name="duration"
                         id="duration"
+                        key="duration"
                         placeholder="duration"
                         value={values.duration}
                         onChange={handleChange}
@@ -462,6 +470,7 @@ function TourModel({ show, onCancel, record }) {
                         type="text"
                         name="difficulty"
                         id="difficulty"
+                        key="difficulty"
                         placeholder="difficulty"
                         value={values.difficulty}
                         onChange={handleChange}
@@ -482,6 +491,7 @@ function TourModel({ show, onCancel, record }) {
                         type="text"
                         name="maxGroupSize"
                         id="maxGroupSize"
+                        key="maxGroupSize"
                         placeholder="maxGroupSize"
                         value={values.maxGroupSize}
                         onChange={handleChange}
@@ -504,6 +514,7 @@ function TourModel({ show, onCancel, record }) {
                         type="text"
                         name="price"
                         id="price"
+                        key="price"
                         placeholder="price"
                         value={values.price}
                         onChange={handleChange}
@@ -524,6 +535,7 @@ function TourModel({ show, onCancel, record }) {
                         type="text"
                         name="description"
                         id="description"
+                        key="description"
                         rows="5"
                         placeholder="Tour description"
                         value={values.description}
@@ -531,7 +543,7 @@ function TourModel({ show, onCancel, record }) {
                         onBlur={handleBlur}
                         className="form__input"
                       />
-                      <label htmlFor="email" className="form__label">
+                      <label htmlFor="description" className="form__label">
                         description
                       </label>
                       {errors.description && touched.description && (
@@ -543,114 +555,131 @@ function TourModel({ show, onCancel, record }) {
                   </Col>
                 </Row>
                 <Divider>Start Location</Divider>
-                <Row gutter={gutter}>
-                  <Col span={12}>
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        name="startLocation_address"
-                        id="startLocation_address"
-                        placeholder="address"
-                        value={values.startLocation.address}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className="form__input"
+                {values.startLocation !== null &&
+                  values.startLocation.coordinates !== [] && (
+                    <Row gutter={gutter}>
+                      <Col span={12}>
+                        <div className="form__group">
+                          <input
+                            type="text"
+                            name="startLocation.address"
+                            id="startLocation.address"
+                            key="startLocation.address"
+                            placeholder="address"
+                            value={values.startLocation.address}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form__input"
+                          />
+                          <label
+                            htmlFor="startLocation.address"
+                            className="form__label"
+                          >
+                            Address
+                          </label>
+                          {errors.startLocation_address &&
+                            touched.startLocation_address && (
+                              <span className="form__error">
+                                {errors.startLocation_address}
+                              </span>
+                            )}
+                        </div>
+                      </Col>
+                      <Col span={12}>
+                        <div className="form__group">
+                          <input
+                            type="text"
+                            name="startLocation.decription"
+                            id="startLocation.decription"
+                            key="startLocation.decription"
+                            placeholder="decription"
+                            value={values.startLocation.decription}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form__input"
+                          />
+                          <label
+                            htmlFor="startLocation.decription"
+                            className="form__label"
+                          >
+                            Decription
+                          </label>
+                          {errors.startLocation_decription &&
+                            touched.startLocation_decription && (
+                              <span className="form__error">
+                                {errors.startLocation_decription}
+                              </span>
+                            )}
+                        </div>
+                      </Col>
+                      <Col span={12}>
+                        <div className="form__group">
+                          <input
+                            type="text"
+                            name={`startLocation.coordinates[${0}]`}
+                            id={`startLocation.coordinates[${0}]`}
+                            key={`startLocation.coordinates[${0}]`}
+                            placeholder="lng"
+                            value={values.startLocation.coordinates[0]}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form__input"
+                          />
+                          <label
+                            htmlFor={`startLocation.coordinates[${0}]`}
+                            className="form__label"
+                          >
+                            lng
+                          </label>
+                          {errors.startLocation?.coordinates[0] &&
+                            touched.startLocation?.coordinates[0] && (
+                              <span className="form__error">
+                                {errors.startLocation?.coordinates[0]}
+                              </span>
+                            )}
+                        </div>
+                      </Col>
+                      <Col span={12}>
+                        <div className="form__group">
+                          <input
+                            type="text"
+                            name={`startLocation.coordinates[${1}]`}
+                            id={`startLocation.coordinates[${1}]`}
+                            key={`startLocation.coordinates[${1}]`}
+                            placeholder="lat"
+                            value={values.startLocation.coordinates[1]}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form__input"
+                          />
+                          <label
+                            htmlFor={`startLocation.coordinates[${1}]`}
+                            className="form__label"
+                          >
+                            lat
+                          </label>
+                          {errors.startLocation?.coordinates[1] &&
+                            touched.startLocation?.coordinates[1] && (
+                              <span className="form__error">
+                                {errors.startLocation?.coordinates[1]}
+                              </span>
+                            )}
+                        </div>
+                      </Col>
+                    </Row>
+                  )}
+                <Row>
+                  <Col span={24}>
+                    <div className="model__container">
+                      <MapBox
+                        key="startMap11111"
+                        isRightClickEnabled={false}
+                        locations={[tour.startLocation]}
+                        popLocation={null}
                       />
-                      <label
-                        htmlFor="startLocation_address"
-                        className="form__label"
-                      >
-                        Address
-                      </label>
-                      {errors.startLocation_address &&
-                        touched.startLocation_address && (
-                          <span className="form__error">
-                            {errors.startLocation_address}
-                          </span>
-                        )}
-                    </div>
-                  </Col>
-                  <Col span={12}>
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        name="startLocation_decription"
-                        id="startLocation_decription"
-                        placeholder="decription"
-                        value={values.startLocation.decription}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className="form__input"
-                      />
-                      <label
-                        htmlFor="startLocation_decription"
-                        className="form__label"
-                      >
-                        Decription
-                      </label>
-                      {errors.startLocation_decription &&
-                        touched.startLocation_decription && (
-                          <span className="form__error">
-                            {errors.startLocation_decription}
-                          </span>
-                        )}
-                    </div>
-                  </Col>
-                  <Col span={12}>
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        name="startLocation_X"
-                        id="startLocation_X"
-                        placeholder="lng"
-                        value={values.startLocation.coordinates[0]}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className="form__input"
-                      />
-                      <label htmlFor="startLocation_X" className="form__label">
-                        lng
-                      </label>
-                      {errors.startLocation_X && touched.startLocation_X && (
-                        <span className="form__error">
-                          {errors.startLocation_X}
-                        </span>
-                      )}
-                    </div>
-                  </Col>
-                  <Col span={12}>
-                    <div className="form__group">
-                      <input
-                        type="text"
-                        name="startLocation_Y"
-                        id="startLocation_Y"
-                        placeholder="lat"
-                        value={values.startLocation.coordinates[1]}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className="form__input"
-                      />
-                      <label htmlFor="startLocation_Y" className="form__label">
-                        lat
-                      </label>
-                      {errors.startLocation_Y && touched.startLocation_Y && (
-                        <span className="form__error">
-                          {errors.startLocation_Y}
-                        </span>
-                      )}
                     </div>
                   </Col>
                 </Row>
-                <div className="model__container">
-                  {tour.startLocation && (
-                    <MapBox
-                      key="startMap11"
-                      isRightClickEnabled={false}
-                      locations={[tour.startLocation]}
-                    />
-                  )}
-                </div>
-
                 <Divider>Loactions</Divider>
                 <Row gutter={gutter}>
                   <Col span={24}>
