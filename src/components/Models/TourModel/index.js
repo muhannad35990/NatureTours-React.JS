@@ -41,7 +41,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import * as endpoints from "../../../configs/endpointConfig";
 import AxiosInstance from "../../../util/intercepter";
 
-
 import {
   getAllTours,
   getTour,
@@ -115,9 +114,10 @@ function TourModel({ show, onCancel, record }) {
 
   useEffect(() => {
     dispatch(setTour(record));
-    setLocationItems(record?.locations);
   }, [record]);
-
+  useEffect(() => {
+    setLocationItems(tour?.locations);
+  }, [tour]);
   useEffect(() => {
     dispatch(removeAllAlerts());
     if (tour) {
@@ -630,7 +630,7 @@ function TourModel({ show, onCancel, record }) {
                             ref={provided.innerRef}
                             style={getListStyle(snapshot.isDraggingOver)}
                           >
-                            {locationItems.map((item, index) => (
+                            {locationItems?.map((item, index) => (
                               <Draggable
                                 key={item._id}
                                 draggableId={item._id}
@@ -710,7 +710,7 @@ function TourModel({ show, onCancel, record }) {
                                                 placeholder="lng"
                                                 value={
                                                   values.locations[index]
-                                                    .coordinates[0]
+                                                    ?.coordinates[0]
                                                 }
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -733,7 +733,7 @@ function TourModel({ show, onCancel, record }) {
                                                 placeholder="lat"
                                                 value={
                                                   values.locations[index]
-                                                    .coordinates[1]
+                                                    ?.coordinates[1]
                                                 }
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
@@ -764,7 +764,10 @@ function TourModel({ show, onCancel, record }) {
                 <Row>
                   <Col span={24}>
                     <div className="model__container">
-                      <MapBox isRightClickEnabled={true} />
+                      <MapBox
+                        isRightClickEnabled={true}
+                        locations={tour.locations}
+                      />
                     </div>
                   </Col>
                 </Row>

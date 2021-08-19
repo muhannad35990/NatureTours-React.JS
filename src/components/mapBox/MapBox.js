@@ -6,7 +6,7 @@ import AddNewCoordinateModel from "../Models/AddNewCoordinateModel";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibXVoYW5uYWQzNTk5MCIsImEiOiJja3J5eGJ5aGsxNHB2Mm9uODUzejEwanAxIn0.rzqtpU0RJv8KrLpRCp-ddw";
-function MapBox({ isRightClickEnabled }) {
+function MapBox({ isRightClickEnabled, locations }) {
   let mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-70.9);
@@ -14,35 +14,47 @@ function MapBox({ isRightClickEnabled }) {
   const [zoom, setZoom] = useState(4);
   const [showAddModel, setShowAddModel] = useState(false);
   const tour = useSelector((state) => state.tours.tour);
+
+  let mapMarkers = [];
+  let popUps = [];
   useEffect(() => {
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      scrollZoom: false,
-      // center: [lng, lat],
-      // zoom: zoom,
-    });
+    if (!map.current) {
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: "mapbox://styles/mapbox/streets-v11",
+        scrollZoom: false,
+        // center: [lng, lat],
+        // zoom: zoom,
+      });
+    }
     const bounds = new mapboxgl.LngLatBounds();
-    map.current.on("load", () => {
-      tour.locations.forEach((loc) => {
-        new mapboxgl.Marker().setLngLat(loc.coordinates).addTo(map.current);
-        new mapboxgl.Popup({ offset: 30 })
-          .setLngLat(loc.coordinates)
-          .setHTML(`<p>Day ${loc.day}:  ${loc.description}</p>`)
-          .addTo(map.current);
-        bounds.extend(loc.coordinates);
-      });
-      map.current.fitBounds(bounds, {
-        padding: {
-          top: isRightClickEnabled ? 100 : 200,
-          bottom: isRightClickEnabled ? 100 : 150,
-          left: 100,
-          right: 100,
-        },
-      });
+    mapMarkers.forEach((marker) => marker.remove());
+    popUps.forEach((popup) => popup.remove());
+    mapMarkers = [];
+    popUps = [];
+
+    tour.locations.forEach((loc) => {
+      const marker = new mapboxgl.Marker()
+        .setLngLat(loc.coordinates)
+        .addTo(map.current);
+      const popup = new mapboxgl.Popup({ offset: 30 })
+        .setLngLat(loc.coordinates)
+        .setHTML(`<p>Day ${loc.day}:  ${loc.description}</p>`)
+        .addTo(map.current);
+      mapMarkers.push(marker);
+      popUps.push(popup);
+
+      bounds.extend(loc.coordinates);
     });
-  });
+    map.current.fitBounds(bounds, {
+      padding: {
+        top: isRightClickEnabled ? 100 : 200,
+        bottom: isRightClickEnabled ? 100 : 150,
+        left: 100,
+        right: 100,
+      },
+    });
+  }, [locations]);
 
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
