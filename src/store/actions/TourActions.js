@@ -25,7 +25,14 @@ export const deleteTour = (data) => ({
   type: types.DELETE_TOUR,
   payload: data,
 });
-
+export const deleteTourLocation = (data) => ({
+  type: types.DELETE_TOUR_LOCATION,
+  payload: data,
+});
+export const insertTourLocation = (data) => ({
+  type: types.INSERT_TOUR_LOCATION,
+  payload: data,
+});
 //REDUX STORE
 export const setToursData = (data) => ({
   type: types.SET_TOURS_DATA,

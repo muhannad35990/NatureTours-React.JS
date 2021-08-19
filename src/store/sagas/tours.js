@@ -29,6 +29,16 @@ export function* insertNewTourSaga(action) {
 export function* updateTourSaga(action) {
   const data = action.payload.data;
   const response = yield AxiosInstance.patch(
+    `${endpoints.TOURS}/${action.payload.tourId}`,
+    data
+  );
+  yield put(TourActions.getTour(action.payload.tourId));
+  showNotification("success", "Updated succssfully!", "Success");
+  yield put(TourActions.getAllTours());
+}
+export function* insertTourLocationSaga(action) {
+  const data = action.payload.data;
+  const response = yield AxiosInstance.post(
     `${endpoints.TOURS}/location/${action.payload.tourId}`,
     data
   );
@@ -36,6 +46,17 @@ export function* updateTourSaga(action) {
   showNotification("success", "Updated succssfully!", "Success");
   yield put(TourActions.getAllTours());
 }
+export function* deleteTourLocationSaga(action) {
+  const data = action.payload.data;
+  const response = yield AxiosInstance.delete(
+    `${endpoints.TOURS}/location/${action.payload.tourId}/${data}`
+  );
+
+  yield put(TourActions.getTour(action.payload.tourId));
+  showNotification("success", "Deleted succssfully!", "Success");
+  yield put(TourActions.getAllTours());
+}
+deleteTourLocationSaga;
 export function* deleteTourSaga(action) {
   const response = yield AxiosInstance.delete(
     `${endpoints.TOURS}/${action.payload.tourId}`

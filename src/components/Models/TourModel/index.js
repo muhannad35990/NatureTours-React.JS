@@ -42,6 +42,8 @@ import * as endpoints from "../../../configs/endpointConfig";
 import AxiosInstance from "../../../util/intercepter";
 
 import {
+  deleteTour,
+  deleteTourLocation,
   getAllTours,
   getTour,
   setTour,
@@ -156,12 +158,12 @@ function TourModel({ show, onCancel, record }) {
     width: "100%",
     border: "1px solid #ddd",
   });
-  const genExtra = () => (
+  const genExtra = (item) => (
     <DeleteOutlined
       style={{ fontSize: "1.6rem" }}
       onClick={(event) => {
-        // If you don't want click extra trigger collapse, you can prevent this:
         event.stopPropagation();
+        dispatch(deleteTourLocation({ tourId: tour.id, data: item._id }));
       }}
     />
   );
@@ -661,7 +663,7 @@ function TourModel({ show, onCancel, record }) {
                                       <Panel
                                         header={item.description}
                                         key={item._id}
-                                        extra={genExtra()}
+                                        extra={genExtra(item)}
                                       >
                                         <Row gutter={gutter}>
                                           <Col span={12}>
@@ -767,11 +769,13 @@ function TourModel({ show, onCancel, record }) {
                 <Row>
                   <Col span={24}>
                     <div className="model__container">
-                      <MapBox
-                        isRightClickEnabled={true}
-                        locations={tour.locations}
-                        popLocation={currentSelectedLocation}
-                      />
+                      {locationItems && (
+                        <MapBox
+                          isRightClickEnabled={true}
+                          locations={locationItems}
+                          popLocation={currentSelectedLocation}
+                        />
+                      )}
                     </div>
                   </Col>
                 </Row>

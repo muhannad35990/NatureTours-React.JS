@@ -10,7 +10,11 @@ import {
   removeAllAlerts,
   setSpiner,
 } from "../../../store/actions/AlertActions";
-import { updateTour } from "../../../store/actions/TourActions";
+import {
+  insertTourLocation,
+  updateTour,
+} from "../../../store/actions/TourActions";
+import { insertTourLocationSaga } from "../../../store/sagas/tours";
 
 function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
   const dispatch = useDispatch();
@@ -44,7 +48,7 @@ function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
     };
 
     const data = { locations: newLocation };
-    dispatch(updateTour({ tourId: tour.id, data: data }));
+    dispatch(insertTourLocation({ tourId: tour.id, data: data }));
   };
 
   return (

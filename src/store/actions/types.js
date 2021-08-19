@@ -19,6 +19,8 @@ export const SET_TOUR = "SET_TOUR";
 export const DELETE_TOUR = "DELETE_TOUR";
 export const UPDATE_TOUR = "UPDATE_TOUR";
 export const INSERT_NEW_TOUR = "INSERT_NEW_TOUR";
+export const INSERT_TOUR_LOCATION = "INSERT_TOUR_LOCATION";
+export const DELETE_TOUR_LOCATION = "DELETE_TOUR_LOCATION";
 //reviews
 export const SET_TOUR_REVIEWS = "SET_TOUR_REVIEWS";
 export const GET_TOUR_REVIEWS = "GET_TOUR_REVIEWS";
