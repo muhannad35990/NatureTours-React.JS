@@ -90,14 +90,14 @@ function TourModel({ show, onCancel, record }) {
         "difficulty should be easy or medium or difficult"
       ),
     description: Yup.string(),
-    startLocation_address: Yup.string().required(
-      "Start location address is required!"
-    ),
-    startLocation_decription: Yup.string().required(
-      "Start location decription is required!"
-    ),
-    startLocation_X: Yup.string(),
-    startLocation_Y: Yup.string(),
+    startLocation: {
+      address: Yup.string().required("Start location address is required!"),
+      decription: Yup.string().required(
+        "Start location decription is required!"
+      ),
+      coordinates: Yup.array(),
+    },
+
     locations: Yup.array(),
   });
   const initialTourModelValues = {
@@ -107,10 +107,15 @@ function TourModel({ show, onCancel, record }) {
     maxGroupSize: tour?.maxGroupSize,
     difficulty: tour?.difficulty,
     description: tour?.description,
-    startLocation_address: tour?.startLocation.address,
-    startLocation_decription: tour?.startLocation.description,
-    startLocation_X: tour?.startLocation.coordinates[0],
-    startLocation_Y: tour?.startLocation.coordinates[1],
+    startLocation: {
+      address: tour?.startLocation.address,
+      decription: tour?.startLocation.description,
+      coordinates: [
+        tour?.startLocation.coordinates[0],
+        tour?.startLocation.coordinates[1],
+      ],
+    },
+
     locations: tour?.locations,
   };
 
@@ -531,7 +536,7 @@ function TourModel({ show, onCancel, record }) {
                         name="startLocation_address"
                         id="startLocation_address"
                         placeholder="address"
-                        value={values.startLocation_address}
+                        value={values.startLocation.address}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="form__input"
@@ -557,7 +562,7 @@ function TourModel({ show, onCancel, record }) {
                         name="startLocation_decription"
                         id="startLocation_decription"
                         placeholder="decription"
-                        value={values.startLocation_decription}
+                        value={values.startLocation.decription}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="form__input"
@@ -583,7 +588,7 @@ function TourModel({ show, onCancel, record }) {
                         name="startLocation_X"
                         id="startLocation_X"
                         placeholder="lng"
-                        value={values.startLocation_X}
+                        value={values.startLocation.coordinates[0]}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="form__input"
@@ -605,7 +610,7 @@ function TourModel({ show, onCancel, record }) {
                         name="startLocation_Y"
                         id="startLocation_Y"
                         placeholder="lat"
-                        value={values.startLocation_Y}
+                        value={values.startLocation.coordinates[1]}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className="form__input"
@@ -621,6 +626,16 @@ function TourModel({ show, onCancel, record }) {
                     </div>
                   </Col>
                 </Row>
+                <div className="model__container">
+                  {tour.startLocation && (
+                    <MapBox
+                      isRightClickEnabled={false}
+                      locations={[tour.startLocation]}
+                      fit={false}
+                    />
+                  )}
+                </div>
+
                 <Divider>Loactions</Divider>
                 <Row gutter={gutter}>
                   <Col span={24}>
@@ -774,6 +789,7 @@ function TourModel({ show, onCancel, record }) {
                           isRightClickEnabled={true}
                           locations={locationItems}
                           popLocation={currentSelectedLocation}
+                          fit={true}
                         />
                       )}
                     </div>

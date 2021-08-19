@@ -13,7 +13,6 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(4);
   const [showAddModel, setShowAddModel] = useState(false);
-  const tour = useSelector((state) => state.tours.tour);
   const [markers, setMarkers] = useState([]);
   const [popUps, setPopUps] = useState([]);
 
@@ -22,7 +21,7 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v11",
-        scrollZoom: false,
+        scrollZoom: locations.length > 1 ? false : true,
         // center: [lng, lat],
         // zoom: zoom,
       });
@@ -30,34 +29,42 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
   });
   useEffect(() => {
     const bounds = new mapboxgl.LngLatBounds();
+    console.log("locations:", locations);
+    if (locations) {
+      markers.forEach((marker) => marker.remove());
+      popUps.forEach((popup) => popup.remove());
+      setMarkers([]);
+      setPopUps([]);
 
-    markers.forEach((marker) => marker.remove());
-    popUps.forEach((popup) => popup.remove());
-    setMarkers([]);
-    setPopUps([]);
+      locations.forEach((loc) => {
+        const marker = new mapboxgl.Marker()
+          .setLngLat(loc.coordinates)
+          .addTo(map.current);
+        const popup = new mapboxgl.Popup({ offset: 30 })
+          .setLngLat(loc.coordinates)
+          .setHTML(
+            `<div><p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
+              loc.description
+            }   </p>${
+              locations.length === 1 ? `<p> ${loc.address}</p>` : ""
+            }</div>`
+          )
+          .addTo(map.current);
 
-    tour.locations.forEach((loc) => {
-      const marker = new mapboxgl.Marker()
-        .setLngLat(loc.coordinates)
-        .addTo(map.current);
-      const popup = new mapboxgl.Popup({ offset: 30 })
-        .setLngLat(loc.coordinates)
-        .setHTML(`<p>Day ${loc.day}:  ${loc.description}</p>`)
-        .addTo(map.current);
+        setMarkers((val) => [...val, marker]);
+        setPopUps((val) => [...val, popup]);
+        bounds.extend(loc.coordinates);
+      });
 
-      setMarkers((val) => [...val, marker]);
-      setPopUps((val) => [...val, popup]);
-      bounds.extend(loc.coordinates);
-    });
-
-    map.current.fitBounds(bounds, {
-      padding: {
-        top: isRightClickEnabled ? 100 : 200,
-        bottom: isRightClickEnabled ? 100 : 150,
-        left: 100,
-        right: 100,
-      },
-    });
+      map.current.fitBounds(bounds, {
+        padding: {
+          top: isRightClickEnabled ? 100 : 200,
+          bottom: isRightClickEnabled ? 100 : 150,
+          left: 100,
+          right: 100,
+        },
+      });
+    }
   }, [locations]);
   useEffect(() => {
     if (popLocation) {
