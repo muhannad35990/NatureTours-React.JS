@@ -6,7 +6,7 @@ import AddNewCoordinateModel from "../Models/AddNewCoordinateModel";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibXVoYW5uYWQzNTk5MCIsImEiOiJja3J5eGJ5aGsxNHB2Mm9uODUzejEwanAxIn0.rzqtpU0RJv8KrLpRCp-ddw";
-function MapBox({ isRightClickEnabled, locations }) {
+function MapBox({ isRightClickEnabled, locations, popLocation }) {
   let mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-70.9);
@@ -55,7 +55,23 @@ function MapBox({ isRightClickEnabled, locations }) {
       },
     });
   }, [locations]);
-
+  useEffect(() => {
+    if (popLocation) {
+      mapMarkers.forEach((marker) => marker.remove());
+      popUps.forEach((popup) => popup.remove());
+      mapMarkers = [];
+      popUps = [];
+      const marker = new mapboxgl.Marker()
+        .setLngLat(popLocation.coordinates)
+        .addTo(map.current);
+      const popup = new mapboxgl.Popup({ offset: 30 })
+        .setLngLat(popLocation.coordinates)
+        .setHTML(`<p>Day ${popLocation.day}:  ${popLocation.description}</p>`)
+        .addTo(map.current);
+      mapMarkers.push(marker);
+      popUps.push(popup);
+    }
+  }, [popLocation]);
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     map.current.on("move", () => {

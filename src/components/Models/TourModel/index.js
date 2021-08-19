@@ -67,7 +67,7 @@ function TourModel({ show, onCancel, record }) {
   const gutter = [32, 24];
   const { Panel } = Collapse;
   const [locationItems, setLocationItems] = useState([]);
-
+  const [currentSelectedLocation, setCurrentSelectedLocation] = useState(null);
   const tourModelSchema = Yup.object().shape({
     name: Yup.string()
       .required(t("Firstname_is_required"))
@@ -654,6 +654,9 @@ function TourModel({ show, onCancel, record }) {
                                           style={{ fontSize: "1.7rem" }}
                                         />
                                       )}
+                                      onChange={() =>
+                                        setCurrentSelectedLocation(item)
+                                      }
                                     >
                                       <Panel
                                         header={item.description}
@@ -767,6 +770,7 @@ function TourModel({ show, onCancel, record }) {
                       <MapBox
                         isRightClickEnabled={true}
                         locations={tour.locations}
+                        popLocation={currentSelectedLocation}
                       />
                     </div>
                   </Col>
