@@ -21,7 +21,7 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v11",
-        scrollZoom: locations.length > 1 ? false : true,
+        scrollZoom: false,
         // center: [lng, lat],
         // zoom: zoom,
       });
@@ -29,7 +29,6 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
   });
   useEffect(() => {
     const bounds = new mapboxgl.LngLatBounds();
-    console.log("locations:", locations);
     if (locations) {
       markers.forEach((marker) => marker.remove());
       popUps.forEach((popup) => popup.remove());

@@ -90,13 +90,13 @@ function TourModel({ show, onCancel, record }) {
         "difficulty should be easy or medium or difficult"
       ),
     description: Yup.string(),
-    startLocation: {
+    startLocation: Yup.object().shape({
       address: Yup.string().required("Start location address is required!"),
       decription: Yup.string().required(
         "Start location decription is required!"
       ),
       coordinates: Yup.array(),
-    },
+    }),
 
     locations: Yup.array(),
   });
@@ -186,8 +186,23 @@ function TourModel({ show, onCancel, record }) {
     reorder(locationItems, result.source.index, result.destination.index);
   };
   const doUpdateTour = async (values) => {
+    // const asArray = Object.entries(values);
+
+    // const filtered = asArray.filter(([key, value]) => key !== "locations");
+    // // Convert the key/value array back to an object:
+    // const finalValues = Object.fromEntries(filtered);
+    const finalValues = {
+      name: values.name,
+      duration: parseInt(values.duration),
+      price: parseInt(values.price),
+      maxGroupSize: parseInt(values.maxGroupSize),
+      difficulty: values.difficulty,
+      description: values.description,
+    };
+    console.log(finalValues);
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
+    dispatch(updateTour({ tourId: tour.id, data: finalValues }));
   };
   const uploadImage = async (options) => {
     const { onSuccess, onError, file, onProgress } = options;
@@ -629,9 +644,9 @@ function TourModel({ show, onCancel, record }) {
                 <div className="model__container">
                   {tour.startLocation && (
                     <MapBox
+                      key="startMap11"
                       isRightClickEnabled={false}
                       locations={[tour.startLocation]}
-                      fit={false}
                     />
                   )}
                 </div>
@@ -786,38 +801,17 @@ function TourModel({ show, onCancel, record }) {
                     <div className="model__container">
                       {locationItems && (
                         <MapBox
+                          key="locationsMap11"
                           isRightClickEnabled={true}
                           locations={locationItems}
                           popLocation={currentSelectedLocation}
-                          fit={true}
                         />
                       )}
                     </div>
                   </Col>
                 </Row>
-                <Row>
-                  <Col span={12}>
-                    <button
-                      type="submit"
-                      className="btn btn--green"
-                      style={{ marginTop: "3rem" }}
-                    >
-                      {spinner && !isDeleteSpinner ? (
-                        <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
-                      ) : (
-                        <div>
-                          <SaveOutlined
-                            style={{
-                              fontSize: "1.6rem",
-                              marginRight: "1rem",
-                            }}
-                          />
-                          <span>SAVE</span>
-                        </div>
-                      )}
-                    </button>
-                  </Col>
-                  <Col span={12}>
+                <Row justify="end" gutter={gutter}>
+                  <Col span={6}>
                     <Popconfirm
                       title="Are you sure to delete this review?"
                       onConfirm={doTourDelete}
@@ -848,6 +842,28 @@ function TourModel({ show, onCancel, record }) {
                         )}
                       </button>
                     </Popconfirm>
+                  </Col>
+
+                  <Col span={6}>
+                    <button
+                      type="submit"
+                      className="btn btn--green"
+                      style={{ marginTop: "3rem" }}
+                    >
+                      {spinner && !isDeleteSpinner ? (
+                        <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
+                      ) : (
+                        <div>
+                          <SaveOutlined
+                            style={{
+                              fontSize: "1.6rem",
+                              marginRight: "1rem",
+                            }}
+                          />
+                          <span>SAVE</span>
+                        </div>
+                      )}
+                    </button>
                   </Col>
                 </Row>
               </form>
