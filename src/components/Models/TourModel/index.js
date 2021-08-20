@@ -53,6 +53,7 @@ import {
 } from "../../../store/actions/TourActions";
 
 import MapBox from "../../mapBox/MapBox";
+import showNotification from "../../alert/Alert";
 
 function TourModel({ show, onCancel, record }) {
   const alert = useSelector((state) => state.alert.alert);
@@ -62,6 +63,7 @@ function TourModel({ show, onCancel, record }) {
   const [newCoverImage, setNewCoverImage] = useState(null);
   const auth = useSelector((state) => state.auth);
 
+  const tour = useSelector((state) => state.tours.tour);
   const [fileList, setFileList] = useState([]);
   const [imagePreview, SetImagePreview] = useState({});
   const { t } = useTranslation("words");
@@ -74,7 +76,7 @@ function TourModel({ show, onCancel, record }) {
   const tourModelSchema = Yup.object().shape({
     name: Yup.string()
       .required(t("Firstname_is_required"))
-      .min(2, t("too_short")),
+      .min(10, t("too_short")),
     duration: Yup.number()
       .integer()
       .positive()
@@ -101,36 +103,38 @@ function TourModel({ show, onCancel, record }) {
 
     locations: Yup.array(),
   });
+  useEffect(() => {
+    if (record) dispatch(setTour(record));
+  }, [record]);
   let initialTourModelValues = {
-    name: record?.name,
-    duration: record?.duration,
-    price: record?.price,
-    maxGroupSize: record?.maxGroupSize,
-    difficulty: record?.difficulty,
-    description: record?.description,
+    name: tour ? tour?.name : "",
+    duration: tour ? tour?.duration : 0,
+    price: tour ? tour?.price : 0,
+    maxGroupSize: tour ? tour?.maxGroupSize : 0,
+    difficulty: tour ? tour?.difficulty : "easy",
+    description: tour ? tour?.description : "",
     startLocation: {
-      address: record?.startLocation?.address,
-      description: record?.startLocation?.description,
-      coordinates: record ? record.startLocation.coordinates : [-70.9, 42.35],
+      address: tour ? tour?.startLocation?.address : "",
+      description: tour ? tour?.startLocation?.description : "",
+      coordinates: tour ? tour.startLocation?.coordinates : [-70.9, 42.35],
     },
 
-    locations: record?.locations,
+    locations: tour?.locations,
   };
 
   useEffect(() => {
-    setLocationItems(record?.locations);
-  }, [record]);
+    setLocationItems(tour?.locations);
+  }, [tour]);
   useEffect(() => {
-     
     dispatch(removeAllAlerts());
     const modimages = [];
-    if (record) {
-      const images = record?.images;
-      
-      if (images.length > 0) {
+    if (tour) {
+      const images = tour?.images;
+
+      if (images?.length > 0) {
         images.forEach((img) => {
           modimages.push({
-            tourId: record?.id,
+            tourId: tour?.id,
             url: `${tourImgBackend}/${img}`,
             name: img,
           });
@@ -138,7 +142,7 @@ function TourModel({ show, onCancel, record }) {
       }
     }
     setFileList(modimages);
-  }, [record]);
+  }, [tour]);
 
   const grid = 8;
   const getItemStyle = (isDragging, draggableStyle) => ({
@@ -165,7 +169,7 @@ function TourModel({ show, onCancel, record }) {
       style={{ fontSize: "1.6rem" }}
       onClick={(event) => {
         event.stopPropagation();
-        dispatch(deleteTourLocation({ tourId: record?.id, data: item._id }));
+        dispatch(deleteTourLocation({ tourId: tour?.id, data: item._id }));
       }}
     />
   );
@@ -203,8 +207,9 @@ function TourModel({ show, onCancel, record }) {
 
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
-    if (record && record.id)
-      dispatch(updateTour({ tourId: record?.id, data: finalValues }));
+    console.log(values);
+    if (tour && tour.id)
+      dispatch(updateTour({ tourId: tour?.id, data: finalValues }));
     else dispatch(insertNewTour(values));
   };
   const uploadImage = async (options) => {
@@ -227,12 +232,12 @@ function TourModel({ show, onCancel, record }) {
     fmData.append("images", file);
 
     await AxiosInstance.patch(
-      `${endpoints.TOURS}/${record?.id}`,
+      `${endpoints.TOURS}/${tour?.id}`,
       fmData,
       config
     ).then((response) => {
       onSuccess("Ok");
-      dispatch(getTour(record?.id));
+      dispatch(getTour(tour?.id));
     });
   };
 
@@ -256,11 +261,13 @@ function TourModel({ show, onCancel, record }) {
     fmData.append("imageCover", file);
 
     await AxiosInstance.patch(
-      `${endpoints.TOURS}/${record?.id}`,
+      `${endpoints.TOURS}/${tour?.id}`,
       fmData,
       config
     ).then((response) => {
-      dispatch(getTour(record?.id));
+      dispatch(setTour(response.data.data.doc));
+      dispatch(getAllTours());
+      showNotification("success", "Updated succssfully!", "Success");
       onSuccess("Ok");
     });
   };
@@ -276,7 +283,7 @@ function TourModel({ show, onCancel, record }) {
   };
   const handleCoverPreview = () => {
     SetImagePreview({
-      previewImage: `${tourImgBackend}/${record?.imageCover}`,
+      previewImage: `${tourImgBackend}/${tour?.imageCover}`,
       previewVisible: true,
       previewTitle: "Tour Cover image",
     });
@@ -291,9 +298,9 @@ function TourModel({ show, onCancel, record }) {
   const handleDeleteTourImage = async (file) => {
     dispatch(removeAllAlerts());
     await AxiosInstance.delete(
-      `${endpoints.TOURS}/${record?.id}/${file.name}`
+      `${endpoints.TOURS}/${tour?.id}/${file.name}`
     ).then((response) => {
-      dispatch(getTour(record?.id));
+      dispatch(getTour(tour?.id));
     });
   };
   const handleChange = () => {
@@ -307,7 +314,7 @@ function TourModel({ show, onCancel, record }) {
   );
   return (
     <Modal
-      title={record ? record?.name : "Add new tour"}
+      title={tour ? tour?.name : "Add new tour"}
       visible={show}
       onCancel={onCancel}
       width={1000}
@@ -319,10 +326,10 @@ function TourModel({ show, onCancel, record }) {
         style={{
           marginTop: "-2.5rem",
           height: "30rem",
-          backgroundImage: record
+          backgroundImage: tour
             ? `linear-gradient(to right bottom,
             hsla(111, 55%, 64%, 0.8),
-            hsla(160, 64%, 43%, 0.8)), url('${tourImgBackend}/${record?.imageCover}')`
+            hsla(160, 64%, 43%, 0.8)), url('${tourImgBackend}/${tour?.imageCover}')`
             : `linear-gradient(to right bottom,
             hsla(111, 55%, 64%, 0.8),
             hsla(160, 64%, 43%, 0.8))`,
@@ -333,7 +340,7 @@ function TourModel({ show, onCancel, record }) {
         <div className="header__content">
           <h4 className="header__heading " style={{ fontSize: "4rem" }}>
             <span className="rotatecard__heading-span rotatecard__heading-span--1">
-              {record ? record?.name : "No Name"}
+              {tour ? tour?.name : "No Name"}
             </span>
           </h4>
         </div>
@@ -614,9 +621,9 @@ function TourModel({ show, onCancel, record }) {
                       <div className="form__group">
                         <input
                           type="text"
-                          name={`startLocation.coordinates[${0}]`}
-                          id={`startLocation.coordinates[${0}]`}
-                          key={`startLocation.coordinates[${0}]`}
+                          name="startLocation__coordinates0"
+                          id="startLocation__coordinates0"
+                          key="startLocation__coordinates0"
                           placeholder="lng"
                           value={values.startLocation?.coordinates[0]}
                           onChange={handleChange}
@@ -624,15 +631,17 @@ function TourModel({ show, onCancel, record }) {
                           className="form__input"
                         />
                         <label
-                          htmlFor={`startLocation?.coordinates[${0}]`}
+                          htmlFor="startLocation__coordinates0"
                           className="form__label"
                         >
                           lng
                         </label>
-                        {errors.startLocation?.coordinates[0] &&
-                          touched.startLocation?.coordinates[0] && (
+                        {errors.startLocation &&
+                          errors.startLocation.coordinates &&
+                          errors.startLocation.coordinates[0] &&
+                          touched.startLocation.coordinates[0] && (
                             <span className="form__error">
-                              {errors.startLocation?.coordinates[0]}
+                              {errors.startLocation.coordinates[0]}
                             </span>
                           )}
                       </div>
@@ -641,9 +650,9 @@ function TourModel({ show, onCancel, record }) {
                       <div className="form__group">
                         <input
                           type="text"
-                          name={`startLocation.coordinates[${1}]`}
-                          id={`startLocation.coordinates[${1}]`}
-                          key={`startLocation.coordinates[${1}]`}
+                          name="startLocation__coordinates1"
+                          id="startLocation__coordinates1"
+                          key="startLocation__coordinates1"
                           placeholder="lat"
                           value={values.startLocation?.coordinates[1]}
                           onChange={handleChange}
@@ -651,15 +660,17 @@ function TourModel({ show, onCancel, record }) {
                           className="form__input"
                         />
                         <label
-                          htmlFor={`startLocation.coordinates[${1}]`}
+                          htmlFor="startLocation__coordinates1"
                           className="form__label"
                         >
                           lat
                         </label>
-                        {errors.startLocation?.coordinates[1] &&
-                          touched.startLocation?.coordinates[1] && (
+                        {errors.startLocation &&
+                          errors.startLocation.coordinates &&
+                          errors.startLocation.coordinates[1] &&
+                          touched.startLocation.coordinates[1] && (
                             <span className="form__error">
-                              {errors.startLocation?.coordinates[1]}
+                              {errors.startLocation.coordinates[1]}
                             </span>
                           )}
                       </div>
@@ -672,7 +683,7 @@ function TourModel({ show, onCancel, record }) {
                     <MapBox
                       key="startMap11111"
                       isRightClickEnabled={false}
-                      locations={[record?.startLocation]}
+                      locations={[tour?.startLocation]}
                       popLocation={null}
                       menu={2}
                       setFieldValue={setFieldValue}

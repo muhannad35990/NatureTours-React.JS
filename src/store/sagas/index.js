@@ -20,6 +20,7 @@ import {
   updateTourSaga,
   insertTourLocationSaga,
   deleteTourLocationSaga,
+  insertNewTourSaga,
 } from "./tours";
 import {
   deleteUserSaga,
@@ -43,6 +44,8 @@ export function* watchAuth() {
   yield all([takeEvery(types.GET_TOUR, getTourSaga)]);
   yield all([takeEvery(types.GET_TOUR_REVIEWS, getTourReviewsSaga)]);
   yield all([takeEvery(types.UPDATE_TOUR, updateTourSaga)]);
+  yield all([takeEvery(types.INSERT_NEW_TOUR, insertNewTourSaga)]);
+  
   yield all([takeEvery(types.INSERT_TOUR_LOCATION, insertTourLocationSaga)]);
   yield all([takeEvery(types.DELETE_TOUR_LOCATION, deleteTourLocationSaga)]);
   //reviews

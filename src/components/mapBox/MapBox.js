@@ -47,9 +47,9 @@ function MapBox({
             .setLngLat(loc.coordinates)
             .setHTML(
               ` <div><p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
-                loc.description
+                loc.address
               }   </p> <p>${
-                locations.length === 1 ? `${loc.address}` : ""
+                locations.length === 1 ? `${loc.description}` : ""
               }</p></div>
              `
             )
@@ -142,10 +142,10 @@ function MapBox({
       setLat(e.lngLat.lat.toFixed(4));
     });
   });
-  function handleMenuClick(e) {
+  function handleMenuClick() {
     setShowAddModel(true);
   }
-  const handleAddlocation = (e) => {
+  const handleAddlocation = () => {
     setFieldValue(`startLocation.coordinates[${0}]`, lng);
     setFieldValue(`startLocation.coordinates[${1}]`, lat);
   };
