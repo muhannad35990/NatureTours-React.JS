@@ -4,7 +4,7 @@ import React from "react";
 function FloatingAddBtn({ handleClick }) {
   return (
     <div className="floatingBtn">
-      <PlusOutlined onClick={handleClick} />
+      <PlusOutlined onClick={() => handleClick(true)} />
     </div>
   );
 }

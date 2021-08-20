@@ -37,41 +37,45 @@ function MapBox({
       setMarkers([]);
       setPopUps([]);
 
-      locations.forEach((loc) => {
-        const marker = new mapboxgl.Marker()
-          .setLngLat(loc.coordinates)
-          .addTo(map.current);
-        const popup = new mapboxgl.Popup({ offset: 30 })
-          .setLngLat(loc.coordinates)
-          .setHTML(
-            ` <div><p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
-              loc.description
-            }   </p> <p>${
-              locations.length === 1 ? `${loc.address}` : ""
-            }</p></div>
+      locations &&
+        locations[0] &&
+        locations.forEach((loc) => {
+          const marker = new mapboxgl.Marker()
+            .setLngLat(loc.coordinates)
+            .addTo(map.current);
+          const popup = new mapboxgl.Popup({ offset: 30 })
+            .setLngLat(loc.coordinates)
+            .setHTML(
+              ` <div><p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
+                loc.description
+              }   </p> <p>${
+                locations.length === 1 ? `${loc.address}` : ""
+              }</p></div>
              `
-          )
-          .addTo(map.current);
+            )
+            .addTo(map.current);
 
-        setMarkers((val) => [...val, marker]);
-        setPopUps((val) => [...val, popup]);
-        bounds.extend(loc.coordinates);
-      });
+          setMarkers((val) => [...val, marker]);
+          setPopUps((val) => [...val, popup]);
+          bounds.extend(loc.coordinates);
+        });
 
-      map.current.fitBounds(bounds, {
-        padding: {
-          top: isRightClickEnabled ? 100 : 200,
-          bottom: isRightClickEnabled ? 100 : 150,
-          left: 100,
-          right: 100,
-        },
-      });
+      locations &&
+        locations[0] &&
+        map.current.fitBounds(bounds, {
+          padding: {
+            top: isRightClickEnabled ? 100 : 200,
+            bottom: isRightClickEnabled ? 100 : 150,
+            left: 100,
+            right: 100,
+          },
+        });
     }
   });
   useEffect(() => {
     const bounds = new mapboxgl.LngLatBounds();
 
-    if (locations.length > 1) {
+    if (locations?.length > 1 && locations && locations[0]) {
       markers.forEach((marker) => marker.remove());
       popUps.forEach((popup) => popup.remove());
       setMarkers([]);

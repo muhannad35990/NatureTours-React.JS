@@ -45,7 +45,7 @@ function Tours() {
       {tours && (
         <Table key={index} columns={columns} dataSource={tours} rowKey="_id" />
       )}
-      <FloatingAddBtn />
+      <FloatingAddBtn handleClick={setshowTour} />
       <TourModel
         show={showTour}
         onCancel={() => setshowTour(false)}

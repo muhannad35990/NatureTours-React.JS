@@ -24,6 +24,9 @@ export function* insertNewTourSaga(action) {
     `${endpoints.TOURS}`,
     action.payload
   );
+  console.log(response);
+  yield put(TourActions.setTour(response.data.data.doc));
+  showNotification("success", "Updated succssfully!", "Success");
   yield put(TourActions.getAllTours());
 }
 export function* updateTourSaga(action) {
