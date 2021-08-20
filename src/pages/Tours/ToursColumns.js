@@ -130,7 +130,7 @@ function ToursColumns(
             <EditOutlined />
           </button>
           <Popconfirm
-            title="Are you sure to delete this review?"
+            title="Are you sure to delete this tour?"
             onConfirm={doTheDelete}
             okText="Yes"
             cancelText="No"

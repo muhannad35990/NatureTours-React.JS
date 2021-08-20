@@ -92,8 +92,8 @@ function TourModel({ show, onCancel, record }) {
     description: Yup.string(),
     startLocation: Yup.object().shape({
       address: Yup.string().required("Start location address is required!"),
-      decription: Yup.string().required(
-        "Start location decription is required!"
+      description: Yup.string().required(
+        "Start location description is required!"
       ),
       coordinates: Yup.array(),
     }),
@@ -109,7 +109,7 @@ function TourModel({ show, onCancel, record }) {
     description: record?.description,
     startLocation: {
       address: record?.startLocation?.address,
-      decription: record?.startLocation?.description,
+      description: record?.startLocation?.description,
       coordinates: record?.startLocation?.coordinates,
     },
 
@@ -196,15 +196,16 @@ function TourModel({ show, onCancel, record }) {
       difficulty: values.difficulty,
       description: values.description,
       startLocation: {
+        type: "Point",
         address: values.startLocation.address,
-        decription: values.startLocation.description,
+        description: values.startLocation.description,
         coordinates: [
-          parseInt(values.startLocation.coordinates[0]),
-          parseInt(values.startLocation.coordinates[1]),
+          parseFloat(values.startLocation.coordinates[0]),
+          parseFloat(values.startLocation.coordinates[1]),
         ],
       },
     };
-    console.log(finalValues);
+   
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
     dispatch(updateTour({ tourId: tour.id, data: finalValues }));
@@ -406,6 +407,7 @@ function TourModel({ show, onCancel, record }) {
               handleBlur,
               handleSubmit,
               handleReset,
+              setFieldValue,
             } = props;
             return (
               <form id="form" key="form" onSubmit={handleSubmit}>
@@ -577,10 +579,10 @@ function TourModel({ show, onCancel, record }) {
                           >
                             Address
                           </label>
-                          {errors.startLocation_address &&
-                            touched.startLocation_address && (
+                          {errors.startLocation?.address &&
+                            touched.startLocation?.address && (
                               <span className="form__error">
-                                {errors.startLocation_address}
+                                {errors.startLocation?.address}
                               </span>
                             )}
                         </div>
@@ -589,25 +591,25 @@ function TourModel({ show, onCancel, record }) {
                         <div className="form__group">
                           <input
                             type="text"
-                            name="startLocation.decription"
-                            id="startLocation.decription"
-                            key="startLocation.decription"
-                            placeholder="decription"
-                            value={values.startLocation.decription}
+                            name="startLocation.description"
+                            id="startLocation.description"
+                            key="startLocation.description"
+                            placeholder="description"
+                            value={values.startLocation.description}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className="form__input"
                           />
                           <label
-                            htmlFor="startLocation.decription"
+                            htmlFor="startLocation.description"
                             className="form__label"
                           >
-                            Decription
+                            Description
                           </label>
-                          {errors.startLocation_decription &&
-                            touched.startLocation_decription && (
+                          {errors.startLocation?.description &&
+                            touched.startLocation?.description && (
                               <span className="form__error">
-                                {errors.startLocation_decription}
+                                {errors.startLocation?.description}
                               </span>
                             )}
                         </div>
@@ -676,6 +678,8 @@ function TourModel({ show, onCancel, record }) {
                         isRightClickEnabled={false}
                         locations={[tour.startLocation]}
                         popLocation={null}
+                        menu={2}
+                        setFieldValue={setFieldValue}
                       />
                     </div>
                   </Col>
@@ -834,6 +838,7 @@ function TourModel({ show, onCancel, record }) {
                           isRightClickEnabled={true}
                           locations={locationItems}
                           popLocation={currentSelectedLocation}
+                          menu={1}
                         />
                       )}
                     </div>

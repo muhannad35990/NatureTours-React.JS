@@ -1,0 +1,15 @@
+.floatingBtn {
+  width: 5rem;
+  height: 5rem;
+  position: absolute;
+  bottom: 5rem;
+  right: 2rem;
+  border-radius: 50%;
+  background-color: $color-primary;
+  z-index: 100000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $color-white;
+  font-size: 2rem;
+}

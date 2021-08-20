@@ -7,9 +7,14 @@ import {
 } from "../../store/actions/ReviewActions";
 
 import ToursColumns from "./ToursColumns";
-import { getAllTours } from "../../store/actions/TourActions";
+import {
+  getAllTours,
+  DeleteTour,
+  GetTour,
+} from "../../store/actions/TourActions";
 
 import TourModel from "../../components/Models/TourModel";
+import FloatingAddBtn from "../../components/FloatingAddBtn/FloatingAddBtn";
 
 function Tours() {
   const dispatch = useDispatch();
@@ -24,10 +29,8 @@ function Tours() {
     dispatch(getAllTours());
   }, []);
 
-  const doTheDelete = () => {
-    //delete review from the database
-    dispatch(DeleteUserReview(currentRecord.id));
-    dispatch(GetUserReviews(auth.user._id));
+  const doTheDelete = (tour) => {
+    console.log(tour);
   };
 
   const columns = ToursColumns(
@@ -42,7 +45,7 @@ function Tours() {
       {tours && (
         <Table key={index} columns={columns} dataSource={tours} rowKey="_id" />
       )}
-
+      <FloatingAddBtn />
       <TourModel
         show={showTour}
         onCancel={() => setshowTour(false)}

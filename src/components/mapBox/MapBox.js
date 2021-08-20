@@ -6,7 +6,13 @@ import AddNewCoordinateModel from "../Models/AddNewCoordinateModel";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibXVoYW5uYWQzNTk5MCIsImEiOiJja3J5eGJ5aGsxNHB2Mm9uODUzejEwanAxIn0.rzqtpU0RJv8KrLpRCp-ddw";
-function MapBox({ isRightClickEnabled, locations, popLocation }) {
+function MapBox({
+  isRightClickEnabled,
+  locations,
+  popLocation,
+  menu,
+  setFieldValue,
+}) {
   let mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-70.9);
@@ -21,7 +27,7 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v11",
-        scrollZoom: false,
+        scrollZoom: `${menu === 1 ? true : false}`,
         // center: [lng, lat],
         // zoom: zoom,
       });
@@ -38,10 +44,12 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
         const popup = new mapboxgl.Popup({ offset: 30 })
           .setLngLat(loc.coordinates)
           .setHTML(
-            ` <p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
+            ` <div><p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
               loc.description
-            }   </p> 
-            } `
+            }   </p> <p>${
+              locations.length === 1 ? `${loc.address}` : ""
+            }</p></div>
+             `
           )
           .addTo(map.current);
 
@@ -133,21 +141,26 @@ function MapBox({ isRightClickEnabled, locations, popLocation }) {
   function handleMenuClick(e) {
     setShowAddModel(true);
   }
+  const handleAddlocation = (e) => {
+    setFieldValue(`startLocation.coordinates[${0}]`, lng);
+    setFieldValue(`startLocation.coordinates[${1}]`, lat);
+  };
   const menu1 = (
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="1">Add new Trip</Menu.Item>
     </Menu>
   );
   const menu2 = (
-    <Menu onClick={handleMenuClick}>
+    <Menu onClick={() => handleAddlocation()}>
       <Menu.Item key="1">Add this Location</Menu.Item>
     </Menu>
   );
+
   return (
     <>
       <Dropdown
         key={`${isRightClickEnabled ? "drop1" : "drop2"}`}
-        overlay={isRightClickEnabled && menu1}
+        overlay={menu === 1 ? menu1 : menu2}
         trigger={["contextMenu"]}
         disabled={false}
       >
