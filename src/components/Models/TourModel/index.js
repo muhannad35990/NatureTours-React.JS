@@ -55,7 +55,6 @@ import {
 import MapBox from "../../mapBox/MapBox";
 
 function TourModel({ show, onCancel, record }) {
-  const tour = useSelector((state) => state.tours.tour);
   const alert = useSelector((state) => state.alert.alert);
   const progess = useSelector((state) => state.alert.progess);
   const spinner = useSelector((state) => state.alert.spinner);
@@ -102,7 +101,7 @@ function TourModel({ show, onCancel, record }) {
 
     locations: Yup.array(),
   });
-  const initialTourModelValues = {
+  let initialTourModelValues = {
     name: record?.name,
     duration: record?.duration,
     price: record?.price,
@@ -117,30 +116,29 @@ function TourModel({ show, onCancel, record }) {
 
     locations: record?.locations,
   };
-  console.log(initialTourModelValues);
+
   useEffect(() => {
-    dispatch(setTour(record));
+    setLocationItems(record?.locations);
   }, [record]);
   useEffect(() => {
-    setLocationItems(tour?.locations);
-  }, [tour]);
-  useEffect(() => {
+     
     dispatch(removeAllAlerts());
-    if (tour) {
-      const images = tour?.images;
-      const modimages = [];
+    const modimages = [];
+    if (record) {
+      const images = record?.images;
+      
       if (images.length > 0) {
         images.forEach((img) => {
           modimages.push({
-            tourId: tour?.id,
+            tourId: record?.id,
             url: `${tourImgBackend}/${img}`,
             name: img,
           });
         });
       }
-      setFileList(modimages);
     }
-  }, [tour?.images]);
+    setFileList(modimages);
+  }, [record]);
 
   const grid = 8;
   const getItemStyle = (isDragging, draggableStyle) => ({
@@ -167,7 +165,7 @@ function TourModel({ show, onCancel, record }) {
       style={{ fontSize: "1.6rem" }}
       onClick={(event) => {
         event.stopPropagation();
-        dispatch(deleteTourLocation({ tourId: tour?.id, data: item._id }));
+        dispatch(deleteTourLocation({ tourId: record?.id, data: item._id }));
       }}
     />
   );
@@ -205,8 +203,8 @@ function TourModel({ show, onCancel, record }) {
 
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
-    if (tour && tour.id)
-      dispatch(updateTour({ tourId: tour?.id, data: finalValues }));
+    if (record && record.id)
+      dispatch(updateTour({ tourId: record?.id, data: finalValues }));
     else dispatch(insertNewTour(values));
   };
   const uploadImage = async (options) => {
@@ -229,12 +227,12 @@ function TourModel({ show, onCancel, record }) {
     fmData.append("images", file);
 
     await AxiosInstance.patch(
-      `${endpoints.TOURS}/${tour?.id}`,
+      `${endpoints.TOURS}/${record?.id}`,
       fmData,
       config
     ).then((response) => {
       onSuccess("Ok");
-      dispatch(getTour(tour?.id));
+      dispatch(getTour(record?.id));
     });
   };
 
@@ -258,11 +256,11 @@ function TourModel({ show, onCancel, record }) {
     fmData.append("imageCover", file);
 
     await AxiosInstance.patch(
-      `${endpoints.TOURS}/${tour?.id}`,
+      `${endpoints.TOURS}/${record?.id}`,
       fmData,
       config
     ).then((response) => {
-      dispatch(getTour(tour?.id));
+      dispatch(getTour(record?.id));
       onSuccess("Ok");
     });
   };
@@ -278,7 +276,7 @@ function TourModel({ show, onCancel, record }) {
   };
   const handleCoverPreview = () => {
     SetImagePreview({
-      previewImage: `${tourImgBackend}/${tour?.imageCover}`,
+      previewImage: `${tourImgBackend}/${record?.imageCover}`,
       previewVisible: true,
       previewTitle: "Tour Cover image",
     });
@@ -293,9 +291,9 @@ function TourModel({ show, onCancel, record }) {
   const handleDeleteTourImage = async (file) => {
     dispatch(removeAllAlerts());
     await AxiosInstance.delete(
-      `${endpoints.TOURS}/${tour?.id}/${file.name}`
+      `${endpoints.TOURS}/${record?.id}/${file.name}`
     ).then((response) => {
-      dispatch(getTour(tour?.id));
+      dispatch(getTour(record?.id));
     });
   };
   const handleChange = () => {
@@ -309,7 +307,7 @@ function TourModel({ show, onCancel, record }) {
   );
   return (
     <Modal
-      title={tour ? tour?.name : "Add new tour"}
+      title={record ? record?.name : "Add new tour"}
       visible={show}
       onCancel={onCancel}
       width={1000}
@@ -321,10 +319,10 @@ function TourModel({ show, onCancel, record }) {
         style={{
           marginTop: "-2.5rem",
           height: "30rem",
-          backgroundImage: tour
+          backgroundImage: record
             ? `linear-gradient(to right bottom,
             hsla(111, 55%, 64%, 0.8),
-            hsla(160, 64%, 43%, 0.8)), url('${tourImgBackend}/${tour?.imageCover}')`
+            hsla(160, 64%, 43%, 0.8)), url('${tourImgBackend}/${record?.imageCover}')`
             : `linear-gradient(to right bottom,
             hsla(111, 55%, 64%, 0.8),
             hsla(160, 64%, 43%, 0.8))`,
@@ -335,7 +333,7 @@ function TourModel({ show, onCancel, record }) {
         <div className="header__content">
           <h4 className="header__heading " style={{ fontSize: "4rem" }}>
             <span className="rotatecard__heading-span rotatecard__heading-span--1">
-              {tour ? tour?.name : "No Name"}
+              {record ? record?.name : "No Name"}
             </span>
           </h4>
         </div>
@@ -674,7 +672,7 @@ function TourModel({ show, onCancel, record }) {
                     <MapBox
                       key="startMap11111"
                       isRightClickEnabled={false}
-                      locations={[tour?.startLocation]}
+                      locations={[record?.startLocation]}
                       popLocation={null}
                       menu={2}
                       setFieldValue={setFieldValue}

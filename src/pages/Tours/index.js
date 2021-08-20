@@ -11,6 +11,7 @@ import {
   getAllTours,
   DeleteTour,
   GetTour,
+  setTour,
 } from "../../store/actions/TourActions";
 
 import TourModel from "../../components/Models/TourModel";
@@ -40,17 +41,21 @@ function Tours() {
     setshowTour,
     setcurrentRecord
   );
+  const onCancel = () => {
+    setshowTour(false);
+    dispatch(setTour(null));
+  };
+  const handleOpenNew = () => {
+    setcurrentRecord(null);
+    setshowTour(true);
+  };
   return (
     <div>
       {tours && (
         <Table key={index} columns={columns} dataSource={tours} rowKey="_id" />
       )}
-      <FloatingAddBtn handleClick={setshowTour} />
-      <TourModel
-        show={showTour}
-        onCancel={() => setshowTour(false)}
-        record={currentRecord}
-      />
+      <FloatingAddBtn handleClick={handleOpenNew} />
+      <TourModel show={showTour} onCancel={onCancel} record={currentRecord} />
     </div>
   );
 }
