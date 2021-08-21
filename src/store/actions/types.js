@@ -29,6 +29,9 @@ export const SET_USER_REVIEWS = "SET_USER_REVIEWS";
 export const UPDATE_USER_REVIEWS = "UPDATE_USER_REVIEWS";
 export const DELETE_USER_REVIEWS = "DELETE_USER_REVIEWS";
 export const INSERT_NEW_REVIEW = "INSERT_NEW_REVIEW";
+export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
+export const SET_ALL_REVIEWS = "GET_ALL_REVIEWS";
+
 //users
 export const SET_USERS = "SET_USERS";
 export const GET_USERS = "GET_USERS";

@@ -14,11 +14,12 @@ import { Divider } from "antd";
 import { useSelector } from "react-redux";
 import Users from "../Users";
 import Tours from "../Tours";
+import Reviews from "../Reviews";
 
 function Dashboard() {
   const [currentTab, setcurrentTab] = useState("settings");
   const auth = useSelector((state) => state.auth);
-
+  console.log(" int the dashboard");
   return (
     <div style={{ display: "flex", height: "100%", width: "100%" }}>
       <div className="sidebar">
@@ -154,6 +155,8 @@ function Dashboard() {
           <Users />
         ) : currentTab === "manage_tours" ? (
           <Tours />
+        ) : currentTab === "manage_reviews" ? (
+          <Reviews />
         ) : (
           ""
         )}

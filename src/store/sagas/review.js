@@ -5,6 +5,12 @@ import { put, select } from "redux-saga/effects";
 import * as AlertActions from "../actions/AlertActions";
 import showNotification from "../../components/alert/Alert";
 
+export function* getAllReviewsSaga(action) {
+  const response = yield AxiosInstance.get(`${endpoints.REVIEWS}`);
+  console.log(response);
+  yield put(ReviewActions.setAllReviews(response.data.data.docs));
+}
+
 export function* getUserReviewsSaga(action) {
   const response = yield AxiosInstance.get(
     `${endpoints.USERS}/${action.payload}/reviews`

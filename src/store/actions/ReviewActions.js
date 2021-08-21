@@ -16,3 +16,11 @@ export const DeleteUserReview = (data) => ({
   type: types.DELETE_USER_REVIEWS,
   payload: data,
 });
+export const getAllReviews = (data) => ({
+  type: types.GET_ALL_REVIEWS,
+  payload: data,
+});
+export const setAllReviews = (data) => ({
+  type: types.SET_ALL_REVIEWS,
+  payload: data,
+});
