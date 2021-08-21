@@ -76,7 +76,7 @@ function TourModel({ show, onCancel, record }) {
   const tourModelSchema = Yup.object().shape({
     name: Yup.string()
       .required(t("Firstname_is_required"))
-      .min(10, t("too_short")),
+      .min(10, "Too short, It should be at least 10 char"),
     duration: Yup.number()
       .integer()
       .positive()
@@ -207,7 +207,6 @@ function TourModel({ show, onCancel, record }) {
 
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
-    console.log(values);
     if (tour && tour.id)
       dispatch(updateTour({ tourId: tour?.id, data: finalValues }));
     else dispatch(insertNewTour(values));

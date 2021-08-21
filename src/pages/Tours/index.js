@@ -12,6 +12,7 @@ import {
   DeleteTour,
   GetTour,
   setTour,
+  deleteTour,
 } from "../../store/actions/TourActions";
 
 import TourModel from "../../components/Models/TourModel";
@@ -31,7 +32,7 @@ function Tours() {
   }, []);
 
   const doTheDelete = (tour) => {
-    console.log(tour);
+    dispatch(deleteTour(tour));
   };
 
   const columns = ToursColumns(

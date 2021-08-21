@@ -87,7 +87,6 @@ export function* deleteUserSaga(action) {
   const response = yield AxiosInstance.delete(
     `${endpoints.USERS}/${action.payload.userId}`
   );
-  console.log(response);
   yield put(userActions.GetAllUsers());
   showNotification("success", "Deleted succssfully!", "Success");
 }

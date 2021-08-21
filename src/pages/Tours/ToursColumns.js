@@ -131,7 +131,7 @@ function ToursColumns(
           </button>
           <Popconfirm
             title="Are you sure to delete this tour?"
-            onConfirm={doTheDelete}
+            onConfirm={() => doTheDelete(record.id)}
             okText="Yes"
             cancelText="No"
             key="popUp"

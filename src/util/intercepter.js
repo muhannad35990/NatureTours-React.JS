@@ -94,7 +94,6 @@ const refreshTheToken = async (error) => {
         "Bearer " + localStorage.getItem("token");
       retry = false;
       return AxiosInstance(error.response.config).then((resp) => {
-        console.log(resp);
         return resp;
       });
     })

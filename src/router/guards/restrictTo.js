@@ -7,7 +7,6 @@ const restrictTo = (to, from, next) => {
     to.meta[RESTRICT_TO] &&
     !to.meta[RESTRICT_TO].includes(getUserInfo().role)
   ) {
-    console.log("in the restriction", to);
     next.redirect("/NotAuth");
   }
 
