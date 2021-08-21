@@ -1,21 +1,11 @@
 import React from "react";
 import { Space, Popconfirm, Rate } from "antd";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  FileImageOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, FileImageOutlined } from "@ant-design/icons";
 import Avatar from "antd/lib/avatar/avatar";
 import * as endpoints from "../../configs/endpointConfig";
 import getColumnSearchProps from "../../util/getColumnSearchProps";
 
-function ReviewsColumns(
-  index,
-  setIndex,
-  doTheDelete,
-
-  setcurrentRecord
-) {
+function ReviewsColumns(index, setIndex, doTheDelete, setcurrentRecord) {
   const backendImg = `${endpoints.BACKEND_URL}/img/users/`;
   return [
     {
@@ -32,18 +22,18 @@ function ReviewsColumns(
       dataIndex: ["user", "name"],
       key: "name",
       width: "15%",
-      sorter: (a, b) => a.name.localeCompare(b.name),
+      sorter: (a, b) => a.user.name.localeCompare(b.user.name),
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps("name", setIndex, index),
+      ...getColumnSearchProps(["user", "name"], setIndex, index),
     },
     {
       title: "Tour",
       dataIndex: ["tour", "name"],
       key: "review",
       width: "15%",
-      sorter: (a, b) => a.review.localeCompare(b.review),
+      sorter: (a, b) => a.tour.name.localeCompare(b.tour.name),
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps("tour", setIndex, index),
+      ...getColumnSearchProps(["tour", "name"], setIndex, index),
     },
     {
       title: "Review",
@@ -52,12 +42,7 @@ function ReviewsColumns(
       width: "30%",
       sorter: (a, b) => a.review.localeCompare(b.review),
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps(
-        "review",
-
-        setIndex,
-        index
-      ),
+      ...getColumnSearchProps("review", setIndex, index),
     },
 
     {

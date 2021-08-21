@@ -19,7 +19,6 @@ import Reviews from "../Reviews";
 function Dashboard() {
   const [currentTab, setcurrentTab] = useState("settings");
   const auth = useSelector((state) => state.auth);
-  console.log(" int the dashboard");
   return (
     <div style={{ display: "flex", height: "100%", width: "100%" }}>
       <div className="sidebar">

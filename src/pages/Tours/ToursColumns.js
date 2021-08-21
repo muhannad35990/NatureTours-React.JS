@@ -45,7 +45,6 @@ function ToursColumns(
       sortDirections: ["descend", "ascend"],
       ...getColumnSearchProps(
         "difficulty",
-
         setIndex,
         index
       ),
