@@ -102,6 +102,9 @@
   width: 100% !important;
   height: 3rem !important;
 }
+.ant-switch-checked {
+  background-color: $color-primary !important;
+}
 @media screen and (max-width: 320px) {
   .list-sort-demo-text h1 {
     font-size: 14px;

@@ -12,6 +12,7 @@ import {
   Upload,
   Collapse,
   DatePicker,
+  Switch,
 } from "antd";
 import moment from "moment";
 import Modal from "antd/lib/modal/Modal";
@@ -84,6 +85,7 @@ function TourModel({ show, onCancel, record }) {
   const [selectedGuide, setSelectedGuide] = useState(null);
   const [startDates, setStartDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [secret, setSecret] = useState(false);
   const tourModelSchema = Yup.object().shape({
     name: Yup.string()
       .required(t("Firstname_is_required"))
@@ -93,6 +95,7 @@ function TourModel({ show, onCancel, record }) {
       .positive()
       .required("duration is required!"),
     price: Yup.number().integer().positive().required("price is required!"),
+
     maxGroupSize: Yup.number()
       .integer()
       .positive()
@@ -119,6 +122,7 @@ function TourModel({ show, onCancel, record }) {
       dispatch(setTour(record));
       setNewGuides(record.guides);
       setStartDates(record.startDates);
+      setSecret(record.secretTour);
     }
   }, [record]);
   let initialTourModelValues = {
@@ -128,6 +132,7 @@ function TourModel({ show, onCancel, record }) {
     maxGroupSize: tour ? tour?.maxGroupSize : 0,
     difficulty: tour ? tour?.difficulty : "easy",
     description: tour ? tour?.description : "",
+
     startLocation: {
       address: tour ? tour?.startLocation?.address : "",
       description: tour ? tour?.startLocation?.description : "",
@@ -177,7 +182,6 @@ function TourModel({ show, onCancel, record }) {
     setSelectedDate(null);
   };
   const handleDeleteDate = (date) => {
-    console.log(date);
     const newdates = startDates.filter((g) => g !== date);
     setStartDates(newdates);
   };
@@ -224,6 +228,7 @@ function TourModel({ show, onCancel, record }) {
       description: values.description,
       guides: newGuides,
       startDates: startDates,
+      secretTour: secret,
       startLocation: {
         type: "Point",
         address: values.startLocation.address,
@@ -562,6 +567,27 @@ function TourModel({ show, onCancel, record }) {
                     </label>
                     {errors.price && touched.price && (
                       <span className="form__error">{errors.price}</span>
+                    )}
+                  </div>
+                </Col>
+                <Col span={12}>
+                  <div className="form__group">
+                    <Switch
+                      name="secretTour"
+                      value={secret}
+                      onChange={() => setSecret(!secret)}
+                      style={{
+                        width: "8rem",
+                        height: "3rem",
+                        marginTop: "1rem",
+                      }}
+                    />
+
+                    <label htmlFor="secretTour" className="form__label">
+                      Secret Tour
+                    </label>
+                    {errors.secretTour && touched.secretTour && (
+                      <span className="form__error">{errors.secretTour}</span>
                     )}
                   </div>
                 </Col>
