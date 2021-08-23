@@ -168,7 +168,7 @@ function MapBox({
         key={`${menu === 1 ? "drop1" : "drop2"}`}
         overlay={isRightClickEnabled && (menu === 1 ? menu1 : menu2)}
         trigger={["contextMenu"]}
-        disabled={false}
+        disabled={!isRightClickEnabled}
       >
         <div>
           {/* <div className="sidebar-map ">
