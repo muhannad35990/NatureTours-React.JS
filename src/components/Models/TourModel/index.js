@@ -682,7 +682,7 @@ function TourModel({ show, onCancel, record }) {
                     <MapBox
                       key="startMap11111"
                       isRightClickEnabled={false}
-                      locations={[tour?.startLocation]}
+                      locations={tour?.startLocation}
                       popLocation={null}
                       menu={2}
                       setFieldValue={setFieldValue}

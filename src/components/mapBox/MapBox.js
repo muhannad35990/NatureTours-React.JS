@@ -36,9 +36,10 @@ function MapBox({
       popUps.forEach((popup) => popup.remove());
       setMarkers([]);
       setPopUps([]);
-
+      console.log(locations);
       locations &&
         locations[0] &&
+        locations.length <= 1 &&
         locations.forEach((loc) => {
           const marker = new mapboxgl.Marker()
             .setLngLat(loc.coordinates)
@@ -62,6 +63,7 @@ function MapBox({
 
       locations &&
         locations[0] &&
+        locations.length <= 1 &&
         map.current.fitBounds(bounds, {
           padding: {
             top: isRightClickEnabled ? 100 : 200,
@@ -72,9 +74,9 @@ function MapBox({
         });
     }
   });
+
   useEffect(() => {
     const bounds = new mapboxgl.LngLatBounds();
-
     if (locations?.length > 1 && locations && locations[0]) {
       markers.forEach((marker) => marker.remove());
       popUps.forEach((popup) => popup.remove());
@@ -163,8 +165,8 @@ function MapBox({
   return (
     <>
       <Dropdown
-        key={`${isRightClickEnabled ? "drop1" : "drop2"}`}
-        overlay={menu === 1 ? menu1 : menu2}
+        key={`${menu === 1 ? "drop1" : "drop2"}`}
+        overlay={isRightClickEnabled && (menu === 1 ? menu1 : menu2)}
         trigger={["contextMenu"]}
         disabled={false}
       >

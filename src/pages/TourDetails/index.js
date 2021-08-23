@@ -140,14 +140,30 @@ function TourDetails() {
         ))}
       </section>
       <section className="mapContainer">
-        <MapBox isRightClickEnabled={false} />
+        <MapBox
+          isRightClickEnabled={false}
+          popLocation={null}
+          locations={tour.locations}
+        />
       </section>
 
       <section className="reviewContainer">
         <div className="reviewContainer__box">
-          {tourReviews.map((review, index) => (
-            <Review key={index} review={review} />
-          ))}
+          {auth.loggedIn ? (
+            tourReviews.length > 0 ? (
+              tourReviews.map((review, index) => (
+                <Review key={index} review={review} />
+              ))
+            ) : (
+              <p className="reviewContainer__box__notAuth">
+                There is no reviews yet for this tour
+              </p>
+            )
+          ) : (
+            <p className="reviewContainer__box__notAuth">
+              You need to be logged in to see the reviews
+            </p>
+          )}
         </div>
       </section>
 
