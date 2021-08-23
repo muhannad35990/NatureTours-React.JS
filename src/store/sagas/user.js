@@ -90,3 +90,10 @@ export function* deleteUserSaga(action) {
   yield put(userActions.GetAllUsers());
   showNotification("success", "Deleted succssfully!", "Success");
 }
+export function* getAllGuidesSaga(action) {
+  const response = yield AxiosInstance.get(
+    `${endpoints.USERS}/?role[in]=guide&role[in]=lead-guide`
+  );
+
+  yield put(userActions.setAllguides(response.data.data.docs));
+}

@@ -39,6 +39,8 @@ export const GET_USERS = "GET_USERS";
 export const INSERT_NEW_USER = "INSERT_NEW_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
+export const GET_GUIDES = "GET_GUIDES";
+export const SET_GUIDES = "SET_GUIDES";
 
 //progress
 export const SET_PROGRESS = "SET_PROGRESS";

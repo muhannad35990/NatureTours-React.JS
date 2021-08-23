@@ -17,6 +17,7 @@ import {
 
 import TourModel from "../../components/Models/TourModel";
 import FloatingAddBtn from "../../components/FloatingAddBtn/FloatingAddBtn";
+import { GetAllguides } from "../../store/actions/userActions";
 
 function Tours() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ function Tours() {
 
   useEffect(() => {
     dispatch(getAllTours());
+    dispatch(GetAllguides());
   }, []);
 
   const doTheDelete = (tour) => {

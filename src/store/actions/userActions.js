@@ -23,3 +23,10 @@ export const deleteUser = (data) => ({
   type: types.DELETE_USER,
   payload: data,
 });
+export const GetAllguides = () => ({
+  type: types.GET_GUIDES,
+});
+export const setAllguides = (data) => ({
+  type: types.SET_GUIDES,
+  payload: data,
+});

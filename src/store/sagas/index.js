@@ -27,6 +27,7 @@ import {
 } from "./tours";
 import {
   deleteUserSaga,
+  getAllGuidesSaga,
   getAllusersSaga,
   insertNewUserSaga,
   updateMeSaga,
@@ -64,4 +65,5 @@ export function* watchAuth() {
   yield all([takeEvery(types.INSERT_NEW_USER, insertNewUserSaga)]);
   yield all([takeEvery(types.UPDATE_USER, updateUserSaga)]);
   yield all([takeEvery(types.DELETE_USER, deleteUserSaga)]);
+  yield all([takeEvery(types.GET_GUIDES, getAllGuidesSaga)]);
 }

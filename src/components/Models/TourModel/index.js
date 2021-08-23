@@ -36,6 +36,7 @@ import {
   PlusOutlined,
   SaveOutlined,
   StopOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -54,6 +55,10 @@ import {
 
 import MapBox from "../../mapBox/MapBox";
 import showNotification from "../../alert/Alert";
+import Guide from "../../guide/Guide";
+import { Option } from "antd/lib/mentions";
+import { GetAllguides } from "../../../store/actions/userActions";
+import Avatar from "antd/lib/avatar/avatar";
 
 function TourModel({ show, onCancel, record }) {
   const alert = useSelector((state) => state.alert.alert);
@@ -62,7 +67,8 @@ function TourModel({ show, onCancel, record }) {
   const [isDeleteSpinner, setIsDeleteSpinner] = useState(false);
   const [newCoverImage, setNewCoverImage] = useState(null);
   const auth = useSelector((state) => state.auth);
-
+  const guides = useSelector((state) => state.users.guides);
+  const backenduserImg = `${endpoints.BACKEND_URL}/img/users/`;
   const tour = useSelector((state) => state.tours.tour);
   const [fileList, setFileList] = useState([]);
   const [imagePreview, SetImagePreview] = useState({});
@@ -73,6 +79,8 @@ function TourModel({ show, onCancel, record }) {
   const { Panel } = Collapse;
   const [locationItems, setLocationItems] = useState([]);
   const [currentSelectedLocation, setCurrentSelectedLocation] = useState(null);
+  const [newGuides, setNewGuides] = useState([]);
+  const [selectedGuide, setSelectedGuide] = useState(null);
   const tourModelSchema = Yup.object().shape({
     name: Yup.string()
       .required(t("Firstname_is_required"))
@@ -93,6 +101,7 @@ function TourModel({ show, onCancel, record }) {
         "difficulty should be easy or medium or difficult"
       ),
     description: Yup.string(),
+    // guides: Yup.array(),
     startLocation: Yup.object().shape({
       address: Yup.string().required("Start location address is required!"),
       description: Yup.string().required(
@@ -100,11 +109,13 @@ function TourModel({ show, onCancel, record }) {
       ),
       coordinates: Yup.array(),
     }),
-
     locations: Yup.array(),
   });
   useEffect(() => {
-    if (record) dispatch(setTour(record));
+    if (record) {
+      dispatch(setTour(record));
+      setNewGuides(record.guides);
+    }
   }, [record]);
   let initialTourModelValues = {
     name: tour ? tour?.name : "",
@@ -113,6 +124,7 @@ function TourModel({ show, onCancel, record }) {
     maxGroupSize: tour ? tour?.maxGroupSize : 0,
     difficulty: tour ? tour?.difficulty : "easy",
     description: tour ? tour?.description : "",
+    // guides: tour ? tour.guides : [],
     startLocation: {
       address: tour ? tour?.startLocation?.address : "",
       description: tour ? tour?.startLocation?.description : "",
@@ -157,7 +169,11 @@ function TourModel({ show, onCancel, record }) {
     // styles we need to apply on draggables
     ...draggableStyle,
   });
-
+  function onChange(value, values) {
+    const newGuide = guides.filter((g) => g._id === value);
+    setNewGuides((prev) => [...prev, newGuide[0]]);
+    setSelectedGuide(null);
+  }
   const getListStyle = (isDraggingOver) => ({
     background: isDraggingOver ? "lightblue" : "white",
     padding: grid,
@@ -194,6 +210,7 @@ function TourModel({ show, onCancel, record }) {
       maxGroupSize: parseInt(values.maxGroupSize),
       difficulty: values.difficulty,
       description: values.description,
+      guides: newGuides,
       startLocation: {
         type: "Point",
         address: values.startLocation.address,
@@ -558,6 +575,58 @@ function TourModel({ show, onCancel, record }) {
                   </div>
                 </Col>
               </Row>
+
+              <Divider>Guides</Divider>
+              <Row gutter={gutter} justify="center">
+                <Col span={13}>
+                  <Select
+                    allowClear
+                    placeholder="Add new guide"
+                    style={{ width: "100%" }}
+                    onChange={(value) => onChange(value, values)}
+                    filterOption={(inputValue, option) =>
+                      option.children.props.children[2].props.children
+                        .toString()
+                        .toLowerCase()
+                        .includes(inputValue.toLowerCase())
+                    }
+                    showSearch
+                    value={selectedGuide}
+                  >
+                    {guides &&
+                      guides.map((option) => (
+                        <Option key={option._id} value={option._id}>
+                          <div className="details__guide" key={option._id}>
+                            <Avatar
+                              src={`${backenduserImg}${option.photo}`}
+                              icon={<UserOutlined />}
+                              size={18}
+                            />
+                            <h5 className="details__item details__guide__role">
+                              {option.role}
+                            </h5>
+                            <h5 className="details__subItem"> {option.name}</h5>
+                          </div>
+                        </Option>
+                      ))}
+                  </Select>
+                </Col>
+
+                <Col span={12}>
+                  {newGuides.map((guide) => (
+                    <Guide
+                      key={guide._id}
+                      id={guide._id}
+                      name={guide.name}
+                      role={guide.role}
+                      image={guide.photo}
+                      setNewGuides={setNewGuides}
+                      newGuides={newGuides}
+                    />
+                  ))}
+                </Col>
+              </Row>
+
               <Divider>Start Location</Divider>
               {values.startLocation !== null &&
                 values.startLocation.coordinates !== [] && (
