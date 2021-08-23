@@ -11,8 +11,9 @@ import {
   Space,
   Upload,
   Collapse,
+  DatePicker,
 } from "antd";
-
+import moment from "moment";
 import Modal from "antd/lib/modal/Modal";
 import { Formik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -81,6 +82,8 @@ function TourModel({ show, onCancel, record }) {
   const [currentSelectedLocation, setCurrentSelectedLocation] = useState(null);
   const [newGuides, setNewGuides] = useState([]);
   const [selectedGuide, setSelectedGuide] = useState(null);
+  const [startDates, setStartDates] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
   const tourModelSchema = Yup.object().shape({
     name: Yup.string()
       .required(t("Firstname_is_required"))
@@ -115,6 +118,7 @@ function TourModel({ show, onCancel, record }) {
     if (record) {
       dispatch(setTour(record));
       setNewGuides(record.guides);
+      setStartDates(record.startDates);
     }
   }, [record]);
   let initialTourModelValues = {
@@ -124,7 +128,6 @@ function TourModel({ show, onCancel, record }) {
     maxGroupSize: tour ? tour?.maxGroupSize : 0,
     difficulty: tour ? tour?.difficulty : "easy",
     description: tour ? tour?.description : "",
-    // guides: tour ? tour.guides : [],
     startLocation: {
       address: tour ? tour?.startLocation?.address : "",
       description: tour ? tour?.startLocation?.description : "",
@@ -169,6 +172,15 @@ function TourModel({ show, onCancel, record }) {
     // styles we need to apply on draggables
     ...draggableStyle,
   });
+  const onDateChange = (date) => {
+    setStartDates((prev) => [...prev, date]);
+    setSelectedDate(null);
+  };
+  const handleDeleteDate = (date) => {
+    console.log(date);
+    const newdates = startDates.filter((g) => g !== date);
+    setStartDates(newdates);
+  };
   function onChange(value, values) {
     const newGuide = guides.filter((g) => g._id === value);
     setNewGuides((prev) => [...prev, newGuide[0]]);
@@ -211,6 +223,7 @@ function TourModel({ show, onCancel, record }) {
       difficulty: values.difficulty,
       description: values.description,
       guides: newGuides,
+      startDates: startDates,
       startLocation: {
         type: "Point",
         address: values.startLocation.address,
@@ -552,6 +565,7 @@ function TourModel({ show, onCancel, record }) {
                     )}
                   </div>
                 </Col>
+
                 <Col span={24}>
                   <div className="form__group">
                     <textarea
@@ -576,9 +590,62 @@ function TourModel({ show, onCancel, record }) {
                 </Col>
               </Row>
 
-              <Divider>Guides</Divider>
-              <Row gutter={gutter} justify="center">
-                <Col span={13}>
+              <Row gutter={gutter}>
+                <Col span={12}>
+                  <Divider>Start Dates</Divider>
+                  <div
+                    className="form__group"
+                    style={{
+                      borderRight: "1px solid #ddd",
+                      padding: "1rem 1rem",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div style={{ margin: "1rem 0", width: "60%" }}>
+                      {" "}
+                      <DatePicker
+                        placeholder="Select to add new date"
+                        onChange={(date, dateString) =>
+                          onDateChange(date.toISOString())
+                        }
+                        value={selectedDate}
+                      />
+                    </div>
+
+                    {startDates.map((d) => (
+                      <div
+                        key={d}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          width: "50%",
+                        }}
+                      >
+                        <DatePicker
+                          key={d}
+                          value={moment.utc(d)}
+                          style={{ margin: "1rem 0" }}
+                          disabled={true}
+                        />
+                        <DeleteOutlined
+                          style={{
+                            fontSize: "1.6rem",
+                            color: "red",
+                            marginLeft: ".5rem",
+                          }}
+                          onClick={() => handleDeleteDate(d)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </Col>
+
+                <Col span={12}>
+                  <Divider>Guides</Divider>
                   <Select
                     allowClear
                     placeholder="Add new guide"
@@ -610,9 +677,6 @@ function TourModel({ show, onCancel, record }) {
                         </Option>
                       ))}
                   </Select>
-                </Col>
-
-                <Col span={12}>
                   {newGuides.map((guide) => (
                     <Guide
                       key={guide._id}

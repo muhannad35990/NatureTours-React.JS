@@ -155,14 +155,24 @@ function TourDetails() {
                 <Review key={index} review={review} />
               ))
             ) : (
-              <p className="reviewContainer__box__notAuth">
-                There is no reviews yet for this tour
-              </p>
+              <h4
+                className="header__heading "
+                style={{ width: "100%", fontSize: "3rem" }}
+              >
+                <span className="rotatecard__heading-span rotatecard__heading-span--1">
+                  There is no reviews yet for this tour
+                </span>
+              </h4>
             )
           ) : (
-            <p className="reviewContainer__box__notAuth">
-              You need to be logged in to see the reviews
-            </p>
+            <h4
+              className="header__heading "
+              style={{ width: "100%", fontSize: "3rem" }}
+            >
+              <span className="rotatecard__heading-span rotatecard__heading-span--1">
+                You need to be logged in to see the reviews
+              </span>
+            </h4>
           )}
         </div>
       </section>
