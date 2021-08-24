@@ -9,6 +9,7 @@ import {
   Me,
   TourDetails,
   Dashboard,
+  MyBookings,
 } from "../pages";
 
 import { AUTH_ONLY, RESTRICT_TO } from "./types";
@@ -34,6 +35,15 @@ export default () => [
   //     [RESTRICT_TO]: ["admin"],
   //   },
   // },
+  {
+    path: "/myBookings",
+    exact: true,
+    component: MyBookings,
+    error: NotAuth,
+    meta: {
+      [AUTH_ONLY]: true,
+    },
+  },
   {
     path: "/me",
     exact: true,

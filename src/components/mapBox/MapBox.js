@@ -36,7 +36,7 @@ function MapBox({
       popUps.forEach((popup) => popup.remove());
       setMarkers([]);
       setPopUps([]);
-      console.log(locations);
+
       locations &&
         locations.length <= 1 &&
         locations.forEach((loc) => {

@@ -17,10 +17,15 @@ export function* getBookingSaga(action) {
   yield put(BookingsActions.setBooking(response.data.data));
 }
 export function* getSessionSaga(action) {
-  const response = yield AxiosInstance.get(
+  const response = yield AxiosInstance.post(
     `${endpoints.BOOKINGS}/checkout-session/${action.payload}`
   );
-  yield put(BookingsActions.setCheckoutSession(response.data.data));
+  console.log(response.data.session.url);
+
+  window.location.href = response.data.session.url;
+  //   yield put(push(response.data.session.url));
+
+  //   yield put(BookingsActions.setCheckoutSession(response.data.data));
 }
 
 export function* updateBookingSaga(action) {

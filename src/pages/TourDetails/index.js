@@ -11,6 +11,7 @@ import {
   EnvironmentOutlined,
   FieldTimeOutlined,
   LineChartOutlined,
+  LoadingOutlined,
   StarOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -18,12 +19,16 @@ import { Avatar } from "antd";
 import MapBox from "../../components/mapBox/MapBox";
 import Review from "../../components/Review/Review";
 import Footer from "../../components/Footer/Footer";
+import { getCheckoutSession } from "../../store/actions/BookingActions";
+import { setSpiner } from "../../store/actions/AlertActions";
 
 function TourDetails() {
   const dispatch = useDispatch();
   const tour = useSelector((state) => state.tours.tour);
   const auth = useSelector((state) => state.auth);
   const tourReviews = useSelector((state) => state.tours.reviews);
+  const spinner = useSelector((state) => state.alert.spinner);
+
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
   const backenduserImg = `${endpoints.BACKEND_URL}/img/users/`;
   const routeParams = useParams();
@@ -32,6 +37,12 @@ function TourDetails() {
     dispatch(getTour(routeParams.id));
     dispatch(getTourReviews(routeParams.id));
   }, [routeParams]);
+
+  const handleBookingTheTour = () => {
+    dispatch(setSpiner(true));
+    dispatch(getCheckoutSession(tour.id));
+  };
+
   return !tour ? (
     <Loading />
   ) : (
@@ -217,8 +228,12 @@ function TourDetails() {
             <a href="/login" className="button button--green">
               LOGIN TO BOOK TOUR
             </a>
+          ) : spinner ? (
+            <a className="button button--green" onClick={handleBookingTheTour}>
+              processing <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
+            </a>
           ) : (
-            <a href="/boogin" className="button button--green">
+            <a className="button button--green" onClick={handleBookingTheTour}>
               BOOK THE TOUR NOW
             </a>
           )}
