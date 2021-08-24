@@ -36,9 +36,8 @@ function MapBox({
       popUps.forEach((popup) => popup.remove());
       setMarkers([]);
       setPopUps([]);
-
+      console.log(locations);
       locations &&
-        locations[0] &&
         locations.length <= 1 &&
         locations.forEach((loc) => {
           const marker = new mapboxgl.Marker()
@@ -62,7 +61,6 @@ function MapBox({
         });
 
       locations &&
-        locations[0] &&
         locations.length <= 1 &&
         map.current.fitBounds(bounds, {
           padding: {
@@ -129,6 +127,7 @@ function MapBox({
       setPopUps((val) => [...val, popup]);
     }
   }, [popLocation]);
+
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     map.current.on("move", () => {

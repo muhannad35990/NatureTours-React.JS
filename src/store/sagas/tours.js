@@ -45,7 +45,6 @@ export function* deleteTourSaga(action) {
   );
   yield put(TourActions.getAllTours());
   showNotification("success", "Deleted succssfully!", "Success");
-  yield put(TourActions.getAllTours());
 }
 export function* insertTourLocationSaga(action) {
   const data = action.payload.data;

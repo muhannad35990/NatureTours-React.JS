@@ -42,6 +42,16 @@ export const DELETE_USER = "DELETE_USER";
 export const GET_GUIDES = "GET_GUIDES";
 export const SET_GUIDES = "SET_GUIDES";
 
+//bookings
+export const GET_ALL_BOOKINGS = "GET_ALL_BOOKINGS";
+export const SET_ALL_BOOKINGS = "SET_ALL_BOOKINGS";
+export const GET_CHECKOUT_SESSION = "GET_CHECKOUT_SESSION";
+export const SET_CHECKOUT_SESSION = "SET_CHECKOUT_SESSION";
+export const GET_BOOKING = "GET_BOOKING";
+export const SET_BOOKING = "SET_BOOKING";
+export const UPDATE_BOOKING = "UPDATE_BOOKING";
+export const DELETE_BOOKING = "DELETE_BOOKING";
+
 //progress
 export const SET_PROGRESS = "SET_PROGRESS";
 export const RESET_PROGRESS = "RESET_PROGRESS";

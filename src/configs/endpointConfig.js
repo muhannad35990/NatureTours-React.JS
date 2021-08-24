@@ -13,3 +13,5 @@ export const TOURS = `${BACKEND_URL}/api/v1/tours`;
 
 //reviews
 export const REVIEWS = `${BACKEND_URL}/api/v1/reviews`;
+//Bookings
+export const BOOKINGS = `${BACKEND_URL}/api/v1/bookings`;

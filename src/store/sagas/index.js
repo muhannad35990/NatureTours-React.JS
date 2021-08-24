@@ -9,6 +9,13 @@ import {
   updateCurrentPasswordSaga,
 } from "./auth";
 import {
+  deleteBookingSaga,
+  getAllBookingsSaga,
+  getBookingSaga,
+  getSessionSaga,
+  updateBookingSaga,
+} from "./bookings";
+import {
   getUserReviewsSaga,
   updateUserReviewsSaga,
   deleteUserReviewsSaga,
@@ -66,4 +73,11 @@ export function* watchAuth() {
   yield all([takeEvery(types.UPDATE_USER, updateUserSaga)]);
   yield all([takeEvery(types.DELETE_USER, deleteUserSaga)]);
   yield all([takeEvery(types.GET_GUIDES, getAllGuidesSaga)]);
+
+  //bookings
+  yield all([takeEvery(types.GET_ALL_BOOKINGS, getAllBookingsSaga)]);
+  yield all([takeEvery(types.GET_BOOKING, getBookingSaga)]);
+  yield all([takeEvery(types.GET_CHECKOUT_SESSION, getSessionSaga)]);
+  yield all([takeEvery(types.UPDATE_BOOKING, updateBookingSaga)]);
+  yield all([takeEvery(types.DELETE_BOOKING, deleteBookingSaga)]);
 }

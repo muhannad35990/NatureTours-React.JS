@@ -2,7 +2,7 @@ import * as types from "./types";
 
 //CURD
 export const getAllTours = (data) => ({
-  type: types.GET_ALL_TOURS, // used for triggering registerUserSaga
+  type: types.GET_ALL_TOURS,
   payload: data,
 });
 export const getTour = (data) => ({
