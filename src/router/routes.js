@@ -16,15 +16,11 @@ import { AUTH_ONLY, RESTRICT_TO } from "./types";
 
 export default () => [
   {
-    path: "/",
-    exact: true,
-    component: Home,
-  },
-  {
     path: "/tour/:id",
     exact: true,
     component: TourDetails,
   },
+
   // {
   //   path: "/dashboard",
   //   exact: true,
@@ -72,6 +68,11 @@ export default () => [
     path: "/login",
     exact: true,
     component: Login,
+  },
+  {
+    path: "/",
+    exact: true,
+    component: Home,
   },
   {
     path: "/NotAuth",
