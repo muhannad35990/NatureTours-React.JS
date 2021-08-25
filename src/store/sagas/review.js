@@ -23,16 +23,13 @@ export function* addNewReviewsSaga(action) {
     `${endpoints.TOURS}/${action.payload.tourId}/reviews`,
     data
   );
+  console.log(response);
   if (response.status === 200) {
     yield put(getTourReviews(action.payload.tourId));
     yield put(AlertActions.setSpiner(false));
     showNotification("success", "Added succssfully!", "Success");
   } else {
-    showNotification(
-      "error",
-      "You can not add more than one review to the same tour!",
-      "Error"
-    );
+    showNotification("error", "Only users can add a review!", "Error");
   }
 }
 export function* updateUserReviewsSaga(action) {

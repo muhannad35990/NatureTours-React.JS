@@ -1,9 +1,9 @@
 import React from "react";
 import logogreen from "../../img/logo-green.png";
 
-function Footer() {
+function Footer({ expanded }) {
   return (
-    <div className="footer">
+    <div className={`footer ${expanded && "extendedFooter"}`}>
       <figure className="footer__logoContainer">
         <img src={logogreen} alt="logogreen" className="footer__logo" />
       </figure>

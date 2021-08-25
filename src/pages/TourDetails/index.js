@@ -256,7 +256,7 @@ function TourDetails() {
           </div>
         </section>
       )}
-      <Footer />
+      <Footer expanded={true} />
     </div>
   );
 }
