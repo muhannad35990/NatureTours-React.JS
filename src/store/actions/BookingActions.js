@@ -32,3 +32,11 @@ export const deleteBooking = (data) => ({
   type: types.DELETE_BOOKING,
   payload: data,
 });
+export const getMyBookings = (data) => ({
+  type: types.GET_MY_BOOKINGS,
+  payload: data,
+});
+export const setMyBookings = (data) => ({
+  type: types.SET_MY_BOOKINGS,
+  payload: data,
+});

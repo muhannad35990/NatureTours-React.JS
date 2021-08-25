@@ -12,6 +12,7 @@ import {
   deleteBookingSaga,
   getAllBookingsSaga,
   getBookingSaga,
+  getMyBookingsSaga,
   getSessionSaga,
   updateBookingSaga,
 } from "./bookings";
@@ -80,4 +81,5 @@ export function* watchAuth() {
   yield all([takeEvery(types.GET_CHECKOUT_SESSION, getSessionSaga)]);
   yield all([takeEvery(types.UPDATE_BOOKING, updateBookingSaga)]);
   yield all([takeEvery(types.DELETE_BOOKING, deleteBookingSaga)]);
+  yield all([takeEvery(types.GET_MY_BOOKINGS, getMyBookingsSaga)]);
 }

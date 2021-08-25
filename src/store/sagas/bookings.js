@@ -20,12 +20,8 @@ export function* getSessionSaga(action) {
   const response = yield AxiosInstance.post(
     `${endpoints.BOOKINGS}/checkout-session/${action.payload}`
   );
-  console.log(response.data.session.url);
 
   window.location.href = response.data.session.url;
-  //   yield put(push(response.data.session.url));
-
-  //   yield put(BookingsActions.setCheckoutSession(response.data.data));
 }
 
 export function* updateBookingSaga(action) {
@@ -45,4 +41,11 @@ export function* deleteBookingSaga(action) {
   );
   yield put(BookingsActions.getAllBookings());
   showNotification("success", "Deleted succssfully!", "Success");
+}
+export function* getMyBookingsSaga(action) {
+  console.log(action.payload);
+  const response = yield AxiosInstance.get(
+    `${endpoints.USERS}/${action.payload}/Bookings`
+  );
+  yield put(BookingsActions.setMyBookings(response.data.data.docs));
 }

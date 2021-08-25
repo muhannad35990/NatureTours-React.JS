@@ -4,6 +4,7 @@ const initialState = {
   bookings: [],
   session: null,
   booking: null,
+  mybookings: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +15,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, session: action.payload };
     case types.SET_BOOKING:
       return { ...state, booking: action.payload };
+    case types.SET_MY_BOOKINGS:
+      return { ...state, mybookings: action.payload };
 
     default:
       return state;

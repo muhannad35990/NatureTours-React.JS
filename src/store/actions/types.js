@@ -51,6 +51,8 @@ export const GET_BOOKING = "GET_BOOKING";
 export const SET_BOOKING = "SET_BOOKING";
 export const UPDATE_BOOKING = "UPDATE_BOOKING";
 export const DELETE_BOOKING = "DELETE_BOOKING";
+export const GET_MY_BOOKINGS = "GET_MY_BOOKINGS";
+export const SET_MY_BOOKINGS = "SET_MY_BOOKINGS";
 
 //progress
 export const SET_PROGRESS = "SET_PROGRESS";
