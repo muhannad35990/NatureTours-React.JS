@@ -1,6 +1,7 @@
 import { Col, Row } from "antd";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 
 import RotatingCard from "../../components/RotatingCard/RotatingCard";
@@ -24,7 +25,7 @@ function MyBookings() {
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
-        marginTop: "10rem",
+        marginTop: "3rem",
       }}
     >
       <Row justify="center">
@@ -70,9 +71,8 @@ function MyBookings() {
           </Col>
         ))}
       </Row>
-      <Footer />
     </div>
   );
 }
 
-export default MyBookings;
+export default withRouter(MyBookings);

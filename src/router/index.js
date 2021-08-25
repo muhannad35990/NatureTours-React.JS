@@ -6,13 +6,14 @@ import { NotFound } from "../pages";
 import { requireLogin, waitOneSecond, restrictTo } from "./guards/index";
 import getRoutes from "./routes";
 import Loading from "../components/Loading";
+import history from "../history";
 
 const GLOBAL_GUARDS = [requireLogin, restrictTo, waitOneSecond];
 
 const Router = ({ children }) => {
   const routes = useMemo(() => getRoutes(), []);
   return (
-    <BrowserRouter>
+    <BrowserRouter history={history}>
       <GuardProvider guards={GLOBAL_GUARDS} loading={Loading} error={NotFound}>
         <Route
           render={(routeProps) =>

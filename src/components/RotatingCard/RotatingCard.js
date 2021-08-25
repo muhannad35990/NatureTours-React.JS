@@ -8,6 +8,7 @@ import { Col, Row } from "antd";
 import React from "react";
 import moment from "moment";
 import * as endpoints from "../../configs/endpointConfig";
+import { Link } from "react-router-dom";
 
 function RotatingCard({
   title,
@@ -78,9 +79,9 @@ function RotatingCard({
           </div>
         </div>
 
-        <a href={cardDetail} className="button button--white">
+        <Link to={cardDetail} className="button button--white">
           details
-        </a>
+        </Link>
       </div>
     </div>
   );

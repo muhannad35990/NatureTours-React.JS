@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams, withRouter } from "react-router-dom";
 import { getTour, getTourReviews } from "../../store/actions/TourActions";
 import * as endpoints from "../../configs/endpointConfig";
 import Loading from "../../components/Loading";
 import moment from "moment";
-
+import history from "../../history";
 import {
   CalendarOutlined,
   EnvironmentOutlined,
@@ -15,7 +15,7 @@ import {
   StarOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { Avatar } from "antd";
+import { Avatar, PageHeader } from "antd";
 import MapBox from "../../components/mapBox/MapBox";
 import Review from "../../components/Review/Review";
 import Footer from "../../components/Footer/Footer";
@@ -55,6 +55,7 @@ function TourDetails() {
             hsla(160, 64%, 43%, 0.8)), url('${backendImg}${tour.imageCover}')`,
         }}
       >
+        <PageHeader onBack={() => history.goBack()} title="Back" />
         <div className="header__content">
           <h4 className="header__heading ">
             <span className="rotatecard__heading-span rotatecard__heading-span--1">
@@ -73,7 +74,6 @@ function TourDetails() {
           </div>
         </div>
       </div>
-
       <section>
         <div className="details">
           <div style={{ display: "flex" }}>
@@ -157,7 +157,6 @@ function TourDetails() {
           locations={tour.locations}
         />
       </section>
-
       <section className="reviewContainer">
         <div className="reviewContainer__box">
           {auth.loggedIn ? (
@@ -187,7 +186,6 @@ function TourDetails() {
           )}
         </div>
       </section>
-
       <section className="waitSection">
         <div className="Whatwaiting">
           <Avatar.Group
@@ -225,17 +223,23 @@ function TourDetails() {
             </p>
           </div>
           {!auth.loggedIn ? (
-            <a href="/login" className="button button--green">
+            <Link href="/login" className="button button--green">
               LOGIN TO BOOK TOUR
-            </a>
+            </Link>
           ) : spinner ? (
-            <a className="button button--green" onClick={handleBookingTheTour}>
+            <Link
+              className="button button--green"
+              onClick={handleBookingTheTour}
+            >
               processing <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
-            </a>
+            </Link>
           ) : (
-            <a className="button button--green" onClick={handleBookingTheTour}>
+            <Link
+              className="button button--green"
+              onClick={handleBookingTheTour}
+            >
               BOOK THE TOUR NOW
-            </a>
+            </Link>
           )}
         </div>
       </section>
@@ -244,4 +248,4 @@ function TourDetails() {
   );
 }
 
-export default TourDetails;
+export default withRouter(TourDetails);
