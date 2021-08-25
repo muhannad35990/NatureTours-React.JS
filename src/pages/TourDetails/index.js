@@ -60,8 +60,8 @@ function TourDetails() {
         className="header"
         style={{
           backgroundImage: `linear-gradient(to right bottom,
-            hsla(111, 55%, 64%, 0.8),
-            hsla(160, 64%, 43%, 0.8)), url('${backendImg}${tour.imageCover}')`,
+            hsla(111, 55%, 64%, 0.9),
+            hsla(160, 64%, 43%, 0.4)), url('${backendImg}${tour.imageCover}')`,
         }}
       >
         <PageHeader onBack={() => history.goBack()} title="Back" />
@@ -195,68 +195,67 @@ function TourDetails() {
           )}
         </div>
       </section>
-      {checkIfTourIsBooked(tour.id, mybookings) && (
-        <section>
-          <AddReview />
+      {checkIfTourIsBooked(tour.id, mybookings) && <AddReview tour={tour} />}
+      {!checkIfTourIsBooked(tour.id, mybookings) && (
+        <section className="waitSection">
+          <div className="Whatwaiting">
+            <Avatar.Group
+              maxCount={3}
+              size={125}
+              maxStyle={{
+                color: "#f56a00",
+                backgroundColor: "#fde3cf",
+              }}
+            >
+              <Avatar
+                src={backendImg.concat(tour.images[0])}
+                style={{
+                  marginLeft: "35%",
+                }}
+              />
+              <Avatar
+                src={backendImg.concat(tour.images[1])}
+                style={{
+                  marginLeft: "-50%",
+                }}
+              />
+              <Avatar
+                src={backendImg.concat(tour.images[2])}
+                style={{
+                  marginLeft: "-50%",
+                }}
+              />
+            </Avatar.Group>
+            <div style={{ marginLeft: "-5rem", marginRight: "5rem" }}>
+              <h1 className="title">what are you waiting for?</h1>
+              <p>
+                {tour.duration} days, 1 advanture, infinite memories, make it
+                yours today!
+              </p>
+            </div>
+            {!auth.loggedIn ? (
+              <Link href="/login" className="button button--green">
+                LOGIN TO BOOK TOUR
+              </Link>
+            ) : spinner ? (
+              <Link
+                className="button button--green"
+                onClick={handleBookingTheTour}
+              >
+                processing{" "}
+                <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
+              </Link>
+            ) : (
+              <Link
+                className="button button--green"
+                onClick={handleBookingTheTour}
+              >
+                BOOK THE TOUR NOW
+              </Link>
+            )}
+          </div>
         </section>
       )}
-      <section className="waitSection">
-        <div className="Whatwaiting">
-          <Avatar.Group
-            maxCount={3}
-            size={125}
-            maxStyle={{
-              color: "#f56a00",
-              backgroundColor: "#fde3cf",
-            }}
-          >
-            <Avatar
-              src={backendImg.concat(tour.images[0])}
-              style={{
-                marginLeft: "35%",
-              }}
-            />
-            <Avatar
-              src={backendImg.concat(tour.images[1])}
-              style={{
-                marginLeft: "-50%",
-              }}
-            />
-            <Avatar
-              src={backendImg.concat(tour.images[2])}
-              style={{
-                marginLeft: "-50%",
-              }}
-            />
-          </Avatar.Group>
-          <div style={{ marginLeft: "-5rem", marginRight: "5rem" }}>
-            <h1 className="title">what are you waiting for?</h1>
-            <p>
-              {tour.duration} days, 1 advanture, infinite memories, make it
-              yours today!
-            </p>
-          </div>
-          {!auth.loggedIn ? (
-            <Link href="/login" className="button button--green">
-              LOGIN TO BOOK TOUR
-            </Link>
-          ) : spinner ? (
-            <Link
-              className="button button--green"
-              onClick={handleBookingTheTour}
-            >
-              processing <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
-            </Link>
-          ) : (
-            <Link
-              className="button button--green"
-              onClick={handleBookingTheTour}
-            >
-              BOOK THE TOUR NOW
-            </Link>
-          )}
-        </div>
-      </section>
       <Footer />
     </div>
   );

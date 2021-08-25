@@ -1,0 +1,32 @@
+.formsection {
+  background-image: linear-gradient(
+    to bottom right,
+    $color-primary-light,
+    $color-primary
+  );
+  padding: 15rem 0rem;
+  height: 80rem;
+  transform: skewY(-7deg);
+  margin-top: -12rem;
+  margin-bottom: 15rem;
+}
+.book__form {
+  width: 80%;
+  height: 100%;
+  padding: 2rem;
+  margin: 0 auto;
+  transform: skewY(7deg);
+  background-size: cover;
+
+  background-repeat: no-repeat;
+  border-radius: 3px;
+  box-shadow: 1rem 2rem 4rem rgba($color: #000000, $alpha: 0.5);
+}
+.form {
+  width: 40%;
+  margin-left: 2rem;
+  padding: 5rem 2rem;
+}
+.formsection .ant-rate {
+  background-color: #bbb !important;
+}
