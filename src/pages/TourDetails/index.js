@@ -37,7 +37,9 @@ function TourDetails() {
     dispatch(getTour(routeParams.id));
     dispatch(getTourReviews(routeParams.id));
   }, [routeParams]);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const handleBookingTheTour = () => {
     dispatch(setSpiner(true));
     dispatch(getCheckoutSession(tour.id));

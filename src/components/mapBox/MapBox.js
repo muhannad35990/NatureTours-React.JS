@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "!mapbox-gl";
-import { useSelector } from "react-redux";
 import { Dropdown, Menu } from "antd";
 import AddNewCoordinateModel from "../Models/AddNewCoordinateModel";
 
@@ -28,6 +27,7 @@ function MapBox({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v11",
         scrollZoom: `${menu === 1 ? true : false}`,
+        focusAfterOpen: false,
         // center: [lng, lat],
         // zoom: zoom,
       });
@@ -43,7 +43,10 @@ function MapBox({
           const marker = new mapboxgl.Marker()
             .setLngLat(loc.coordinates)
             .addTo(map.current);
-          const popup = new mapboxgl.Popup({ offset: 30 })
+          const popup = new mapboxgl.Popup({
+            offset: 30,
+            focusAfterOpen: false,
+          })
             .setLngLat(loc.coordinates)
             .setHTML(
               ` <div><p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
@@ -85,7 +88,7 @@ function MapBox({
         const marker = new mapboxgl.Marker()
           .setLngLat(loc.coordinates)
           .addTo(map.current);
-        const popup = new mapboxgl.Popup({ offset: 30 })
+        const popup = new mapboxgl.Popup({ offset: 30, focusAfterOpen: false })
           .setLngLat(loc.coordinates)
           .setHTML(
             ` <p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
@@ -104,8 +107,8 @@ function MapBox({
         padding: {
           top: isRightClickEnabled ? 100 : 200,
           bottom: isRightClickEnabled ? 100 : 150,
-          left: 100,
-          right: 100,
+          left: 150,
+          right: 150,
         },
       });
     }
