@@ -9,7 +9,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import AutoHideAlert from "../../components/alert/AutoHideAlert";
 import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
 import InputPassword from "../../components/InputPassword/InputPassword";
-
+import history from "../../history";
 function Login() {
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
@@ -17,8 +17,7 @@ function Login() {
   const auth = useSelector((state) => state.auth);
   const alert = useSelector((state) => state.alert.alert);
   const spinner = useSelector((state) => state.alert.spinner);
-
-  const history = useHistory();
+  const history1 = useHistory();
 
   const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -39,7 +38,7 @@ function Login() {
 
   useEffect(() => {
     if (auth.loggedIn) {
-      history.push("/");
+      history1.push(history.location.pathname);
     }
   }, [auth]);
 
