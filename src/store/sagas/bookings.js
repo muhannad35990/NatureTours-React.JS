@@ -43,7 +43,6 @@ export function* deleteBookingSaga(action) {
   showNotification("success", "Deleted succssfully!", "Success");
 }
 export function* getMyBookingsSaga(action) {
-  console.log(action.payload);
   const response = yield AxiosInstance.get(
     `${endpoints.USERS}/${action.payload}/Bookings`
   );

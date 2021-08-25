@@ -23,6 +23,7 @@ function RotatingCard({
   ratingQantity,
   price,
   id,
+  isBooked,
 }) {
   const cardDetail = `/tour/${id}`;
   return (
@@ -79,7 +80,11 @@ function RotatingCard({
           </div>
         </div>
 
-        <Link to={cardDetail} className="button button--white">
+        <Link
+          to={cardDetail}
+          params={{ isBooked: isBooked }}
+          className="button button--white"
+        >
           details
         </Link>
       </div>

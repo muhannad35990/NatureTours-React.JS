@@ -19,8 +19,13 @@ import { Avatar, PageHeader } from "antd";
 import MapBox from "../../components/mapBox/MapBox";
 import Review from "../../components/Review/Review";
 import Footer from "../../components/Footer/Footer";
-import { getCheckoutSession } from "../../store/actions/BookingActions";
+import {
+  getCheckoutSession,
+  getMyBookings,
+} from "../../store/actions/BookingActions";
 import { setSpiner } from "../../store/actions/AlertActions";
+import checkIfTourIsBooked from "../../util/checkIfTourIsBooked";
+import AddReview from "../../components/AddReview/AddReview";
 
 function TourDetails() {
   const dispatch = useDispatch();
@@ -28,6 +33,7 @@ function TourDetails() {
   const auth = useSelector((state) => state.auth);
   const tourReviews = useSelector((state) => state.tours.reviews);
   const spinner = useSelector((state) => state.alert.spinner);
+  const mybookings = useSelector((state) => state.bookings.mybookings);
 
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
   const backenduserImg = `${endpoints.BACKEND_URL}/img/users/`;
@@ -37,12 +43,13 @@ function TourDetails() {
     dispatch(getTour(routeParams.id));
     dispatch(getTourReviews(routeParams.id));
   }, [routeParams]);
+
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    if (auth.loggedIn && auth.user) dispatch(getMyBookings(auth.user._id));
+  }, [auth]);
+
   const handleBookingTheTour = () => {
     dispatch(setSpiner(true));
-    dispatch(getCheckoutSession(tour.id));
   };
 
   return !tour ? (
@@ -188,6 +195,11 @@ function TourDetails() {
           )}
         </div>
       </section>
+      {checkIfTourIsBooked(tour.id, mybookings) && (
+        <section>
+          <AddReview />
+        </section>
+      )}
       <section className="waitSection">
         <div className="Whatwaiting">
           <Avatar.Group
