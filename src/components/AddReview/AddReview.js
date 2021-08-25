@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import AutoHideAlert from "../alert/AutoHideAlert";
 import { Col, Rate, Row, Space } from "antd";
+import { addNewTourReview } from "../../store/actions/ReviewActions";
 
 function AddReview({ tour }) {
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
@@ -33,11 +34,11 @@ function AddReview({ tour }) {
       .min(5, t("review_is_too_short")),
   });
   const initialValues = { review: "" };
-  const doUpdateReview = async (values) => {
+  const doAddReview = async (values) => {
     values = { review: values.review, rating: rate };
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
-    // dispatch(UpdateUserReview(values));
+    dispatch(addNewTourReview({ data: values, tourId: tour.id }));
   };
   return (
     <section className="formsection">
@@ -62,7 +63,7 @@ function AddReview({ tour }) {
         <Formik
           initialValues={initialValues}
           validationSchema={reviewModelSchema}
-          onSubmit={doUpdateReview}
+          onSubmit={doAddReview}
         >
           {(props) => {
             const {

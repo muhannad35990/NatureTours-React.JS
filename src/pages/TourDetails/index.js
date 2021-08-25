@@ -60,8 +60,8 @@ function TourDetails() {
         className="header"
         style={{
           backgroundImage: `linear-gradient(to right bottom,
-            hsla(111, 55%, 64%, 0.9),
-            hsla(160, 64%, 43%, 0.4)), url('${backendImg}${tour.imageCover}')`,
+            hsla(111, 55%, 64%, 0.8),
+            hsla(160, 64%, 43%, 0.8)), url('${backendImg}${tour.imageCover}')`,
         }}
       >
         <PageHeader onBack={() => history.goBack()} title="Back" />

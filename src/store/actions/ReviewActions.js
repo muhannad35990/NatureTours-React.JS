@@ -28,3 +28,7 @@ export const deleteReview = (data) => ({
   type: types.DELETE_REVIEW,
   payload: data,
 });
+export const addNewTourReview = (data) => ({
+  type: types.ADD_NEW_TOUR_REVIEW,
+  payload: data,
+});

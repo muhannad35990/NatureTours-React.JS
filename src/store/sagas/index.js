@@ -22,6 +22,7 @@ import {
   deleteUserReviewsSaga,
   getAllReviewsSaga,
   deleteReviewSaga,
+  addNewReviewsSaga,
 } from "./review";
 import {
   getAllToursSaga,
@@ -67,6 +68,7 @@ export function* watchAuth() {
   yield all([takeEvery(types.DELETE_USER_REVIEWS, deleteUserReviewsSaga)]);
   yield all([takeEvery(types.GET_ALL_REVIEWS, getAllReviewsSaga)]);
   yield all([takeEvery(types.DELETE_REVIEW, deleteReviewSaga)]);
+  yield all([takeEvery(types.ADD_NEW_TOUR_REVIEW, addNewReviewsSaga)]);
 
   //users
   yield all([takeEvery(types.GET_USERS, getAllusersSaga)]);

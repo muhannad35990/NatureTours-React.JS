@@ -4,6 +4,7 @@ import * as ReviewActions from "../actions/ReviewActions";
 import { put, select } from "redux-saga/effects";
 import * as AlertActions from "../actions/AlertActions";
 import showNotification from "../../components/alert/Alert";
+import { getTourReviews } from "../actions/TourActions";
 
 export function* getAllReviewsSaga(action) {
   const response = yield AxiosInstance.get(`${endpoints.REVIEWS}`);
@@ -16,7 +17,24 @@ export function* getUserReviewsSaga(action) {
   );
   yield put(ReviewActions.setUserReviews(response.data.data.docs));
 }
-
+export function* addNewReviewsSaga(action) {
+  const data = action.payload.data;
+  const response = yield AxiosInstance.post(
+    `${endpoints.TOURS}/${action.payload.tourId}/reviews`,
+    data
+  );
+  if (response.status === 200) {
+    yield put(getTourReviews(action.payload.tourId));
+    yield put(AlertActions.setSpiner(false));
+    showNotification("success", "Added succssfully!", "Success");
+  } else {
+    showNotification(
+      "error",
+      "You can not add more than one review to the same tour!",
+      "Error"
+    );
+  }
+}
 export function* updateUserReviewsSaga(action) {
   const response = yield AxiosInstance.patch(
     `${endpoints.REVIEWS}/${action.payload.reviewId}`,

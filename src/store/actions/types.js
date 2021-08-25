@@ -32,6 +32,7 @@ export const INSERT_NEW_REVIEW = "INSERT_NEW_REVIEW";
 export const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
 export const SET_ALL_REVIEWS = "SET_ALL_REVIEWS";
 export const DELETE_REVIEW = "DELETE_REVIEW";
+export const ADD_NEW_TOUR_REVIEW = "ADD_NEW_TOUR_REVIEW";
 
 //users
 export const SET_USERS = "SET_USERS";
