@@ -23,6 +23,11 @@ function MapBox({
 
   useEffect(() => {
     if (!map.current) {
+      mapboxgl.setRTLTextPlugin(
+        "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js",
+        null,
+        true // Lazy load the plugin
+      );
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v11",
@@ -31,6 +36,7 @@ function MapBox({
         // center: [lng, lat],
         // zoom: zoom,
       });
+
       const bounds = new mapboxgl.LngLatBounds();
       markers.forEach((marker) => marker.remove());
       popUps.forEach((popup) => popup.remove());
