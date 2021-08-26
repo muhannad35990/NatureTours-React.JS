@@ -8,14 +8,16 @@ import { getTourReviews } from "../actions/TourActions";
 
 export function* getAllReviewsSaga(action) {
   const response = yield AxiosInstance.get(`${endpoints.REVIEWS}`);
-  yield put(ReviewActions.setAllReviews(response.data.data.docs));
+  if (response.status === 200)
+    yield put(ReviewActions.setAllReviews(response.data.data.docs));
 }
 
 export function* getUserReviewsSaga(action) {
   const response = yield AxiosInstance.get(
     `${endpoints.USERS}/${action.payload}/reviews`
   );
-  yield put(ReviewActions.setUserReviews(response.data.data.docs));
+  if (response.status === 200)
+    yield put(ReviewActions.setUserReviews(response.data.data.docs));
 }
 export function* addNewReviewsSaga(action) {
   const data = action.payload.data;
@@ -44,10 +46,12 @@ export function* updateUserReviewsSaga(action) {
     `${endpoints.REVIEWS}/${action.payload.reviewId}`,
     { review: action.payload.review, rating: action.payload.rating }
   );
-  const auth = yield select((state) => state.auth);
-  yield put(ReviewActions.GetUserReviews(auth.user._id));
-  yield put(AlertActions.setSpiner(false));
-  showNotification("success", "Updated succssfully!", "Success");
+  if (response.status === 200) {
+    const auth = yield select((state) => state.auth);
+    yield put(ReviewActions.GetUserReviews(auth.user._id));
+    yield put(AlertActions.setSpiner(false));
+    showNotification("success", "Updated succssfully!", "Success");
+  }
 }
 export function* deleteReviewSaga(action) {
   const response = yield AxiosInstance.delete(

@@ -15,6 +15,7 @@ export function* getBookingSaga(action) {
   const response = yield AxiosInstance.get(
     `${endpoints.BOOKINGS}/${action.payload}`
   );
+  if (response.status === 200) 
   yield put(BookingsActions.setBooking(response.data.data));
 }
 export function* getSessionSaga(action) {
@@ -33,6 +34,7 @@ export function* updateBookingSaga(action) {
     `${endpoints.BOOKINGS}/${action.payload.bookingId}`,
     data
   );
+  if (response.status === 200) 
   yield put(BookingsActions.getBooking(action.payload.bookingId));
   showNotification("success", "Updated succssfully!", "Success");
   yield put(BookingsActions.getAllBookings());

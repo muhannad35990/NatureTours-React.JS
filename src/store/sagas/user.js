@@ -79,8 +79,7 @@ export function* updateUserSaga(action) {
     `${endpoints.USERS}/${action.payload.userId}`,
     data
   );
-
-  yield put(userActions.GetAllUsers());
+  if (response.status === 200) yield put(userActions.GetAllUsers());
   showNotification("success", "Updated succssfully!", "Success");
 }
 export function* deleteUserSaga(action) {
@@ -94,6 +93,6 @@ export function* getAllGuidesSaga(action) {
   const response = yield AxiosInstance.get(
     `${endpoints.USERS}/?role[in]=guide&role[in]=lead-guide`
   );
-
-  yield put(userActions.setAllguides(response.data.data.docs));
+  if (response.status === 200)
+    yield put(userActions.setAllguides(response.data.data.docs));
 }
