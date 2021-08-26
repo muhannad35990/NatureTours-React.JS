@@ -50,6 +50,7 @@ function TourDetails() {
 
   const handleBookingTheTour = () => {
     dispatch(setSpiner(true));
+    dispatch(getCheckoutSession(tour.id));
   };
 
   return !tour ? (
