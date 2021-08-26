@@ -234,7 +234,7 @@ function TourDetails() {
               </p>
             </div>
             {!auth.loggedIn ? (
-              <Link href="/login" className="button button--green">
+              <Link to="/login" className="button button--green">
                 LOGIN TO BOOK TOUR
               </Link>
             ) : spinner ? (

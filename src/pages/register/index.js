@@ -50,7 +50,6 @@ function Register() {
   }, []);
   useEffect(() => {
     if (auth.loggedIn) {
- 
         history.push("/");
     }
   }, [auth]);

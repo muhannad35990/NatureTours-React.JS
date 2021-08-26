@@ -28,6 +28,7 @@ function SearchBox() {
       style={{
         width: "50%",
         marginBottom: "3rem",
+        marginTop: "3rem",
       }}
       onSearch={dofilter}
     />

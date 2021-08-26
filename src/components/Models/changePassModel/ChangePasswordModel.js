@@ -38,10 +38,12 @@ function ChangePasswordModel({ show, onCancel }) {
       .oneOf([Yup.ref("password"), null], t("Passwords_must_match")),
   });
   const initialValues = {};
-  const doUpdatePassword = async (values) => {
+
+  const doUpdatePassword = async (values, { resetForm }) => {
     dispatch(removeAllAlerts());
     dispatch(setSpiner(true));
     dispatch(updatePassword(values));
+    resetForm({});
   };
   return (
     <Modal
@@ -52,6 +54,7 @@ function ChangePasswordModel({ show, onCancel }) {
       destroyOnClose={true}
     >
       <Formik
+        enableReinitialize
         initialValues={initialValues}
         validationSchema={PasswordModelSchema}
         onSubmit={doUpdatePassword}
@@ -86,7 +89,7 @@ function ChangePasswordModel({ show, onCancel }) {
                 <InputPassword
                   name="passwordCurrent"
                   id="passwordCurrent"
-                  value={values.passwordCurrent}
+                  value={values.passwordCurrent || ""}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   placeholder=" Current Password"
@@ -101,7 +104,7 @@ function ChangePasswordModel({ show, onCancel }) {
                 <InputPassword
                   name="password"
                   id="password"
-                  value={values.password}
+                  value={values.password || ""}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   placeholder="New Password"
@@ -116,7 +119,7 @@ function ChangePasswordModel({ show, onCancel }) {
                 <InputPassword
                   name="passwordConfirm"
                   id="passwordConfirm"
-                  value={values.passwordConfirm}
+                  value={values.passwordConfirm || ""}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
                   placeholder="New Password Confirm"
