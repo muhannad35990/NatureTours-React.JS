@@ -5,7 +5,7 @@ import Avatar from "antd/lib/avatar/avatar";
 import * as endpoints from "../../configs/endpointConfig";
 import getColumnSearchProps from "../../util/getColumnSearchProps";
 
-function ReviewsColumns(index, setIndex, doTheDelete, setcurrentRecord) {
+function BookingColumns(index, setIndex, doTheDelete, setcurrentRecord) {
   const backendImg = `${endpoints.BACKEND_URL}/img/users/`;
   return [
     {
@@ -54,31 +54,13 @@ function ReviewsColumns(index, setIndex, doTheDelete, setcurrentRecord) {
       ...getColumnSearchProps(["tour", "name"], setIndex, index),
     },
     {
-      title: "Review",
-      dataIndex: "review",
-      key: "review",
-      width: "30%",
-      sorter: (a, b) => a.review.localeCompare(b.review),
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      width: "5%",
+      sorter: (a, b) => a.price - b.price,
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps("review", setIndex, index),
-    },
-
-    {
-      title: "rating",
-      dataIndex: "rating",
-      key: "rating",
-      width: "20%",
-      sorter: (a, b) => a.rating - b.rating,
-      sortDirections: ["descend", "ascend"],
-      render: (rating) => (
-        <Rate
-          key="rateStar"
-          style={{ fontSize: "1.2rem" }}
-          allowHalf
-          disabled
-          value={rating}
-        />
-      ),
+      ...getColumnSearchProps("price", setIndex, index),
     },
 
     {
@@ -87,7 +69,7 @@ function ReviewsColumns(index, setIndex, doTheDelete, setcurrentRecord) {
       render: (text, record, index) => (
         <Space size="middle">
           <Popconfirm
-            title="Are you sure to delete this review?"
+            title="Are you sure to delete this booking?"
             onConfirm={() => doTheDelete(record.id)}
             okText="Yes"
             cancelText="No"
@@ -109,4 +91,4 @@ function ReviewsColumns(index, setIndex, doTheDelete, setcurrentRecord) {
   ];
 }
 
-export default ReviewsColumns;
+export default BookingColumns;

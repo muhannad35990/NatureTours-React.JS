@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import Users from "../Users";
 import Tours from "../Tours";
 import Reviews from "../Reviews";
+import Bookings from "../Bookings";
 
 function Dashboard() {
   const [currentTab, setcurrentTab] = useState("settings");
@@ -56,7 +57,7 @@ function Dashboard() {
             />
             <a>my reviews</a>
           </li>
-          <li
+          {/* <li
             className={`sidebar__item ${
               currentTab === "billing" ? "sidebar__item__selected" : ""
             }`}
@@ -67,7 +68,7 @@ function Dashboard() {
               className="sidebar__icon"
             />
             <a>billing</a>
-          </li>
+          </li> */}
           {/* admins only section */}
           {auth.user.role === "admin" && (
             <div>
@@ -156,6 +157,8 @@ function Dashboard() {
           <Tours />
         ) : currentTab === "manage_reviews" ? (
           <Reviews />
+        ) : currentTab === "manage_bookings" ? (
+          <Bookings />
         ) : (
           ""
         )}

@@ -5,18 +5,16 @@ import { put } from "redux-saga/effects";
 import showNotification from "../../components/alert/Alert";
 
 export function* getAllBookingsSaga(action) {
-  const response = yield AxiosInstance.get(
-    `${endpoints.BOOKINGS}/${action.payload}`
-  );
+  const response = yield AxiosInstance.get(`${endpoints.BOOKINGS}`);
   if (response.status === 200)
-    yield put(BookingsActions.setAllBookings(response.data.data));
+    yield put(BookingsActions.setAllBookings(response.data.data.docs));
 }
 export function* getBookingSaga(action) {
   const response = yield AxiosInstance.get(
     `${endpoints.BOOKINGS}/${action.payload}`
   );
-  if (response.status === 200) 
-  yield put(BookingsActions.setBooking(response.data.data));
+  if (response.status === 200)
+    yield put(BookingsActions.setBooking(response.data.data));
 }
 export function* getSessionSaga(action) {
   console.log(action.payload);
@@ -34,8 +32,8 @@ export function* updateBookingSaga(action) {
     `${endpoints.BOOKINGS}/${action.payload.bookingId}`,
     data
   );
-  if (response.status === 200) 
-  yield put(BookingsActions.getBooking(action.payload.bookingId));
+  if (response.status === 200)
+    yield put(BookingsActions.getBooking(action.payload.bookingId));
   showNotification("success", "Updated succssfully!", "Success");
   yield put(BookingsActions.getAllBookings());
 }
@@ -44,6 +42,7 @@ export function* deleteBookingSaga(action) {
   const response = yield AxiosInstance.delete(
     `${endpoints.BOOKINGS}/${action.payload}`
   );
+  console.log(response);
   yield put(BookingsActions.getAllBookings());
   showNotification("success", "Deleted succssfully!", "Success");
 }
