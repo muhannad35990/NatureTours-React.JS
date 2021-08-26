@@ -23,7 +23,7 @@ export function* addNewReviewsSaga(action) {
     `${endpoints.TOURS}/${action.payload.tourId}/reviews`,
     data
   );
-  console.log(response);
+
   if (response.status === 200) {
     yield put(getTourReviews(action.payload.tourId));
     yield put(AlertActions.setSpiner(false));

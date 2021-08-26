@@ -50,6 +50,7 @@ function TourDetails() {
 
   const handleBookingTheTour = () => {
     dispatch(setSpiner(true));
+
     dispatch(getCheckoutSession(tour.id));
   };
 
@@ -239,20 +240,17 @@ function TourDetails() {
                 LOGIN TO BOOK TOUR
               </Link>
             ) : spinner ? (
-              <Link
-                className="button button--green"
-                onClick={handleBookingTheTour}
-              >
+              <a className="button button--green">
                 processing{" "}
                 <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
-              </Link>
+              </a>
             ) : (
-              <Link
+              <a
                 className="button button--green"
                 onClick={handleBookingTheTour}
               >
                 BOOK THE TOUR NOW
-              </Link>
+              </a>
             )}
           </div>
         </section>
