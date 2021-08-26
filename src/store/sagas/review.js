@@ -29,7 +29,14 @@ export function* addNewReviewsSaga(action) {
     yield put(AlertActions.setSpiner(false));
     showNotification("success", "Added succssfully!", "Success");
   } else {
-    showNotification("error", "Only users can add a review!", "Error");
+    yield put(
+      AlertActions.showAlert({
+        type: "error",
+        title: "error",
+        message:
+          "Cann't add more than one review to the same tour!,and Only users can add a review!",
+      })
+    );
   }
 }
 export function* updateUserReviewsSaga(action) {
