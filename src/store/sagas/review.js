@@ -24,7 +24,7 @@ export function* addNewReviewsSaga(action) {
     data
   );
 
-  if (response.status === 200) {
+  if (response.status === 201) {
     yield put(getTourReviews(action.payload.tourId));
     yield put(AlertActions.setSpiner(false));
     showNotification("success", "Added succssfully!", "Success");
