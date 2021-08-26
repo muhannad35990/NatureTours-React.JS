@@ -9,7 +9,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import AutoHideAlert from "../../components/alert/AutoHideAlert";
 import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
 import InputPassword from "../../components/InputPassword/InputPassword";
-
+import history1 from "../../history";
 function Login() {
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
@@ -37,8 +37,8 @@ function Login() {
 
   useEffect(() => {
     if (auth.loggedIn) {
-      if (history.location.pathname && history.location.pathname !== "/login")
-        history.replace(history.location.pathname);
+      if (history1.location.pathname && history1.location.pathname !== "/login")
+        history.replace(history1.location.pathname);
       else history.replace("/");
     }
   }, [auth]);
