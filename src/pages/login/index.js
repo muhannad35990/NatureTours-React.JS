@@ -10,6 +10,10 @@ import AutoHideAlert from "../../components/alert/AutoHideAlert";
 import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
 import InputPassword from "../../components/InputPassword/InputPassword";
 import history1 from "../../history";
+import { Divider } from "antd";
+import AxiosInstance from "../../util/intercepter";
+import * as endpoints from "../../configs/endpointConfig";
+
 function Login() {
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
@@ -48,7 +52,10 @@ function Login() {
     dispatch(removeAllAlerts());
     dispatch(loginUser(values));
   };
-
+  const loginWithGoogle = async () => {
+    const response = await AxiosInstance.get(endpoints.GOOGLE_LOGIN);
+    console.log(response);
+  };
   return (
     <Formik
       initialValues={initialValues}
@@ -125,6 +132,14 @@ function Login() {
               </button>
             </form>
             <Link to="/forgotPassword">{`${t("forgot_password")}?`} </Link>
+            <Divider>OR</Divider>
+            <button
+              type="button"
+              className="login-with-google-btn"
+              onClick={loginWithGoogle}
+            >
+              Sign in with Google
+            </button>
           </div>
         );
       }}

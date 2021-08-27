@@ -8,6 +8,7 @@ import Router from "./router";
 import { autoLogin } from "./store/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import mapboxgl from "!mapbox-gl";
+
 function App() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
