@@ -72,9 +72,9 @@ function Login() {
     );
     if (newWindows) {
       timer = setInterval(() => {
-        if (Cookies.get("refreshToken")) {
+        if (Cookies.get("refreshToken") !== "undefined") {
           dispatch(autoLogin({ refreshToken: Cookies.get("refreshToken") }));
-          Cookies.remove("refreshToken");
+
           if (timer) clearInterval(timer);
           newWindows.close();
         }
@@ -100,7 +100,7 @@ function Login() {
       timer = setInterval(() => {
         if (Cookies.get("refreshToken")) {
           dispatch(autoLogin({ refreshToken: Cookies.get("refreshToken") }));
-          Cookies.remove("refreshToken");
+
           if (timer) clearInterval(timer);
           newWindows.close();
         }
