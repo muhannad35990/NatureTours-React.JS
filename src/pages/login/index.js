@@ -59,7 +59,7 @@ function Login() {
   const loginWithGoogle = async () => {
     let timer = null;
     const newWindows = window.open(
-      endpoints.FACEBOOK_LOGIN,
+      endpoints.GOOGLE_LOGIN,
       "_blank",
       "width=" +
         myWidth +
