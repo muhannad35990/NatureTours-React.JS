@@ -60,15 +60,16 @@ function Login() {
       "width=500,height=600"
     );
     if (newWindows) {
-      while (!Cookies.get("refreshToken")) {
-        localStorage.setItem("refreshToken", Cookies.get("refreshToken"));
-        Cookies.remove("refreshToken");
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (refreshToken) dispatch(autoLogin({ refreshToken }));
-        if (timer) clearInterval(timer);
-        newWindows.close();
-        break;
-      }
+      timer = setInterval(() => {
+        if (Cookies.get("refreshToken")) {
+          localStorage.setItem("refreshToken", Cookies.get("refreshToken"));
+          Cookies.remove("refreshToken");
+          const refreshToken = localStorage.getItem("refreshToken");
+          if (refreshToken) dispatch(autoLogin({ refreshToken }));
+          if (timer) clearInterval(timer);
+          newWindows.close();
+        }
+      }, 500);
     }
   };
   const loginWithFacebook = async () => {
@@ -79,15 +80,16 @@ function Login() {
       "width=500,height=600"
     );
     if (newWindows) {
-      while (!Cookies.get("refreshToken")) {
-        localStorage.setItem("refreshToken", Cookies.get("refreshToken"));
-        Cookies.remove("refreshToken");
-        const refreshToken = localStorage.getItem("refreshToken");
-        if (refreshToken) dispatch(autoLogin({ refreshToken }));
-        if (timer) clearInterval(timer);
-        newWindows.close();
-        break;
-      }
+      timer = setInterval(() => {
+        if (Cookies.get("refreshToken")) {
+          localStorage.setItem("refreshToken", Cookies.get("refreshToken"));
+          Cookies.remove("refreshToken");
+          const refreshToken = localStorage.getItem("refreshToken");
+          if (refreshToken) dispatch(autoLogin({ refreshToken }));
+          if (timer) clearInterval(timer);
+          newWindows.close();
+        }
+      }, 500);
     }
   };
   return (
