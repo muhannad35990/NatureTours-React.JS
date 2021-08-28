@@ -1,5 +1,5 @@
-// export const BACKEND_URL = "http://localhost:3002";
-export const BACKEND_URL = "https://whispering-mesa-68369.herokuapp.com";
+export const BACKEND_URL = "http://localhost:3002";
+// export const BACKEND_URL = "https://whispering-mesa-68369.herokuapp.com";
 
 //auth
 export const REGISTER_URL = `${BACKEND_URL}/api/v1/users/signup`;

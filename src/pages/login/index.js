@@ -72,13 +72,11 @@ function Login() {
     );
     if (newWindows) {
       timer = setInterval(() => {
-        const refreshToken = Cookies.get("refreshToken", {
-          path: "https://whispering-mesa-68369.herokuapp.com",
-        });
-        console.log("token:", refreshToken);
+        const refreshToken = Cookies.get("refreshToken");
+
         if (refreshToken) {
           dispatch(autoLogin({ refreshToken }));
-
+          localStorage.setItem("refreshToken", refreshToken);
           if (timer) clearInterval(timer);
           newWindows.close();
         }
