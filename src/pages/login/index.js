@@ -72,7 +72,7 @@ function Login() {
     );
     if (newWindows) {
       timer = setInterval(() => {
-        if (Cookies.get("refreshToken") !== "undefined") {
+        if (Cookies.get("refreshToken")) {
           dispatch(autoLogin({ refreshToken: Cookies.get("refreshToken") }));
 
           if (timer) clearInterval(timer);
