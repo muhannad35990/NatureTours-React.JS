@@ -21,6 +21,10 @@ function Login() {
   const auth = useSelector((state) => state.auth);
   const alert = useSelector((state) => state.alert.alert);
   const spinner = useSelector((state) => state.alert.spinner);
+  const myWidth = 500;
+  const myHeight = 600;
+  const left = (screen.width - myWidth) / 2;
+  const top = (screen.height - myHeight) / 4;
 
   const SignInSchema = Yup.object().shape({
     email: Yup.string()
@@ -55,9 +59,16 @@ function Login() {
   const loginWithGoogle = async () => {
     let timer = null;
     const newWindows = window.open(
-      endpoints.GOOGLE_LOGIN,
+      endpoints.FACEBOOK_LOGIN,
       "_blank",
-      "width=500,height=600"
+      "width=" +
+        myWidth +
+        ",height=" +
+        myHeight +
+        ", top=" +
+        top +
+        ", left=" +
+        left
     );
     if (newWindows) {
       timer = setInterval(() => {
@@ -72,10 +83,18 @@ function Login() {
   };
   const loginWithFacebook = async () => {
     let timer = null;
+
     const newWindows = window.open(
       endpoints.FACEBOOK_LOGIN,
       "_blank",
-      "width=500,height=600"
+      "width=" +
+        myWidth +
+        ",height=" +
+        myHeight +
+        ", top=" +
+        top +
+        ", left=" +
+        left
     );
     if (newWindows) {
       timer = setInterval(() => {
