@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../store/actions/authActions";
+import { autoLogin, loginUser } from "../../store/actions/authActions";
 import { Link, withRouter, useHistory } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // For translation
 import { LoadingOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ import history1 from "../../history";
 import { Divider } from "antd";
 import AxiosInstance from "../../util/intercepter";
 import * as endpoints from "../../configs/endpointConfig";
-
+import Cookies from "js-cookie";
 function Login() {
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
@@ -53,11 +53,24 @@ function Login() {
     dispatch(loginUser(values));
   };
   const loginWithGoogle = async () => {
+    let timer = null;
     const newWindows = window.open(
       endpoints.GOOGLE_LOGIN,
       "_blank",
       "width=500,height=600"
     );
+    if (newWindows) {
+      timer = setInterval(() => {
+        if (Cookies.get("refreshToken")) {
+          localStorage.setItem("refreshToken", Cookies.get("refreshToken"));
+          Cookies.remove("refreshToken");
+          const refreshToken = localStorage.getItem("refreshToken");
+          if (refreshToken) dispatch(autoLogin({ refreshToken }));
+          if (timer) clearInterval(timer);
+          newWindows.close();
+        }
+      }, 500);
+    }
   };
   return (
     <Formik
