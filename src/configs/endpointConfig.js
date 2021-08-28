@@ -11,6 +11,7 @@ export const AUTO_LOGIN = `${BACKEND_URL}/api/v1/users/autologin`;
 export const UPDATE_PASSWORD = `${BACKEND_URL}/api/v1/users/updateMyPassword`;
 export const USERS = `${BACKEND_URL}/api/v1/users`;
 export const GOOGLE_LOGIN = `${BACKEND_URL}/api/v1/users/google`;
+export const FACEBOOK_LOGIN = `${BACKEND_URL}/api/v1/users/facebook`;
 //Tours
 export const TOURS = `${BACKEND_URL}/api/v1/tours`;
 

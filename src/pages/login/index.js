@@ -72,6 +72,26 @@ function Login() {
       }, 500);
     }
   };
+  const loginWithFacebook = async () => {
+    let timer = null;
+    const newWindows = window.open(
+      endpoints.FACEBOOK_LOGIN,
+      "_blank",
+      "width=500,height=600"
+    );
+    if (newWindows) {
+      timer = setInterval(() => {
+        if (Cookies.get("refreshToken")) {
+          localStorage.setItem("refreshToken", Cookies.get("refreshToken"));
+          Cookies.remove("refreshToken");
+          const refreshToken = localStorage.getItem("refreshToken");
+          if (refreshToken) dispatch(autoLogin({ refreshToken }));
+          if (timer) clearInterval(timer);
+          newWindows.close();
+        }
+      }, 500);
+    }
+  };
   return (
     <Formik
       initialValues={initialValues}
@@ -151,10 +171,17 @@ function Login() {
             <Divider>OR</Divider>
             <button
               type="button"
-              className="login-with-google-btn"
+              className=" loginSocial loginSocial-google-btn"
               onClick={loginWithGoogle}
             >
               Sign in with Google
+            </button>
+            <button
+              type="button"
+              className=" loginSocial  loginSocial-facebook-btn"
+              onClick={loginWithFacebook}
+            >
+              Sign in with Facebook
             </button>
           </div>
         );
