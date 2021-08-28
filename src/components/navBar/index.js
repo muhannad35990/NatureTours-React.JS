@@ -24,7 +24,7 @@ function NavBar(props) {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(true);
-
+  const auth = useSelector((state) => state.auth);
   function handleMenuClick(e) {
     if (e.key === "1") changeLanguage("En");
     else changeLanguage("De");
@@ -64,7 +64,7 @@ function NavBar(props) {
       </Menu.Item>
     </Menu>
   );
-  const auth = useSelector((state) => state.auth);
+
   return (
     <div className="nav">
       <div className="nav__logo">
@@ -108,7 +108,11 @@ function NavBar(props) {
             <Button>
               <span style={{ marginRight: "1rem" }}>{auth.user.FirstName}</span>
               <Avatar
-                src={`${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`}
+                src={
+                  !auth.user.googleId
+                    ? `${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`
+                    : auth.user.photo
+                }
                 icon={<UserOutlined />}
               />
             </Button>
