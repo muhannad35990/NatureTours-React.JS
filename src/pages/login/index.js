@@ -11,9 +11,9 @@ import { removeAllAlerts, setSpiner } from "../../store/actions/AlertActions";
 import InputPassword from "../../components/InputPassword/InputPassword";
 import history1 from "../../history";
 import { Divider } from "antd";
-import AxiosInstance from "../../util/intercepter";
 import * as endpoints from "../../configs/endpointConfig";
 import Cookies from "js-cookie";
+
 function Login() {
   const { t } = useTranslation("words");
   const dispatch = useDispatch();
@@ -72,7 +72,9 @@ function Login() {
     );
     if (newWindows) {
       timer = setInterval(() => {
-        const refreshToken = Cookies.get("refreshToken");
+        const refreshToken = Cookies.get("refreshToken", {
+          domain: "https://whispering-mesa-68369.herokuapp.com",
+        });
         console.log("token:", refreshToken);
         if (refreshToken) {
           dispatch(autoLogin({ refreshToken }));
