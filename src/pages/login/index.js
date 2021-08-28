@@ -73,7 +73,7 @@ function Login() {
     if (newWindows) {
       timer = setInterval(() => {
         const refreshToken = Cookies.get("refreshToken", {
-          domain: "https://whispering-mesa-68369.herokuapp.com",
+          path: "https://whispering-mesa-68369.herokuapp.com",
         });
         console.log("token:", refreshToken);
         if (refreshToken) {
