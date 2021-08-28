@@ -34,6 +34,7 @@
     "react-draggable": "^4.4.3",
     "react-highlight-words": "^0.17.0",
     "react-i18next": "^11.11.0",
+    "react-oauth-popup": "^1.0.5",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-router-guards": "^1.0.2",

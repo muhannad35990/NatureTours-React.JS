@@ -56,6 +56,7 @@ function Login() {
     dispatch(removeAllAlerts());
     dispatch(loginUser(values));
   };
+
   const loginWithGoogle = async () => {
     let timer = null;
     const newWindows = window.open(
@@ -72,13 +73,17 @@ function Login() {
     );
     if (newWindows) {
       timer = setInterval(() => {
-        const refreshToken = Cookies.get("refreshToken");
-
-        if (refreshToken) {
-          dispatch(autoLogin({ refreshToken }));
-          localStorage.setItem("refreshToken", refreshToken);
-          if (timer) clearInterval(timer);
-          newWindows.close();
+        const cookies = document.cookie.split(";");
+        for (var i = 0; i < cookies.length; i++) {
+          var c = cookies[i];
+          let key = c.split("=")[0];
+          if (key === "refreshToken") {
+            const refreshToken = c.split("=")[1];
+            dispatch(autoLogin({ refreshToken }));
+            localStorage.setItem("refreshToken", refreshToken);
+            if (timer) clearInterval(timer);
+            newWindows.close();
+          }
         }
       }, 500);
     }
