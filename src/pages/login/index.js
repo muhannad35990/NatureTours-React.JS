@@ -53,8 +53,11 @@ function Login() {
     dispatch(loginUser(values));
   };
   const loginWithGoogle = async () => {
-    const response = await AxiosInstance.get(endpoints.GOOGLE_LOGIN);
-    console.log(response);
+    const newWindows = window.open(
+      endpoints.GOOGLE_LOGIN,
+      "_blank",
+      "width=500,height=600"
+    );
   };
   return (
     <Formik
