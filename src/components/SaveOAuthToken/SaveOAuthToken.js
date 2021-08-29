@@ -11,7 +11,6 @@ function SaveOAuthToken() {
   }, [routeParams]);
   return (
     <div>
-      <h1>Redirecting ... </h1>
       <Loading />
     </div>
   );
