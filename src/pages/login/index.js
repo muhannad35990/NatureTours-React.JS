@@ -99,9 +99,9 @@ function Login() {
     );
     if (newWindows) {
       timer = setInterval(() => {
-        if (Cookies.get("refreshToken")) {
-          dispatch(autoLogin({ refreshToken: Cookies.get("refreshToken") }));
-
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (refreshToken) {
+          dispatch(autoLogin({ refreshToken }));
           if (timer) clearInterval(timer);
           newWindows.close();
         }

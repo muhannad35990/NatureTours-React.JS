@@ -109,7 +109,7 @@ function NavBar(props) {
               <span style={{ marginRight: "1rem" }}>{auth.user.FirstName}</span>
               <Avatar
                 src={
-                  !auth.user.googleId
+                  !auth.user.googleId && !auth.user.facebookId
                     ? `${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`
                     : auth.user.photo
                 }

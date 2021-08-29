@@ -130,7 +130,7 @@ function Me() {
             <Avatar
               size={{ xs: 30, sm: 50, md: 70, lg: 80, xl: 100, xxl: 125 }}
               src={
-                !auth.user.googleId
+                !auth.user.googleId && !auth.user.facebookId
                   ? `${endpoints.BACKEND_URL}/img/users/${auth.user.photo}`
                   : auth.user.photo
               }
