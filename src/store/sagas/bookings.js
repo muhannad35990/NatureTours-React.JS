@@ -17,7 +17,6 @@ export function* getBookingSaga(action) {
     yield put(BookingsActions.setBooking(response.data.data));
 }
 export function* getSessionSaga(action) {
-  console.log(action.payload);
   const response = yield AxiosInstance.post(
     `${endpoints.BOOKINGS}/checkout-session/${action.payload}`
   );
@@ -42,7 +41,7 @@ export function* deleteBookingSaga(action) {
   const response = yield AxiosInstance.delete(
     `${endpoints.BOOKINGS}/${action.payload}`
   );
-  console.log(response);
+
   yield put(BookingsActions.getAllBookings());
   showNotification("success", "Deleted succssfully!", "Success");
 }

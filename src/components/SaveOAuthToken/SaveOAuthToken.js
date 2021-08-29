@@ -5,8 +5,6 @@ import Loading from "../Loading";
 function SaveOAuthToken() {
   const routeParams = useParams();
   useEffect(() => {
-    console.log(routeParams.token);
-
     localStorage.setItem("refreshToken", routeParams.token);
   }, [routeParams]);
   return (
