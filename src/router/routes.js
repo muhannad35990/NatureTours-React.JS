@@ -1,3 +1,4 @@
+import SaveOAuthToken from "../components/SaveOAuthToken/SaveOAuthToken";
 import {
   ForgotPassword,
   Login,
@@ -69,6 +70,12 @@ export default () => [
     exact: true,
     component: Login,
   },
+  {
+    path: "/SaveOAuthToken/:token",
+    exact: true,
+    component: SaveOAuthToken,
+  },
+
   {
     path: "/",
     exact: true,

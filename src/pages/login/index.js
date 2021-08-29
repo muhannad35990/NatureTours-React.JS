@@ -73,17 +73,11 @@ function Login() {
     );
     if (newWindows) {
       timer = setInterval(() => {
-        const cookies = document.cookie.split(";");
-        for (var i = 0; i < cookies.length; i++) {
-          var c = cookies[i];
-          let key = c.split("=")[0];
-          if (key === "refreshToken") {
-            const refreshToken = c.split("=")[1];
-            dispatch(autoLogin({ refreshToken }));
-            localStorage.setItem("refreshToken", refreshToken);
-            if (timer) clearInterval(timer);
-            newWindows.close();
-          }
+        const refreshToken = localStorage.getItem("refreshToken");
+        if (refreshToken) {
+          dispatch(autoLogin({ refreshToken }));
+          if (timer) clearInterval(timer);
+          newWindows.close();
         }
       }, 500);
     }
