@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
 
 import RotatingCard from "../../components/RotatingCard/RotatingCard";
-import SearchBox from "../../components/SearchBox/SearchBox";
+
 import { getMyBookings } from "../../store/actions/BookingActions";
 
 function MyBookings() {

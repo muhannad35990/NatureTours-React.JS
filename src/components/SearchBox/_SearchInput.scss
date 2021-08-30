@@ -1,20 +1,41 @@
-.ant-input-group .ant-input {
-  padding: 1.35rem !important;
+.search {
+  width: 100%;
+
+  &__btn {
+    width: 5rem;
+    background-color: #55c57a;
+    border: none;
+    cursor: pointer;
+    &__icon {
+      font-size: 2rem;
+      color: #fff !important;
+    }
+  }
+  &__container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  &__input {
+    width: 40%;
+    height: 5rem;
+    border: 1px solid $color-grey-dark-3;
+    outline: none;
+    background-color: #fff;
+    padding: 0.5rem 2rem;
+    font-size: 1.5rem;
+    color: $color-grey-dark-1;
+    transition: all 0.2s;
+    &::placeholder {
+      color: $color-grey-dark-2;
+    }
+    &:focus {
+      width: 45%;
+      border-color: $color-primary-dark !important;
+    }
+  }
 }
-.ant-input-search
-  > .ant-input-group
-  > .ant-input-group-addon:last-child
-  .ant-input-search-button:not(.ant-btn-primary) {
-  background-color: $color-primary !important;
-  color: $color-grey-light-1 !important;
-}
-.ant-input-search .ant-input:hover,
-.ant-input-search .ant-input:focus {
-  border-color: $color-primary !important;
-}
-.ant-btn-icon-only {
-  width: 5rem !important;
-}
-.ant-btn:active {
-  border-color: $color-primary-dark !important;
+
+.ant-select-single .ant-select-selector .ant-select-selection-item {
+  top: 5px !important;
 }

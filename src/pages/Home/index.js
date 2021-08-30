@@ -27,7 +27,18 @@ function Home() {
       }}
     >
       <Row justify="center">
-        <SearchBox />
+        <Col
+          span={24}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: "4rem",
+            marginTop: "1rem",
+          }}
+        >
+          <SearchBox />
+        </Col>
       </Row>
       <Row
         type="flex"
