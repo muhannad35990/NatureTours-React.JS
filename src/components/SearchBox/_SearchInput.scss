@@ -1,10 +1,6 @@
 .search {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 5rem;
+
   &__expandbtn {
     height: 5rem;
     border-top: 1px double $color-grey-dark-3;
@@ -77,4 +73,21 @@
 .ant-checkbox-input:hover,
 .ant-checkbox-input:focus + .ant-checkbox-inner {
   border-color: $color-primary-light !important;
+}
+.priceSection {
+  padding: 2rem 0;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__checkboxes {
+    flex-direction: row;
+  }
+}
+.greaterLower {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem 2rem;
 }

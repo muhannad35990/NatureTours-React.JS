@@ -21,12 +21,12 @@ function Home() {
         height: "100%",
         width: "100%",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "space-between",
         flexDirection: "column",
-        marginTop: "10rem",
+        paddingTop: "5rem",
       }}
     >
-      <Row justify="center" style={{ marginBottom: "4rem" }}>
+      <Row justify="center">
         <Col
           span={24}
           style={{
@@ -42,11 +42,11 @@ function Home() {
         type="flex"
         justify="center"
         style={{
-          minHeight: "80%",
           alignItems: "center",
           justifyContent: "center",
           justifyItems: "center",
           textAlign: "center",
+          marginTop: "3rem",
         }}
       >
         {tours.map((tour, index) => (
