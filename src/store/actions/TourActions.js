@@ -47,3 +47,6 @@ export const setTourReviews = (data) => ({
   type: types.SET_TOUR_REVIEWS,
   payload: data,
 });
+export const getTop5Cheap = () => ({
+  type: types.GET_TOP_5_CHEAP,
+});

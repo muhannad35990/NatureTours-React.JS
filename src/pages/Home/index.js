@@ -26,15 +26,13 @@ function Home() {
         marginTop: "10rem",
       }}
     >
-      <Row justify="center">
+      <Row justify="center" style={{ marginBottom: "4rem" }}>
         <Col
           span={24}
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginBottom: "4rem",
-            marginTop: "1rem",
           }}
         >
           <SearchBox />
