@@ -11,6 +11,7 @@ function MapBox({
   popLocation,
   menu,
   setFieldValue,
+  isState,
 }) {
   let mapContainer = useRef(null);
   const map = useRef(null);
@@ -23,7 +24,6 @@ function MapBox({
 
   useEffect(() => {
     if (!map.current) {
-    
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/streets-v11",
@@ -38,7 +38,7 @@ function MapBox({
       popUps.forEach((popup) => popup.remove());
       setMarkers([]);
       setPopUps([]);
-
+      console.log(locations);
       locations &&
         locations.length <= 1 &&
         locations.forEach((loc) => {
@@ -152,8 +152,12 @@ function MapBox({
     setShowAddModel(true);
   }
   const handleAddlocation = () => {
-    setFieldValue(`startLocation.coordinates[${0}]`, lng);
-    setFieldValue(`startLocation.coordinates[${1}]`, lat);
+    if (!isState) {
+      setFieldValue(`startLocation.coordinates[${0}]`, lng);
+      setFieldValue(`startLocation.coordinates[${1}]`, lat);
+    } else {
+      setFieldValue({ coordinates: [lng, lat] });
+    }
   };
   const menu1 = (
     <Menu onClick={handleMenuClick}>

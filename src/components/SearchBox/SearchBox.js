@@ -1,10 +1,11 @@
 import {
   DownOutlined,
+  DragOutlined,
   LoadingOutlined,
   SearchOutlined,
   UpOutlined,
 } from "@ant-design/icons";
-import { Divider, Input, Select } from "antd";
+import { Col, Collapse, Divider, Input, Row, Select } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,24 +19,29 @@ import { useEffect } from "react";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { setSpiner } from "../../store/actions/AlertActions";
+import MapBox from "../mapBox/MapBox";
 const { Option } = Select;
-
+const { Panel } = Collapse;
 function SearchBox() {
   const [seletedValue, setseletedValue] = useState("difficulty");
-
+  const [currentLocation, setCurrentLocation] = useState({
+    coordinates: [-70.9, 42.35],
+  });
   const [expandSearch, setExpandSearch] = useState(false);
   const [checboxes, setChecboxes] = useState({ cheap: false, expense: false });
-
   const [gratorOrlower, setGratorOrlower] = useState("equal");
   const spinner = useSelector((state) => state.alert.spinner);
+  const gutter = [32, 24];
 
   const tourSearchSchema = Yup.object().shape({
     price: Yup.number("it must be number"),
     searchValue: Yup.string("It must be string"),
+    distance: Yup.number("it must be number"),
   });
   const initialTourSearchValues = {
     price: 0,
     searchValue: "",
+    distance: 0,
   };
   const dispatch = useDispatch();
   const doSearch = async (values) => {
@@ -137,61 +143,144 @@ function SearchBox() {
                 height={expandSearch ? "auto" : 0}
                 className="advanced__content"
               >
-                <div className="priceSection">
-                  <Divider className="divider--white">Price</Divider>
-                  <div className="priceSection__checkboxes">
-                    <Checkbox
-                      checked={checboxes.cheap}
-                      onChange={(e) => {
-                        setChecboxes({
-                          ...checboxes,
-                          cheap: e.target.checked,
-                          expense: false,
-                        });
-                      }}
-                    >
-                      Top 5 cheap
-                    </Checkbox>
-                    <Checkbox
-                      checked={checboxes.expense}
-                      onChange={(e) => {
-                        setChecboxes({
-                          ...checboxes,
-                          expense: e.target.checked,
-                          cheap: false,
-                        });
-                      }}
-                    >
-                      Top 5 Expense
-                    </Checkbox>
-                  </div>
+                <Collapse>
+                  <Panel header="Price section search" key={0}>
+                    <div className="priceSection">
+                      <Divider className="divider--white">Price</Divider>
+                      <div className="priceSection__checkboxes">
+                        <Checkbox
+                          checked={checboxes.cheap}
+                          onChange={(e) => {
+                            setChecboxes({
+                              ...checboxes,
+                              cheap: e.target.checked,
+                              expense: false,
+                            });
+                          }}
+                        >
+                          Top 5 cheap
+                        </Checkbox>
+                        <Checkbox
+                          checked={checboxes.expense}
+                          onChange={(e) => {
+                            setChecboxes({
+                              ...checboxes,
+                              expense: e.target.checked,
+                              cheap: false,
+                            });
+                          }}
+                        >
+                          Top 5 Expense
+                        </Checkbox>
+                      </div>
 
-                  <div className="greaterLower">
-                    <Select
-                      value={gratorOrlower}
-                      defaultValue="greater"
-                      onChange={(val) => setGratorOrlower(val)}
-                    >
-                      <Option value="equal">Equal</Option>
-                      <Option value="greater">Greater then</Option>
-                      <Option value="lower">lower than</Option>
-                    </Select>
-                    <input
-                      type="text"
-                      name="price"
-                      id="price"
-                      placeholder="price"
-                      value={values.price}
-                      onChange={handleChange}
-                      className="form__input"
-                      style={{
-                        marginLeft: "1rem",
-                        backgroundColor: "#fff",
-                        color: "#000",
-                      }}
-                    />
-                  </div>
-                </div>
+                      <div className="greaterLower">
+                        <Select
+                          value={gratorOrlower}
+                          defaultValue="greater"
+                          onChange={(val) => setGratorOrlower(val)}
+                        >
+                          <Option value="equal">Equal</Option>
+                          <Option value="greater">Greater then</Option>
+                          <Option value="lower">lower than</Option>
+                        </Select>
+                        <input
+                          type="text"
+                          name="price"
+                          id="price"
+                          placeholder="price"
+                          value={values.price}
+                          onChange={handleChange}
+                          className="form__input"
+                          style={{
+                            marginLeft: "1rem",
+                            backgroundColor: "#fff",
+                            color: "#000",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </Panel>
+                  <Panel header="Location section search" key={1}>
+                    <Divider>Within distance from position</Divider>
+                    <Row gutter={gutter}>
+                      <Col span={12}>
+                        <div className="form__group">
+                          <input
+                            type="text"
+                            name="lng"
+                            id="lng"
+                            placeholder="lng"
+                            value={currentLocation.coordinates[0]}
+                            className="form__input"
+                          />
+                          <label htmlFor="lng" className="form__label">
+                            lng
+                          </label>
+                        </div>
+                      </Col>
+                      <Col span={12}>
+                        <div className="form__group">
+                          <input
+                            type="text"
+                            name="lat"
+                            id="lat"
+                            placeholder="lat"
+                            value={currentLocation.coordinates[1]}
+                            className="form__input"
+                          />
+                          <label htmlFor="lat" className="form__label">
+                            lat
+                          </label>
+                        </div>
+                      </Col>
+                      <Col span={12}>
+                        <div className="form__group">
+                          <input
+                            type="text"
+                            name="Distance"
+                            id="Distance"
+                            placeholder="Distance"
+                            value={values.distance}
+                            className="form__input"
+                            onChange={handleChange}
+                          />
+                          <label htmlFor="Distance" className="form__label">
+                            Distance
+                          </label>
+                        </div>
+                      </Col>
+                      <Col span={12}>
+                        <label htmlFor="Unit" className="form__label">
+                          Unit
+                        </label>
+                        <Select
+                          name="Unit"
+                          id="Unit"
+                          defaultValue="km"
+                          onChange={handleSelectChange}
+                          style={{ width: "100%" }}
+                        >
+                          <Option value="km">KM</Option>
+                          <Option value="mi">Mile</Option>
+                        </Select>
+                      </Col>
+                      <Col span={24}>
+                        <div className="search_map">
+                          <MapBox
+                            key="startMap11111"
+                            isRightClickEnabled={true}
+                            locations={currentLocation}
+                            popLocation={null}
+                            menu={2}
+                            setFieldValue={setCurrentLocation}
+                            isState={true}
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </Panel>
+                </Collapse>
               </AnimateHeight>
             </div>
           </form>
