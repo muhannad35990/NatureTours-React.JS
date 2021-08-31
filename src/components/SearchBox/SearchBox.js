@@ -238,14 +238,14 @@ function SearchBox() {
                         <div className="form__group">
                           <input
                             type="text"
-                            name="Distance"
-                            id="Distance"
+                            name="distance"
+                            id="distance"
                             placeholder="Distance"
                             value={values.distance}
                             className="form__input"
                             onChange={handleChange}
                           />
-                          <label htmlFor="Distance" className="form__label">
+                          <label htmlFor="distance" className="form__label">
                             Distance
                           </label>
                         </div>
