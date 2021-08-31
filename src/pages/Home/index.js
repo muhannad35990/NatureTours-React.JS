@@ -23,7 +23,7 @@ function Home() {
         display: "flex",
         justifyContent: "space-between",
         flexDirection: "column",
-        paddingTop: "5rem",
+        paddingTop: "7rem",
       }}
     >
       <Row justify="center">
