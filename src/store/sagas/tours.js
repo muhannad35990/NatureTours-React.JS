@@ -83,3 +83,8 @@ export function* getTop5CheapSaga(action) {
   if (response.status === 200)
     yield put(TourActions.setToursData(response.data.data.docs));
 }
+export function* getTop5ExpenseSaga(action) {
+  const response = yield AxiosInstance.get(`${endpoints.TOURS}/top-5-expense`);
+  if (response.status === 200)
+    yield put(TourActions.setToursData(response.data.data.docs));
+}

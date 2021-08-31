@@ -50,3 +50,6 @@ export const setTourReviews = (data) => ({
 export const getTop5Cheap = () => ({
   type: types.GET_TOP_5_CHEAP,
 });
+export const getTop5Expense = () => ({
+  type: types.GET_TOP_5_EXPENSE,
+});
