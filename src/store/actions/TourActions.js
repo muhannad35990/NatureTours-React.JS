@@ -53,3 +53,8 @@ export const getTop5Cheap = () => ({
 export const getTop5Expense = () => ({
   type: types.GET_TOP_5_EXPENSE,
 });
+export const getToursByDistance = (data) => ({
+  type: types.GET_TOURS_BY_DISTANCE,
+  payload: data,
+});
+

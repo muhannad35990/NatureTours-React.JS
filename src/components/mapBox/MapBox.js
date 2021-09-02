@@ -15,8 +15,8 @@ function MapBox({
 }) {
   let mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
+  const [lng, setLng] = useState(-82.6);
+  const [lat, setLat] = useState(30.6);
   const [zoom, setZoom] = useState(4);
   const [showAddModel, setShowAddModel] = useState(false);
   const [markers, setMarkers] = useState([]);
@@ -29,7 +29,7 @@ function MapBox({
         style: "mapbox://styles/mapbox/streets-v11",
         scrollZoom: `${menu === 1 ? true : false}`,
         focusAfterOpen: false,
-        // center: [lng, lat],
+        center: [lng, lat],
         // zoom: zoom,
       });
 
@@ -38,9 +38,9 @@ function MapBox({
       popUps.forEach((popup) => popup.remove());
       setMarkers([]);
       setPopUps([]);
-      console.log(locations);
+
       locations &&
-        locations.length <= 1 &&
+        locations.length === 1 &&
         locations.forEach((loc) => {
           const marker = new mapboxgl.Marker()
             .setLngLat(loc.coordinates)
@@ -66,7 +66,7 @@ function MapBox({
         });
 
       locations &&
-        locations.length <= 1 &&
+        locations.length === 1 &&
         map.current.fitBounds(bounds, {
           padding: {
             top: isRightClickEnabled ? 100 : 200,
@@ -93,13 +93,12 @@ function MapBox({
         const popup = new mapboxgl.Popup({ offset: 30, focusAfterOpen: false })
           .setLngLat(loc.coordinates)
           .setHTML(
-            ` <p>${locations.length > 1 ? `Day ${loc.day}:` : ""}  ${
-              loc.description
-            }   </p> 
+            ` <p>${
+              locations.length > 1 ? (loc.day ? `Day ${loc.day}:` : "") : ""
+            }  ${loc.description}   </p> 
             } `
           )
           .addTo(map.current);
-
         setMarkers((val) => [...val, marker]);
         setPopUps((val) => [...val, popup]);
         bounds.extend(loc.coordinates);
@@ -107,8 +106,8 @@ function MapBox({
 
       map.current.fitBounds(bounds, {
         padding: {
-          top: isRightClickEnabled ? 100 : 200,
-          bottom: isRightClickEnabled ? 100 : 150,
+          top: 200,
+          bottom: 150,
           left: 150,
           right: 150,
         },
@@ -152,6 +151,20 @@ function MapBox({
     setShowAddModel(true);
   }
   const handleAddlocation = () => {
+    markers.forEach((marker) => marker.remove());
+    popUps.forEach((popup) => popup.remove());
+    setMarkers([]);
+    setPopUps([]);
+    const marker = new mapboxgl.Marker()
+      .setLngLat([lng, lat])
+      .addTo(map.current);
+    const popup = new mapboxgl.Popup({ offset: 30 })
+      .setLngLat([lng, lat])
+      .setHTML(`<p>current Location</p>`)
+      .addTo(map.current);
+    setMarkers((val) => [...val, marker]);
+    setPopUps((val) => [...val, popup]);
+
     if (!isState) {
       setFieldValue(`startLocation.coordinates[${0}]`, lng);
       setFieldValue(`startLocation.coordinates[${1}]`, lat);

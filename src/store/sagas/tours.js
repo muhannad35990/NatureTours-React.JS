@@ -88,3 +88,11 @@ export function* getTop5ExpenseSaga(action) {
   if (response.status === 200)
     yield put(TourActions.setToursData(response.data.data.docs));
 }
+export function* getToursByDistanceSaga(action) {
+  const response = yield AxiosInstance.get(
+    `${endpoints.TOURS}/tours-within/${action.payload.distance}/center/${action.payload.lng},${action.payload.lat}/unit/${action.payload.unit}`
+  );
+
+  if (response.status === 200)
+    yield put(TourActions.setToursData(response.data.data.data));
+}

@@ -5,13 +5,23 @@ import {
   SearchOutlined,
   UpOutlined,
 } from "@ant-design/icons";
-import { Col, Collapse, Divider, Input, Row, Select } from "antd";
+import {
+  Col,
+  Collapse,
+  Divider,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+  Slider,
+} from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllTours,
   getTop5Cheap,
   getTop5Expense,
+  getToursByDistance,
 } from "../../store/actions/TourActions";
 import AnimateHeight from "react-animate-height";
 import Checkbox from "antd/lib/checkbox/Checkbox";
@@ -30,7 +40,12 @@ function SearchBox() {
   const [expandSearch, setExpandSearch] = useState(false);
   const [checboxes, setChecboxes] = useState({ cheap: false, expense: false });
   const [gratorOrlower, setGratorOrlower] = useState("equal");
+  const [slider, setSlider] = useState(0);
+  const [unit, setUnit] = useState("km");
+  const tours = useSelector((state) => state.tours.tours);
   const spinner = useSelector((state) => state.alert.spinner);
+  const dispatch = useDispatch();
+  const [toursStartLocations, setToursStartLocations] = useState([]);
   const gutter = [32, 24];
 
   const tourSearchSchema = Yup.object().shape({
@@ -43,9 +58,34 @@ function SearchBox() {
     searchValue: "",
     distance: 0,
   };
-  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (slider > 0)
+      dispatch(
+        getToursByDistance({
+          distance: slider,
+          lat: currentLocation.coordinates[0],
+          lng: currentLocation.coordinates[1],
+          unit: unit,
+        })
+      );
+  }, [slider]);
+  useEffect(() => {
+    setToursStartLocations([]);
+    if (slider > 0)
+      tours.map((tour) => {
+        {
+          setToursStartLocations((prev) => [...prev, tour.startLocation]);
+        }
+      });
+  }, [tours]);
+  useEffect(() => {
+    if (checboxes.cheap) dispatch(getTop5Cheap());
+    else if (checboxes.expense) dispatch(getTop5Expense());
+    else dispatch(getAllTours());
+  }, [checboxes]);
+
   const doSearch = async (values) => {
-    console.log(values);
     let filter;
     dispatch(setSpiner(true));
 
@@ -65,14 +105,12 @@ function SearchBox() {
       dispatch(getAllTours(filter));
     }
   };
+  const handleUnitChange = (val) => {
+    setUnit(val);
+  };
   const handleSelectChange = (val) => {
     setseletedValue(val);
   };
-  useEffect(() => {
-    if (checboxes.cheap) dispatch(getTop5Cheap());
-    else if (checboxes.expense) dispatch(getTop5Expense());
-    else dispatch(getAllTours());
-  }, [checboxes]);
 
   return (
     <Formik
@@ -194,7 +232,7 @@ function SearchBox() {
                           className="form__input"
                           style={{
                             marginLeft: "1rem",
-                            backgroundColor: "#fff",
+
                             color: "#000",
                           }}
                         />
@@ -203,7 +241,7 @@ function SearchBox() {
                   </Panel>
                   <Panel header="Location section search" key={1}>
                     <Divider>Within distance from position</Divider>
-                    <Row gutter={gutter}>
+                    <Row gutter={gutter} justify="center">
                       <Col span={12}>
                         <div className="form__group">
                           <input
@@ -236,18 +274,20 @@ function SearchBox() {
                       </Col>
                       <Col span={12}>
                         <div className="form__group">
-                          <input
-                            type="text"
-                            name="distance"
-                            id="distance"
-                            placeholder="Distance"
-                            value={values.distance}
-                            className="form__input"
-                            onChange={handleChange}
-                          />
                           <label htmlFor="distance" className="form__label">
                             Distance
                           </label>
+                          <InputNumber
+                            min={1}
+                            max={2000}
+                            style={{
+                              width: "100%",
+                              padding: " .9rem 2rem",
+                              fontSize: "1.5rem",
+                            }}
+                            value={slider}
+                            onChange={(val) => setSlider(val)}
+                          />
                         </div>
                       </Col>
                       <Col span={12}>
@@ -258,19 +298,33 @@ function SearchBox() {
                           name="Unit"
                           id="Unit"
                           defaultValue="km"
-                          onChange={handleSelectChange}
+                          onChange={handleUnitChange}
                           style={{ width: "100%" }}
                         >
                           <Option value="km">KM</Option>
                           <Option value="mi">Mile</Option>
                         </Select>
                       </Col>
+                      <Col span={18}>
+                        <label htmlFor="distance" className="form__label">
+                          Distance slider
+                        </label>
+                        <Slider
+                          min={1}
+                          max={2000}
+                          onChange={(val) => setSlider(val)}
+                          value={typeof slider === "number" ? slider : 0}
+                        />
+                      </Col>
                       <Col span={24}>
+                        <label htmlFor="distance" className="form__label">
+                          Set a center location on the map
+                        </label>
                         <div className="search_map">
                           <MapBox
                             key="startMap11111"
                             isRightClickEnabled={true}
-                            locations={currentLocation}
+                            locations={toursStartLocations}
                             popLocation={null}
                             menu={2}
                             setFieldValue={setCurrentLocation}
