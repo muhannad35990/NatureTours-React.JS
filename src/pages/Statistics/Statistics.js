@@ -105,6 +105,7 @@ function Statistics() {
           <Bar data={numRatersData} />
         </Col>
         <Col span={24}>
+          <Divider>Price per difficulty</Divider>
           <Bar data={priceData} />
         </Col>
       </Row>
