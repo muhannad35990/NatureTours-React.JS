@@ -96,3 +96,9 @@ export function* getToursByDistanceSaga(action) {
   if (response.status === 200)
     yield put(TourActions.setToursData(response.data.data.data));
 }
+export function* getTourStatisticsSaga(action) {
+  const response = yield AxiosInstance.get(`${endpoints.TOURS}/tour-stats`);
+
+  if (response.status === 200)
+    yield put(TourActions.setTourStatistics(response.data.data.stats));
+}

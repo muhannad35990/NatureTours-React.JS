@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import {
+  BarChartOutlined,
   BookOutlined,
   CarOutlined,
   CommentOutlined,
@@ -16,6 +17,7 @@ import Users from "../Users";
 import Tours from "../Tours";
 import Reviews from "../Reviews";
 import Bookings from "../Bookings";
+import Statistics from "../Statistics/Statistics";
 
 function Dashboard() {
   const [currentTab, setcurrentTab] = useState("settings");
@@ -57,18 +59,18 @@ function Dashboard() {
             />
             <a>my reviews</a>
           </li>
-          {/* <li
+          <li
             className={`sidebar__item ${
-              currentTab === "billing" ? "sidebar__item__selected" : ""
+              currentTab === "Statistics" ? "sidebar__item__selected" : ""
             }`}
-            onClick={() => setcurrentTab("billing")}
+            onClick={() => setcurrentTab("Statistics")}
           >
-            <DollarCircleOutlined
+            <BarChartOutlined
               style={{ fontSize: 20 }}
               className="sidebar__icon"
             />
-            <a>billing</a>
-          </li> */}
+            <a>Statistics</a>
+          </li>
           {/* admins only section */}
           {auth.user.role === "admin" && (
             <div>
@@ -151,6 +153,8 @@ function Dashboard() {
           <MyReviews />
         ) : currentTab === "billing" ? (
           <Billing />
+        ) : currentTab === "Statistics" ? (
+          <Statistics />
         ) : currentTab === "manage_users" ? (
           <Users />
         ) : currentTab === "manage_tours" ? (

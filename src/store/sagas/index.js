@@ -36,6 +36,7 @@ import {
   getTop5CheapSaga,
   getTop5ExpenseSaga,
   getToursByDistanceSaga,
+  getTourStatisticsSaga,
 } from "./tours";
 import {
   deleteUserSaga,
@@ -65,6 +66,7 @@ export function* watchAuth() {
   yield all([takeEvery(types.GET_TOP_5_CHEAP, getTop5CheapSaga)]);
   yield all([takeEvery(types.GET_TOP_5_EXPENSE, getTop5ExpenseSaga)]);
   yield all([takeEvery(types.GET_TOURS_BY_DISTANCE, getToursByDistanceSaga)]);
+  yield all([takeEvery(types.GET_TOUR_STATISTICS, getTourStatisticsSaga)]);
 
   yield all([takeEvery(types.INSERT_TOUR_LOCATION, insertTourLocationSaga)]);
   yield all([takeEvery(types.DELETE_TOUR_LOCATION, deleteTourLocationSaga)]);

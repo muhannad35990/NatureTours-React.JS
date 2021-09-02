@@ -4,6 +4,7 @@ const initialState = {
   tours: [],
   tour: null,
   reviews: [],
+  statistics: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -14,6 +15,8 @@ const reducer = (state = initialState, action) => {
       return { ...state, tour: action.payload };
     case types.SET_TOUR_REVIEWS:
       return { ...state, reviews: action.payload };
+    case types.SET_TOUR_STATISTICS:
+      return { ...state, statistics: action.payload };
 
     default:
       return state;

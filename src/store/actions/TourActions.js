@@ -58,3 +58,10 @@ export const getToursByDistance = (data) => ({
   payload: data,
 });
 
+export const getTourStatistics = () => ({
+  type: types.GET_TOUR_STATISTICS,
+});
+export const setTourStatistics = (data) => ({
+  type: types.SET_TOUR_STATISTICS,
+  payload: data,
+});
