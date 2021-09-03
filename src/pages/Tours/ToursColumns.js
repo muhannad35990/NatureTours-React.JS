@@ -8,6 +8,7 @@ import {
 import Avatar from "antd/lib/avatar/avatar";
 import * as endpoints from "../../configs/endpointConfig";
 import getColumnSearchProps from "../../util/getColumnSearchProps";
+import { useTranslation } from "react-i18next";
 
 function ToursColumns(
   index,
@@ -17,6 +18,8 @@ function ToursColumns(
   setcurrentRecord
 ) {
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
+  const { t } = useTranslation("words");
+
   return [
     {
       key: "photo",
@@ -28,7 +31,7 @@ function ToursColumns(
     },
 
     {
-      title: "Name",
+      title: t("Name"),
       dataIndex: "name",
       key: "name",
       width: "20%",
@@ -37,20 +40,16 @@ function ToursColumns(
       ...getColumnSearchProps("name", setIndex, index),
     },
     {
-      title: "Difficulty",
+      title: t("Difficulty"),
       dataIndex: "difficulty",
       key: "difficulty",
       width: "10%",
       sorter: (a, b) => a.difficulty.localeCompare(b.difficulty),
       sortDirections: ["descend", "ascend"],
-      ...getColumnSearchProps(
-        "difficulty",
-        setIndex,
-        index
-      ),
+      ...getColumnSearchProps("difficulty", setIndex, index),
     },
     {
-      title: "duration",
+      title: t("Duration"),
       dataIndex: "duration",
       key: "duration",
       width: "10%",
@@ -59,7 +58,7 @@ function ToursColumns(
       ...getColumnSearchProps("duration", setIndex, index),
     },
     {
-      title: "Max Group Size",
+      title: t("Max_Group_Size"),
       dataIndex: "maxGroupSize",
       key: "maxGroupSize",
       width: "15%",
@@ -68,7 +67,7 @@ function ToursColumns(
       ...getColumnSearchProps("maxGroupSize", setIndex, index),
     },
     {
-      title: "Price",
+      title: t("Price"),
       dataIndex: "price",
       key: "price",
       width: "5%",
@@ -78,7 +77,7 @@ function ToursColumns(
     },
 
     {
-      title: "secret Tour",
+      title: t("secret_Tour"),
       dataIndex: "secretTour",
       key: "secretTour",
       width: "10%",
@@ -87,7 +86,7 @@ function ToursColumns(
       render: (val) => <div className="text_overlap">{val ? "Yes" : "No"}</div>,
     },
     {
-      title: "Rating Qantity",
+      title: t("Rating_Qantity"),
       dataIndex: "ratingQantity",
       key: "ratingQantity ",
       width: "10%",
@@ -96,7 +95,7 @@ function ToursColumns(
       ...getColumnSearchProps("ratingQantity", setIndex, index),
     },
     {
-      title: "Rating Average",
+      title: t("Rating_Average"),
       dataIndex: "ratingAverage",
       key: "ratingAverage",
       width: "20%",
@@ -114,7 +113,7 @@ function ToursColumns(
     },
 
     {
-      title: "Action",
+      title: t("Action"),
       key: "action",
       render: (text, record, index) => (
         <Space size="middle">
@@ -129,10 +128,10 @@ function ToursColumns(
             <EditOutlined />
           </button>
           <Popconfirm
-            title="Are you sure to delete this tour?"
+            title={t("Are_you_sure_to_delete_this_tour")}
             onConfirm={() => doTheDelete(record.id)}
-            okText="Yes"
-            cancelText="No"
+            okText={t("Yes")}
+            cancelText={t("No")}
             key="popUp"
           >
             <button

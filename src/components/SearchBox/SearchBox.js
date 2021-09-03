@@ -30,6 +30,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { setSpiner } from "../../store/actions/AlertActions";
 import MapBox from "../mapBox/MapBox";
+import { useTranslation } from "react-i18next";
 const { Option } = Select;
 const { Panel } = Collapse;
 function SearchBox() {
@@ -47,7 +48,7 @@ function SearchBox() {
   const dispatch = useDispatch();
   const [toursStartLocations, setToursStartLocations] = useState([]);
   const gutter = [32, 24];
-
+  const { t } = useTranslation("words");
   const tourSearchSchema = Yup.object().shape({
     price: Yup.number("it must be number"),
     searchValue: Yup.string("It must be string"),
@@ -136,8 +137,8 @@ function SearchBox() {
           <form onSubmit={handleSubmit} className="search">
             <div className="search__container">
               <Select defaultValue="difficulty" onChange={handleSelectChange}>
-                <Option value="difficulty">Difficulty</Option>
-                <Option value="name">Name</Option>
+                <Option value="difficulty">{t("Difficulty")}</Option>
+                <Option value="name">{t("Name")}</Option>
               </Select>
               <input
                 type="text"
@@ -145,7 +146,7 @@ function SearchBox() {
                 id="searchValue"
                 value={values.searchValue}
                 className="search__input"
-                placeholder="Search tour"
+                placeholder={t("Search_tour")}
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
@@ -182,9 +183,9 @@ function SearchBox() {
                 className="advanced__content"
               >
                 <Collapse>
-                  <Panel header="Price section search" key={0}>
+                  <Panel header={t("Price_section_search")} key={0}>
                     <div className="priceSection">
-                      <Divider className="divider--white">Price</Divider>
+                      <Divider className="divider--white">{t("Price")}</Divider>
                       <div className="priceSection__checkboxes">
                         <Checkbox
                           checked={checboxes.cheap}
@@ -196,7 +197,7 @@ function SearchBox() {
                             });
                           }}
                         >
-                          Top 5 cheap
+                          {t("Top_5_cheap")}
                         </Checkbox>
                         <Checkbox
                           checked={checboxes.expense}
@@ -208,7 +209,7 @@ function SearchBox() {
                             });
                           }}
                         >
-                          Top 5 Expense
+                          {t("Top_5_Expense")}
                         </Checkbox>
                       </div>
 
@@ -218,15 +219,15 @@ function SearchBox() {
                           defaultValue="greater"
                           onChange={(val) => setGratorOrlower(val)}
                         >
-                          <Option value="equal">Equal</Option>
-                          <Option value="greater">Greater then</Option>
-                          <Option value="lower">lower than</Option>
+                          <Option value="equal">{t("Equal")}</Option>
+                          <Option value="greater">{t("Greater_then")}</Option>
+                          <Option value="lower">{t("lower_than")}</Option>
                         </Select>
                         <input
                           type="text"
                           name="price"
                           id="price"
-                          placeholder="price"
+                          placeholder={t("Price")}
                           value={values.price}
                           onChange={handleChange}
                           className="form__input"
@@ -239,8 +240,8 @@ function SearchBox() {
                       </div>
                     </div>
                   </Panel>
-                  <Panel header="Location section search" key={1}>
-                    <Divider>Within distance from position</Divider>
+                  <Panel header={t("Location_section_search")} key={1}>
+                    <Divider>{t("Within_distance_from_position")}</Divider>
                     <Row gutter={gutter} justify="center">
                       <Col span={12}>
                         <div className="form__group">
@@ -275,7 +276,7 @@ function SearchBox() {
                       <Col span={12}>
                         <div className="form__group">
                           <label htmlFor="distance" className="form__label">
-                            Distance
+                            {t("Distance")}
                           </label>
                           <InputNumber
                             min={1}
@@ -292,7 +293,7 @@ function SearchBox() {
                       </Col>
                       <Col span={12}>
                         <label htmlFor="Unit" className="form__label">
-                          Unit
+                          {t("Unit")}
                         </label>
                         <Select
                           name="Unit"
@@ -307,7 +308,7 @@ function SearchBox() {
                       </Col>
                       <Col span={18}>
                         <label htmlFor="distance" className="form__label">
-                          Distance slider
+                          {t("Distance_slider")}
                         </label>
                         <Slider
                           min={1}
@@ -318,7 +319,7 @@ function SearchBox() {
                       </Col>
                       <Col span={24}>
                         <label htmlFor="distance" className="form__label">
-                          Set a center location on the map
+                          {t("Set_center_location_on_the_map")}
                         </label>
                         <div className="search_map">
                           <MapBox

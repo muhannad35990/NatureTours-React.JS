@@ -5,7 +5,7 @@ import * as endpoints from "../configs/endpointConfig";
 import store from "../store";
 import * as AlertActions from "../store/actions/AlertActions";
 import * as authActions from "../store/actions/authActions";
-
+import i18n from "../configs/internationalization/i18n";
 const AxiosInstance = axios.create({
   baseURL: BACKEND_URL,
   timeout: 20000,
@@ -70,9 +70,8 @@ AxiosInstance.interceptors.response.use(
       store.dispatch(
         AlertActions.showAlert({
           type: "error",
-          title: "Network Error",
-          message:
-            "Fail to Connect to the server! check your connection and try again",
+          title: i18n.t("Network_Error"),
+          message: i18n.t("Fail_to_Connect_to_the_server"),
         })
       );
       return error;

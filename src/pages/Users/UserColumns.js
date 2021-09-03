@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 import * as endpoints from "../../configs/endpointConfig";
 import getColumnSearchProps from "../../util/getColumnSearchProps";
+import { useTranslation } from "react-i18next";
 
 function UserColumns(
   index,
@@ -17,6 +18,7 @@ function UserColumns(
   setcurrentRecord
 ) {
   const backendImg = `${endpoints.BACKEND_URL}/img/users/`;
+  const { t } = useTranslation("words");
   return [
     {
       key: "photo",
@@ -28,7 +30,7 @@ function UserColumns(
     },
 
     {
-      title: "Name",
+      title: t("Name"),
       dataIndex: "name",
       key: "name",
       width: "20%",
@@ -37,7 +39,7 @@ function UserColumns(
       ...getColumnSearchProps("name", setIndex, index),
     },
     {
-      title: "Email",
+      title: t("email"),
       dataIndex: "email",
       key: "email",
       width: "30%",
@@ -46,7 +48,7 @@ function UserColumns(
       ...getColumnSearchProps("email", setIndex, index),
     },
     {
-      title: "Role",
+      title: t("Role"),
       dataIndex: "role",
       key: "role",
       width: "10%",
@@ -55,7 +57,7 @@ function UserColumns(
       ...getColumnSearchProps("role", setIndex, index),
     },
     {
-      title: "Action",
+      title: t("Action"),
       key: "action",
       render: (text, record, index) => (
         <Space size="middle">
@@ -70,10 +72,10 @@ function UserColumns(
             <EditOutlined />
           </button>
           <Popconfirm
-            title="Are you sure to delete this review?"
+            title={t("Are_you_sure_to_delete_this_user")}
             onConfirm={doTheDelete}
-            okText="Yes"
-            cancelText="No"
+            okText={t("Yes")}
+            cancelText={t("No")}
             key="popUp"
           >
             <button

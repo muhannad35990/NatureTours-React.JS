@@ -3,6 +3,7 @@ import * as endpoints from "../../configs/endpointConfig";
 import * as TourActions from "../actions/TourActions";
 import { put } from "redux-saga/effects";
 import showNotification from "../../components/alert/Alert";
+import i18n from "../../configs/internationalization/i18n";
 
 export function* getAllToursSaga(action) {
   const filter = action.payload;
@@ -28,7 +29,7 @@ export function* insertNewTourSaga(action) {
   );
   if (response.status === 201)
     yield put(TourActions.setTour(response.data.data.doc));
-  showNotification("success", "Updated succssfully!", "Success");
+  showNotification("success", i18n.t("Updated_succssfully"), "Success");
   yield put(TourActions.getAllTours());
 }
 export function* updateTourSaga(action) {
@@ -39,7 +40,7 @@ export function* updateTourSaga(action) {
   );
   if (response.status === 200)
     yield put(TourActions.getTour(action.payload.tourId));
-  showNotification("success", "Updated succssfully!", "Success");
+  showNotification("success", i18n.t("Updated_succssfully"), "Success");
   yield put(TourActions.getAllTours());
 }
 export function* deleteTourSaga(action) {
@@ -47,7 +48,7 @@ export function* deleteTourSaga(action) {
     `${endpoints.TOURS}/${action.payload}`
   );
   yield put(TourActions.getAllTours());
-  showNotification("success", "Deleted succssfully!", "Success");
+  showNotification("success", i18n.t("Deleted_succssfully"), "Success");
 }
 export function* insertTourLocationSaga(action) {
   const data = action.payload.data;
@@ -57,7 +58,7 @@ export function* insertTourLocationSaga(action) {
   );
   if (response.status === 201)
     yield put(TourActions.getTour(action.payload.tourId));
-  showNotification("success", "Updated succssfully!", "Success");
+  showNotification("success", i18n.t("Updated_succssfully"), "Success");
   yield put(TourActions.getAllTours());
 }
 export function* deleteTourLocationSaga(action) {
@@ -67,7 +68,7 @@ export function* deleteTourLocationSaga(action) {
   );
 
   yield put(TourActions.getTour(action.payload.tourId));
-  showNotification("success", "Deleted succssfully!", "Success");
+  showNotification("success", i18n.t("Deleted_succssfully"), "Success");
   yield put(TourActions.getAllTours());
 }
 

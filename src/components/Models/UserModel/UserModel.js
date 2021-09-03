@@ -115,14 +115,14 @@ function UserModel({ show, onCancel, record }) {
                     type="text"
                     name="name"
                     id="name"
-                    placeholder="name"
+                    placeholder={t("Name")}
                     value={values.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="form__input"
                   />
                   <label htmlFor="name" className="form__label">
-                    name
+                    {t("Name")}
                   </label>
                   {errors.name && touched.name && (
                     <span className="form__error">{errors.name}</span>
@@ -148,7 +148,7 @@ function UserModel({ show, onCancel, record }) {
                 </div>
                 <div className="form__group">
                   <label htmlFor="role" className="form__label">
-                    Role
+                    {t("Role")}
                   </label>
                   <Select
                     name="role"
@@ -184,7 +184,7 @@ function UserModel({ show, onCancel, record }) {
                               marginRight: "1rem",
                             }}
                           />
-                          <span>SAVE</span>
+                          <span>{t("SAVE")}</span>
                         </div>
                       )}
                     </button>
@@ -215,7 +215,7 @@ function UserModel({ show, onCancel, record }) {
                                 marginRight: "1rem",
                               }}
                             />
-                            <span>DELETE</span>
+                            <span>{t("DELETE")}</span>
                           </div>
                         )}
                       </button>

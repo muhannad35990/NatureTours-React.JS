@@ -3,7 +3,9 @@ import get from "lodash.get";
 import isequal from "lodash.isequal";
 import { Input, Button, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import react, { useRef, useState } from "react";
+import { useRef, useState } from "react";
+import i18n from "../configs/internationalization/i18n";
+
 const getColumnSearchProps = (dataIndex, setIndex, index) => {
   let searchInput = useRef();
   const [searchText, setSearchText] = useState("");
@@ -30,7 +32,7 @@ const getColumnSearchProps = (dataIndex, setIndex, index) => {
       <div style={{ padding: 8 }}>
         <Input
           ref={(node) => (searchInput = node)}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={`${i18n.t("Search")} ${dataIndex}`}
           value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
@@ -46,14 +48,14 @@ const getColumnSearchProps = (dataIndex, setIndex, index) => {
             size="small"
             style={{ width: 90 }}
           >
-            Search
+            {i18n.t("Search")}
           </Button>
           <Button
             onClick={() => handleReset(clearFilters)}
             size="small"
             style={{ width: 90 }}
           >
-            Reset
+            {i18n.t("Reset")}
           </Button>
         </Space>
       </div>

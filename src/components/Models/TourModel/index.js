@@ -301,7 +301,7 @@ function TourModel({ show, onCancel, record }) {
     ).then((response) => {
       dispatch(setTour(response.data.data.doc));
       dispatch(getAllTours());
-      showNotification("success", "Updated succssfully!", "Success");
+      showNotification("success", t("Updated_succssfully"), "Success");
       onSuccess("Ok");
     });
   };
@@ -312,14 +312,14 @@ function TourModel({ show, onCancel, record }) {
     SetImagePreview({
       previewImage: image.url,
       previewVisible: true,
-      previewTitle: "Tour image",
+      previewTitle: t("Tour_image"),
     });
   };
   const handleCoverPreview = () => {
     SetImagePreview({
       previewImage: `${tourImgBackend}/${tour?.imageCover}`,
       previewVisible: true,
-      previewTitle: "Tour Cover image",
+      previewTitle: t("Tour_Cover_image"),
     });
   };
   const handleCancelPreview = () => {
@@ -348,7 +348,7 @@ function TourModel({ show, onCancel, record }) {
   );
   return (
     <Modal
-      title={tour ? tour?.name : "Add new tour"}
+      title={tour ? tour?.name : t("Add_new_tour")}
       visible={show}
       onCancel={onCancel}
       width={1000}
@@ -374,7 +374,7 @@ function TourModel({ show, onCancel, record }) {
         <div className="header__content">
           <h4 className="header__heading " style={{ fontSize: "4rem" }}>
             <span className="rotatecard__heading-span rotatecard__heading-span--1">
-              {tour ? tour?.name : "No Name"}
+              {tour ? tour?.name : t("No_Name")}
             </span>
           </h4>
         </div>
@@ -472,14 +472,14 @@ function TourModel({ show, onCancel, record }) {
                       type="text"
                       name="name"
                       id="name"
-                      placeholder="name"
+                      placeholder={t("Name")}
                       value={values.name}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form__input"
                     />
                     <label htmlFor="name" className="form__label">
-                      name
+                      {t("Name")}
                     </label>
                     {errors.name && touched.name && (
                       <span className="form__error">{errors.name}</span>
@@ -493,14 +493,14 @@ function TourModel({ show, onCancel, record }) {
                       name="duration"
                       id="duration"
                       key="duration"
-                      placeholder="duration"
+                      placeholder={t("Duration")}
                       value={values.duration}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form__input"
                     />
                     <label htmlFor="duration" className="form__label">
-                      duration
+                      {t("Duration")}
                     </label>
                     {errors.duration && touched.duration && (
                       <span className="form__error">{errors.duration}</span>
@@ -514,14 +514,14 @@ function TourModel({ show, onCancel, record }) {
                       name="difficulty"
                       id="difficulty"
                       key="difficulty"
-                      placeholder="difficulty"
+                      placeholder={t("Difficulty")}
                       value={values.difficulty}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form__input"
                     />
                     <label htmlFor="difficulty" className="form__label">
-                      difficulty
+                      {t("Difficulty")}
                     </label>
                     {errors.difficulty && touched.difficulty && (
                       <span className="form__error">{errors.difficulty}</span>
@@ -535,14 +535,14 @@ function TourModel({ show, onCancel, record }) {
                       name="maxGroupSize"
                       id="maxGroupSize"
                       key="maxGroupSize"
-                      placeholder="maxGroupSize"
+                      placeholder={t("Max_Group_Size")}
                       value={values.maxGroupSize}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form__input"
                     />
                     <label htmlFor="maxGroupSize" className="form__label">
-                      max Group Size
+                      {t("Max_Group_Size")}
                     </label>
                     {errors.maxGroupSize && touched.maxGroupSize && (
                       <span className="form__error">{errors.maxGroupSize}</span>
@@ -556,14 +556,14 @@ function TourModel({ show, onCancel, record }) {
                       name="price"
                       id="price"
                       key="price"
-                      placeholder="price"
+                      placeholder={t("Price")}
                       value={values.price}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form__input"
                     />
                     <label htmlFor="price" className="form__label">
-                      price ($)
+                      {t("Price")} ($)
                     </label>
                     {errors.price && touched.price && (
                       <span className="form__error">{errors.price}</span>
@@ -584,7 +584,7 @@ function TourModel({ show, onCancel, record }) {
                     />
 
                     <label htmlFor="secretTour" className="form__label">
-                      Secret Tour
+                      {t("secret_Tour")}
                     </label>
                     {errors.secretTour && touched.secretTour && (
                       <span className="form__error">{errors.secretTour}</span>
@@ -600,14 +600,14 @@ function TourModel({ show, onCancel, record }) {
                       id="description"
                       key="description"
                       rows="5"
-                      placeholder="Tour description"
+                      placeholder={t("description")}
                       value={values.description}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form__input"
                     />
                     <label htmlFor="description" className="form__label">
-                      description
+                      {t("description")}
                     </label>
                     {errors.description && touched.description && (
                       <span className="form__error">{errors.description}</span>
@@ -618,7 +618,7 @@ function TourModel({ show, onCancel, record }) {
 
               <Row gutter={gutter}>
                 <Col span={12}>
-                  <Divider>Start Dates</Divider>
+                  <Divider>{t("Start_Dates")}</Divider>
                   <div
                     className="form__group"
                     style={{
@@ -632,9 +632,8 @@ function TourModel({ show, onCancel, record }) {
                     }}
                   >
                     <div style={{ margin: "1rem 0", width: "60%" }}>
-                      {" "}
                       <DatePicker
-                        placeholder="Select to add new date"
+                        placeholder={t("Select_to_add_new_date")}
                         onChange={(date, dateString) =>
                           onDateChange(date.toISOString())
                         }
@@ -671,10 +670,10 @@ function TourModel({ show, onCancel, record }) {
                 </Col>
 
                 <Col span={12}>
-                  <Divider>Guides</Divider>
+                  <Divider>{t("Guides")}</Divider>
                   <Select
                     allowClear
-                    placeholder="Add new guide"
+                    placeholder={t("Add_new_guide")}
                     style={{ width: "100%" }}
                     onChange={(value) => onChange(value, values)}
                     filterOption={(inputValue, option) =>
@@ -717,7 +716,7 @@ function TourModel({ show, onCancel, record }) {
                 </Col>
               </Row>
 
-              <Divider>Start Location</Divider>
+              <Divider>{t("Start_Location")}</Divider>
               {values.startLocation !== null &&
                 values.startLocation.coordinates !== [] && (
                   <Row gutter={gutter}>
@@ -728,7 +727,7 @@ function TourModel({ show, onCancel, record }) {
                           name="startLocation.address"
                           id="startLocation.address"
                           key="startLocation.address"
-                          placeholder="address"
+                          placeholder={t("address")}
                           value={values.startLocation.address}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -738,7 +737,7 @@ function TourModel({ show, onCancel, record }) {
                           htmlFor="startLocation.address"
                           className="form__label"
                         >
-                          Address
+                          {t("address")}
                         </label>
                         {errors.startLocation?.address &&
                           touched.startLocation?.address && (
@@ -755,7 +754,7 @@ function TourModel({ show, onCancel, record }) {
                           name="startLocation.description"
                           id="startLocation.description"
                           key="startLocation.description"
-                          placeholder="description"
+                          placeholder={t("description")}
                           value={values.startLocation.description}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -765,7 +764,7 @@ function TourModel({ show, onCancel, record }) {
                           htmlFor="startLocation.description"
                           className="form__label"
                         >
-                          Description
+                          {t("description")}
                         </label>
                         {errors.startLocation?.description &&
                           touched.startLocation?.description && (
@@ -849,7 +848,7 @@ function TourModel({ show, onCancel, record }) {
                   </div>
                 </Col>
               </Row>
-              <Divider>Loactions</Divider>
+              <Divider>{t("Loactions")}</Divider>
               <Row gutter={gutter}>
                 <Col span={24}>
                   <DragDropContext onDragEnd={onDragEnd}>
@@ -900,7 +899,7 @@ function TourModel({ show, onCancel, record }) {
                                               type="text"
                                               name={`locaction description${item._id}`}
                                               id={`locactions_description${item._id}`}
-                                              placeholder="description"
+                                              placeholder={t("description")}
                                               value={item.description}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
@@ -910,7 +909,7 @@ function TourModel({ show, onCancel, record }) {
                                               htmlFor={`locactions_description${item._id}`}
                                               className="form__label"
                                             >
-                                              description
+                                              {t("description")}
                                             </label>
                                           </div>
                                         </Col>
@@ -920,7 +919,7 @@ function TourModel({ show, onCancel, record }) {
                                               type="text"
                                               name={`locaction day${item._id}`}
                                               id={`locactions_day${item._id}`}
-                                              placeholder="day"
+                                              placeholder={t("day")}
                                               value={item.day}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
@@ -930,7 +929,7 @@ function TourModel({ show, onCancel, record }) {
                                               htmlFor={`locactions_description${item._id}`}
                                               className="form__label"
                                             >
-                                              day
+                                              {t("day")}
                                             </label>
                                           </div>
                                         </Col>
@@ -1022,7 +1021,7 @@ function TourModel({ show, onCancel, record }) {
                       }}
                     />
 
-                    <span>Cancel</span>
+                    <span>{t("Cancel")}</span>
                   </button>
                 </Col>
 
@@ -1042,7 +1041,7 @@ function TourModel({ show, onCancel, record }) {
                             marginRight: "1rem",
                           }}
                         />
-                        <span>SAVE</span>
+                        <span>{t("SAVE")}</span>
                       </div>
                     )}
                   </button>

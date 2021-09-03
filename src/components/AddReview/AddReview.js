@@ -100,7 +100,7 @@ function AddReview({ tour }) {
                         name="review"
                         id="review"
                         rows="5"
-                        placeholder="Your review"
+                        placeholder={t("Review")}
                         value={values.review}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -108,7 +108,7 @@ function AddReview({ tour }) {
                         style={{ backgroundColor: " #fff" }}
                       />
                       <label htmlFor="review" className="form__label">
-                        Review
+                        {t("Review")}
                       </label>
                       {errors.review && touched.review && (
                         <span className="form__error">{errors.review}</span>
@@ -137,7 +137,7 @@ function AddReview({ tour }) {
                             />
                           ) : (
                             <div>
-                              <span>Submit</span>
+                              <span>{t("submit")}</span>
                             </div>
                           )}
                         </button>

@@ -105,14 +105,14 @@ function ReviewModel({ show, onCancel, record }) {
                     name="review"
                     id="review"
                     rows="5"
-                    placeholder="Your review"
+                    placeholder={t("Review")}
                     value={values.review}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="form__input"
                   />
                   <label htmlFor="email" className="form__label">
-                    Review
+                    {t("Review")}
                   </label>
                   {errors.review && touched.review && (
                     <span className="form__error">{errors.review}</span>
@@ -142,16 +142,16 @@ function ReviewModel({ show, onCancel, record }) {
                               marginRight: "1rem",
                             }}
                           />
-                          <span>SAVE</span>
+                          <span>{t("SAVE")}</span>
                         </div>
                       )}
                     </button>
                   </Col>
                   <Col span={12}>
                     <Popconfirm
-                      title="Are you sure to delete this review?"
+                      title={t("Are_you_sure_to_delete_this_review")}
                       onConfirm={doTheDelete}
-                      okText="Yes"
+                      okText={t("Yes")}
                       cancelText="No"
                       key="popUp"
                     >
@@ -173,7 +173,7 @@ function ReviewModel({ show, onCancel, record }) {
                                 marginRight: "1rem",
                               }}
                             />
-                            <span>DELETE</span>
+                            <span>{t("DELETE")}</span>
                           </div>
                         )}
                       </button>

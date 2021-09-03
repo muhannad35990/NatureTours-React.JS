@@ -15,17 +15,18 @@ import {
   updateTour,
 } from "../../../store/actions/TourActions";
 import { insertTourLocationSaga } from "../../../store/sagas/tours";
+import { useTranslation } from "react-i18next";
 
 function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
   const dispatch = useDispatch();
   const tour = useSelector((state) => state.tours.tour);
-
+  const { t } = useTranslation("words");
   const gutter = [32, 24];
   const locationModelSchema = Yup.object().shape({
-    description: Yup.string().required("decription is required"),
-    day: Yup.number("should be number").positive("should be positive"),
-    location_X: Yup.number().required("coordinate is required"),
-    location_Y: Yup.number().required("coordinate is required"),
+    description: Yup.string().required(t("decription_is_required")),
+    day: Yup.number(t("should_be_number")).positive(t("should_be_positive")),
+    location_X: Yup.number().required(t("coordinate_is_required")),
+    location_Y: Yup.number().required(t("coordinate_is_required")),
   });
   const initialLocationModelValues = {
     description: "",
@@ -53,7 +54,7 @@ function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
 
   return (
     <DraggableModel
-      name="Add new location"
+      name={t("Add_new_location")}
       visible={visible}
       footer={null}
       onCancel={onCancel}
@@ -86,14 +87,14 @@ function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
                       type="text"
                       name="description"
                       id="description"
-                      placeholder="description"
+                      placeholder={t("description")}
                       value={values.description}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form__input"
                     />
                     <label htmlFor="description" className="form__label">
-                      description
+                      {t("description")}
                     </label>
                   </div>
                 </Col>
@@ -103,14 +104,14 @@ function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
                       type="text"
                       name="day"
                       id="day"
-                      placeholder="day"
+                      placeholder={t("Day")}
                       value={values.day}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className="form__input"
                     />
                     <label htmlFor="day" className="form__label">
-                      day
+                      {t("Day")}
                     </label>
                   </div>
                 </Col>
@@ -161,7 +162,7 @@ function AddNewCoordinateModel({ visible, onCancel, lng, lat }) {
                           marginRight: "1rem",
                         }}
                       />
-                      <span>SAVE</span>
+                      <span>{t("SAVE")}</span>
                     </div>
                   </button>
                 </Col>

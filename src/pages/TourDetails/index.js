@@ -26,6 +26,7 @@ import {
 import { setSpiner } from "../../store/actions/AlertActions";
 import checkIfTourIsBooked from "../../util/checkIfTourIsBooked";
 import AddReview from "../../components/AddReview/AddReview";
+import { useTranslation } from "react-i18next";
 
 function TourDetails() {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ function TourDetails() {
   const tourReviews = useSelector((state) => state.tours.reviews);
   const spinner = useSelector((state) => state.alert.spinner);
   const mybookings = useSelector((state) => state.bookings.mybookings);
-
+  const { t } = useTranslation("words");
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
   const backenduserImg = `${endpoints.BACKEND_URL}/img/users/`;
   const routeParams = useParams();
@@ -76,7 +77,9 @@ function TourDetails() {
           <div style={{ display: "flex" }}>
             <div>
               <FieldTimeOutlined className="header__heading__icon" />
-              <span>{tour.duration} DAYS</span>
+              <span>
+                {tour.duration} {t("DAYS")}
+              </span>
             </div>
             <div style={{ marginLeft: "2rem" }}>
               <EnvironmentOutlined className="header__heading__icon" />
@@ -98,33 +101,33 @@ function TourDetails() {
               }}
             >
               <div>
-                <h1 className="details__mainTitle">QUICK FACTS</h1>
+                <h1 className="details__mainTitle">{t("QUICK_FACTS")}</h1>
                 <div className="details__factItem">
                   <CalendarOutlined className="details__icon" />
-                  <h5 className="details__item"> NEXT DATE </h5>
+                  <h5 className="details__item"> {t("NEXT_DATE")} </h5>
                   <h5 className="details__subItem">
                     {moment(tour.createdAt).format("MMMM, YYYY")}
                   </h5>
                 </div>
                 <div className="details__factItem">
                   <LineChartOutlined className="details__icon" />
-                  <h5 className="details__item"> DIFFICULTY </h5>
+                  <h5 className="details__item"> {t("Difficulty")} </h5>
                   <h5 className="details__subItem"> {tour.difficulty} </h5>
                 </div>
                 <div className="details__factItem">
                   <UserOutlined className="details__icon" />
-                  <h5 className="details__item">PARTICIPANTS </h5>
+                  <h5 className="details__item">{t("PARTICIPANTS")} </h5>
                   <h5 className="details__subItem">{tour.maxGroupSize}</h5>
                 </div>
                 <div className="details__factItem">
                   <StarOutlined className="details__icon" />
-                  <h5 className="details__item"> RATING </h5>
+                  <h5 className="details__item"> {t("Rating")} </h5>
                   <h5 className="details__subItem"> {tour.ratingAverage}/5 </h5>
                 </div>
               </div>
 
               <div style={{ marginTop: "3rem" }}>
-                <h1 className="details__mainTitle">YOUR TOUR GUIDES</h1>
+                <h1 className="details__mainTitle">{t("YOUR_TOUR_GUIDES")}</h1>
                 <div>
                   {tour.guides.map((t, index) => (
                     <div className="details__guide" key={index}>
@@ -144,7 +147,9 @@ function TourDetails() {
 
             <div className="details__about">
               <div>
-                <h1 className="details__mainTitle">ABOUT {tour.name} TOUR</h1>
+                <h1 className="details__mainTitle">
+                  {t("ABOUT")} {tour.name} {t("TOUR")}
+                </h1>
                 <p className="details__about__text">{tour.description}</p>
               </div>
             </div>
@@ -181,7 +186,7 @@ function TourDetails() {
                 style={{ width: "100%", fontSize: "3rem" }}
               >
                 <span className="rotatecard__heading-span rotatecard__heading-span--1">
-                  There is no reviews yet for this tour
+                  {t("There_is_no_reviews_yet_for_this_tour")}
                 </span>
               </h4>
             )
@@ -191,7 +196,7 @@ function TourDetails() {
               style={{ width: "100%", fontSize: "3rem" }}
             >
               <span className="rotatecard__heading-span rotatecard__heading-span--1">
-                You need to be logged in to see the reviews
+                {t("You_need_to_be_logged_in_to_see_the_reviews")}
               </span>
             </h4>
           )}
@@ -229,19 +234,19 @@ function TourDetails() {
               />
             </Avatar.Group>
             <div style={{ marginLeft: "-5rem", marginRight: "5rem" }}>
-              <h1 className="title">what are you waiting for?</h1>
+              <h1 className="title">{t("what_are_you_waiting_for")}</h1>
               <p>
-                {tour.duration} days, 1 advanture, infinite memories, make it
-                yours today!
+                {tour.duration} {t("DAYS")}, 1 {t("advanture")},{" "}
+                {t("infinite_memories")}
               </p>
             </div>
             {!auth.loggedIn ? (
               <Link to="/login" className="button button--green">
-                LOGIN TO BOOK TOUR
+                {t("LOGIN_TO_BOOK_TOUR")}
               </Link>
             ) : spinner ? (
               <a className="button button--green">
-                processing{" "}
+                {t("processing")}{" "}
                 <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
               </a>
             ) : (
@@ -249,7 +254,7 @@ function TourDetails() {
                 className="button button--green"
                 onClick={handleBookingTheTour}
               >
-                BOOK THE TOUR NOW
+                {t("BOOK_THE_TOU_NOW")}
               </a>
             )}
           </div>

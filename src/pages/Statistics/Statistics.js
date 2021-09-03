@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTourStatistics } from "../../store/actions/TourActions";
 import { Pie, Bar } from "react-chartjs-2";
 import { Col, Divider, Row } from "antd";
+import { useTranslation } from "react-i18next";
 
 function Statistics() {
   const gutter = [32, 24];
   const labels = ["DIFFICULT", "MEDIUM", "EASY"];
   const backgroundColor = [" #55c57a", "#ffb900", "#2998ff"];
-
+  const { t } = useTranslation("words");
   const hoverBackgroundColor = ["#28b485", "#ff7730", "#5643fa"];
   const dispatch = useDispatch();
   const statistics = useSelector((state) => state.tours.statistics);
@@ -35,7 +36,7 @@ function Statistics() {
     labels: labels,
     datasets: [
       {
-        label: "Number of Tours",
+        label: t("Number_of_Tours"),
         backgroundColor: backgroundColor,
         hoverBackgroundColor: hoverBackgroundColor,
         borderWidth: 2,
@@ -47,14 +48,14 @@ function Statistics() {
     labels: labels,
     datasets: [
       {
-        label: "Number of Raters",
+        label: t("Number_of_Raters"),
         backgroundColor: backgroundColor[0],
         hoverBackgroundColor: hoverBackgroundColor[0],
         borderWidth: 2,
         data: numRaters,
       },
       {
-        label: "Average Rate",
+        label: t("Average_Rate"),
         backgroundColor: backgroundColor[1],
         hoverBackgroundColor: hoverBackgroundColor[1],
         borderWidth: 2,
@@ -66,21 +67,21 @@ function Statistics() {
     labels: labels,
     datasets: [
       {
-        label: "Max price",
+        label: t("Max_price"),
         backgroundColor: backgroundColor[0],
         hoverBackgroundColor: hoverBackgroundColor[0],
         borderWidth: 2,
         data: maxPrice,
       },
       {
-        label: "Min price",
+        label: t("Min_price"),
         backgroundColor: backgroundColor[1],
         hoverBackgroundColor: hoverBackgroundColor[1],
         borderWidth: 2,
         data: minPrice,
       },
       {
-        label: "Average price",
+        label: t("Average_price"),
         backgroundColor: backgroundColor[2],
         hoverBackgroundColor: hoverBackgroundColor[2],
         borderWidth: 2,
@@ -97,15 +98,15 @@ function Statistics() {
         justify="center"
       >
         <Col span={12} style={{ padding: "10rem" }}>
-          <Divider>Number of Tours per difficulty</Divider>
+          <Divider>{t("Number_of_Tours_per_difficulty")}</Divider>
           <Pie data={numToursData} />
         </Col>
         <Col span={12}>
-          <Divider>Number of Raters per difficulty</Divider>
+          <Divider>{t("Number_of_Raters_per_difficulty")}</Divider>
           <Bar data={numRatersData} />
         </Col>
         <Col span={24}>
-          <Divider>Price per difficulty</Divider>
+          <Divider>{t("Price_per_difficulty")}</Divider>
           <Bar data={priceData} />
         </Col>
       </Row>

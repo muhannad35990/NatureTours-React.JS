@@ -9,6 +9,7 @@ import React from "react";
 import moment from "moment";
 import * as endpoints from "../../configs/endpointConfig";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function RotatingCard({
   title,
@@ -26,6 +27,7 @@ function RotatingCard({
   isBooked,
 }) {
   const cardDetail = `/tour/${id}`;
+  const { t } = useTranslation("words");
   return (
     <div data-aos="fade-up" className=" rotatecard">
       <div className=" rotatecard__side rotatecard__side--front">
@@ -59,11 +61,15 @@ function RotatingCard({
             </Col>
             <Col span={12} className="rotatecard__details__gridcol">
               <FlagOutlined className="rotatecard__details__icon" />
-              <span>{numStops} stops</span>
+              <span>
+                {numStops} {t("stops")}
+              </span>
             </Col>
             <Col span={12} className="rotatecard__details__gridcol">
               <UserOutlined className="rotatecard__details__icon" />
-              <span>{numPeople} people</span>
+              <span>
+                {numPeople} {t("people")}
+              </span>
             </Col>
           </Row>
         </div>
@@ -72,11 +78,13 @@ function RotatingCard({
         <div className="rotatecard__side--back__content">
           <div>
             <h1 className="rotatecard__rating">{rating}</h1>
-            <h5 className="rotatecard__numRating">rating ({ratingQantity})</h5>
+            <h5 className="rotatecard__numRating">
+              {t("Rating")} ({ratingQantity})
+            </h5>
           </div>
           <div>
             <h1 className="rotatecard__price">${price}</h1>
-            <h5 className="rotatecard__numRating">Per person</h5>
+            <h5 className="rotatecard__numRating">{t("Per_person")}</h5>
           </div>
         </div>
 
@@ -85,7 +93,7 @@ function RotatingCard({
           params={{ isBooked: isBooked }}
           className="button button--white"
         >
-          details
+          {t("details")}
         </Link>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import mapboxgl from "!mapbox-gl";
 import { Dropdown, Menu } from "antd";
 import AddNewCoordinateModel from "../Models/AddNewCoordinateModel";
+import { useTranslation } from "react-i18next";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibXVoYW5uYWQzNTk5MCIsImEiOiJja3J5eGJ5aGsxNHB2Mm9uODUzejEwanAxIn0.rzqtpU0RJv8KrLpRCp-ddw";
@@ -21,6 +22,7 @@ function MapBox({
   const [showAddModel, setShowAddModel] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [popUps, setPopUps] = useState([]);
+  const { t } = useTranslation("words");
 
   useEffect(() => {
     if (!map.current) {
@@ -160,7 +162,7 @@ function MapBox({
       .addTo(map.current);
     const popup = new mapboxgl.Popup({ offset: 30 })
       .setLngLat([lng, lat])
-      .setHTML(`<p>current Location</p>`)
+      .setHTML(`<p>${t("current_Location")}</p>`)
       .addTo(map.current);
     setMarkers((val) => [...val, marker]);
     setPopUps((val) => [...val, popup]);
@@ -174,12 +176,12 @@ function MapBox({
   };
   const menu1 = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1">Add new Trip</Menu.Item>
+      <Menu.Item key="1">{t("Add_new_Trip")}</Menu.Item>
     </Menu>
   );
   const menu2 = (
     <Menu onClick={() => handleAddlocation()}>
-      <Menu.Item key="1">Add this Location</Menu.Item>
+      <Menu.Item key="1">{t("Add_this_Location")}</Menu.Item>
     </Menu>
   );
 

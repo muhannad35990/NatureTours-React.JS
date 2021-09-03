@@ -1,5 +1,6 @@
 import { Col, Row } from "antd";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useSelector, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
@@ -12,7 +13,7 @@ function MyBookings() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const myBookings = useSelector((state) => state.bookings.mybookings);
-
+  const { t } = useTranslation("words");
   useEffect(() => {
     dispatch(getMyBookings(user._id));
   }, []);
@@ -30,7 +31,7 @@ function MyBookings() {
     >
       <Row justify="center">
         <h1 className="details__mainTitle" style={{ fontSize: "4rem" }}>
-          My booked tours
+          {t("My_booked_tours")}
         </h1>
       </Row>
       <Row

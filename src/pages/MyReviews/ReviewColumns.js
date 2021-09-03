@@ -8,6 +8,7 @@ import {
   FileImageOutlined,
 } from "@ant-design/icons";
 import { Space, Rate, Popconfirm } from "antd";
+import { useTranslation } from "react-i18next";
 
 function ReviewColumns(
   index,
@@ -17,7 +18,7 @@ function ReviewColumns(
   setcurrentRecord
 ) {
   const backendImg = `${endpoints.BACKEND_URL}/img/tours/`;
-
+  const { t } = useTranslation("words");
   return [
     {
       key: ["tour", "imageCover"],
@@ -28,7 +29,7 @@ function ReviewColumns(
       ),
     },
     {
-      title: "Name",
+      title: t("Name"),
       dataIndex: ["tour", "name"],
       key: ["tour", "name"],
       width: "30rem",
@@ -37,7 +38,7 @@ function ReviewColumns(
       ...getColumnSearchProps(["tour", "name"], setIndex, index),
     },
     {
-      title: "Duration",
+      title: t("Duration"),
       dataIndex: ["tour", "duration"],
       key: ["tour", "duration"],
       width: "12rem",
@@ -46,7 +47,7 @@ function ReviewColumns(
       ...getColumnSearchProps(["tour", "duration"], setIndex, index),
     },
     {
-      title: "Difficulty",
+      title: t("Difficulty"),
       dataIndex: ["tour", "difficulty"],
       key: ["tour", "difficulty"],
       width: "12rem",
@@ -55,7 +56,7 @@ function ReviewColumns(
       ...getColumnSearchProps(["tour", "difficulty"], setIndex, index),
     },
     {
-      title: "Price",
+      title: t("Price"),
       dataIndex: ["tour", "price"],
       key: ["tour", "price"],
       width: "10rem",
@@ -63,7 +64,7 @@ function ReviewColumns(
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Review",
+      title: t("Review"),
       dataIndex: "review",
       key: "review",
       sorter: (a, b) => a.review.localeCompare(b.review),
@@ -72,7 +73,7 @@ function ReviewColumns(
       ...getColumnSearchProps(["review"], setIndex, index),
     },
     {
-      title: "Rating",
+      title: t("Rating"),
       dataIndex: "rating",
       key: "rating",
       width: "30rem",
@@ -89,7 +90,7 @@ function ReviewColumns(
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Action",
+      title: t("Action"),
       key: "action",
       render: (text, record, index) => (
         <Space size="middle">
@@ -104,10 +105,10 @@ function ReviewColumns(
             <EditOutlined />
           </button>
           <Popconfirm
-            title="Are you sure to delete this review?"
+            title={t("Are_you_sure_to_delete_this_review")}
             onConfirm={doTheDelete}
-            okText="Yes"
-            cancelText="No"
+            okText={t("Yes")}
+            cancelText={t("No")}
             key="popUp"
           >
             <button

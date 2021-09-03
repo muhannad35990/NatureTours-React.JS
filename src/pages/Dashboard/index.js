@@ -18,8 +18,10 @@ import Tours from "../Tours";
 import Reviews from "../Reviews";
 import Bookings from "../Bookings";
 import Statistics from "../Statistics/Statistics";
+import { useTranslation } from "react-i18next";
 
 function Dashboard() {
+  const { t } = useTranslation("words");
   const [currentTab, setcurrentTab] = useState("settings");
   const auth = useSelector((state) => state.auth);
   return (
@@ -36,7 +38,7 @@ function Dashboard() {
               style={{ fontSize: 20 }}
               className="sidebar__icon"
             />
-            <a>SETTINGS</a>
+            <a>{t("SETTINGS")}</a>
           </li>
           <li
             className={`sidebar__item ${
@@ -45,7 +47,7 @@ function Dashboard() {
             onClick={() => setcurrentTab("bookings")}
           >
             <BookOutlined style={{ fontSize: 20 }} className="sidebar__icon" />
-            <a>MY BOOKINGS</a>
+            <a>{t("MY_BOOKINGS")}</a>
           </li>
           <li
             className={`sidebar__item ${
@@ -57,7 +59,7 @@ function Dashboard() {
               style={{ fontSize: 20 }}
               className="sidebar__icon"
             />
-            <a>my reviews</a>
+            <a>{t("my_reviews")}</a>
           </li>
           <li
             className={`sidebar__item ${
@@ -69,7 +71,7 @@ function Dashboard() {
               style={{ fontSize: 20 }}
               className="sidebar__icon"
             />
-            <a>Statistics</a>
+            <a>{t("Statistics")}</a>
           </li>
           {/* admins only section */}
           {auth.user.role === "admin" && (
@@ -81,7 +83,7 @@ function Dashboard() {
                   borderTopColor: "#777",
                 }}
               >
-                ADMINS ONLY
+                {t("ADMINS_ONLY")}
               </Divider>
               <li
                 className={`sidebar__item ${
@@ -93,7 +95,7 @@ function Dashboard() {
                   style={{ fontSize: 20 }}
                   className="sidebar__icon"
                 />
-                <a>manage tours</a>
+                <a>{t("manage_tours")}</a>
               </li>
               <li
                 className={`sidebar__item ${
@@ -106,7 +108,7 @@ function Dashboard() {
                   className="sidebar__icon"
                 />
 
-                <a>manage users</a>
+                <a>{t("manage_users")}</a>
               </li>
               <li
                 className={`sidebar__item ${
@@ -120,7 +122,7 @@ function Dashboard() {
                   style={{ fontSize: 20 }}
                   className="sidebar__icon"
                 />
-                <a>manage reviews</a>
+                <a>{t("manage_reviews")}</a>
               </li>
               <li
                 className={`sidebar__item ${
@@ -134,13 +136,13 @@ function Dashboard() {
                   style={{ fontSize: 20 }}
                   className="sidebar__icon"
                 />
-                <a>manage bookings</a>
+                <a>{t("manage_bookings")}</a>
               </li>
             </div>
           )}
         </ul>
         <p className="copywrite">
-          &copy;2021 by MUHANNAD HAMMADA . All rights reserved.
+          &copy;2021 by MUHANNAD HAMMADA . {t("All_rights_reserved")}.
         </p>
       </div>
 

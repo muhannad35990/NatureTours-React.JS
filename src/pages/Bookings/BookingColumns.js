@@ -4,9 +4,11 @@ import { DeleteOutlined, FileImageOutlined } from "@ant-design/icons";
 import Avatar from "antd/lib/avatar/avatar";
 import * as endpoints from "../../configs/endpointConfig";
 import getColumnSearchProps from "../../util/getColumnSearchProps";
+import { useTranslation } from "react-i18next";
 
 function BookingColumns(index, setIndex, doTheDelete, setcurrentRecord) {
   const backendImg = `${endpoints.BACKEND_URL}/img/users/`;
+  const { t } = useTranslation("words");
   return [
     {
       key: "photo",
@@ -18,7 +20,7 @@ function BookingColumns(index, setIndex, doTheDelete, setcurrentRecord) {
     },
 
     {
-      title: "Name",
+      title: t("Name"),
       dataIndex: ["user", "name"],
       key: "name",
       width: "15%",
@@ -27,7 +29,7 @@ function BookingColumns(index, setIndex, doTheDelete, setcurrentRecord) {
       ...getColumnSearchProps(["user", "name"], setIndex, index),
     },
     {
-      title: "First Name",
+      title: t("firstname"),
       dataIndex: ["user", "FirstName"],
       key: "FirstName",
       width: "15%",
@@ -36,7 +38,7 @@ function BookingColumns(index, setIndex, doTheDelete, setcurrentRecord) {
       ...getColumnSearchProps(["user", "FirstName"], setIndex, index),
     },
     {
-      title: "Last Name",
+      title: t("lastname"),
       dataIndex: ["user", "LastName"],
       key: "LastName",
       width: "15%",
@@ -45,7 +47,7 @@ function BookingColumns(index, setIndex, doTheDelete, setcurrentRecord) {
       ...getColumnSearchProps(["user", "LastName"], setIndex, index),
     },
     {
-      title: "Tour",
+      title: t("Tour"),
       dataIndex: ["tour", "name"],
       key: "review",
       width: "15%",
@@ -54,7 +56,7 @@ function BookingColumns(index, setIndex, doTheDelete, setcurrentRecord) {
       ...getColumnSearchProps(["tour", "name"], setIndex, index),
     },
     {
-      title: "Price",
+      title: t("Price"),
       dataIndex: "price",
       key: "price",
       width: "5%",
@@ -64,7 +66,7 @@ function BookingColumns(index, setIndex, doTheDelete, setcurrentRecord) {
     },
 
     {
-      title: "Action",
+      title: t("Action"),
       key: "action",
       render: (text, record, index) => (
         <Space size="middle">

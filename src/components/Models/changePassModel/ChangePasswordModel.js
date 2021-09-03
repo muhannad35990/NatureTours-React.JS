@@ -48,7 +48,7 @@ function ChangePasswordModel({ show, onCancel }) {
   return (
     <Modal
       visible={show}
-      title="Change current password "
+      title={t("Change_current_password")}
       footer={null}
       onCancel={onCancel}
       destroyOnClose={true}
@@ -92,8 +92,8 @@ function ChangePasswordModel({ show, onCancel }) {
                   value={values.passwordCurrent || ""}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
-                  placeholder=" Current Password"
-                  label=" Current Password"
+                  placeholder={t("Current_Password")}
+                  label={t("Current_Password")}
                 />
 
                 {errors.passwordCurrent && touched.passwordCurrent && (
@@ -107,8 +107,8 @@ function ChangePasswordModel({ show, onCancel }) {
                   value={values.password || ""}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
-                  placeholder="New Password"
-                  label="New Password"
+                  placeholder={t("New_Password")}
+                  label={t("New_Password")}
                 />
 
                 {errors.password && touched.password && (
@@ -122,8 +122,8 @@ function ChangePasswordModel({ show, onCancel }) {
                   value={values.passwordConfirm || ""}
                   handleChange={handleChange}
                   handleBlur={handleBlur}
-                  placeholder="New Password Confirm"
-                  label="New Password Confirm"
+                  placeholder={t("New_Password_Confirm")}
+                  label={t("New_Password_Confirm")}
                 />
 
                 {errors.passwordConfirm && touched.passwordConfirm && (
@@ -139,7 +139,7 @@ function ChangePasswordModel({ show, onCancel }) {
                 {spinner ? (
                   <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
                 ) : (
-                  "Change"
+                  t("Change")
                 )}
               </button>
             </form>

@@ -1,7 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import logogreen from "../../img/logo-green.png";
 
 function Footer({ expanded }) {
+  const { t } = useTranslation("words");
+
   return (
     <div className={`footer ${expanded && "extendedFooter"}`}>
       <figure className="footer__logoContainer">
@@ -11,10 +14,10 @@ function Footer({ expanded }) {
         <div className="footer__content--right">
           <div className="footer__content__navigation">
             <ul className="list">
-              <li className="list__item">about us</li>
-              <li className="list__item">contanct</li>
-              <li className="list__item">careers</li>
-              <li className="list__item">bacome a guide</li>
+              <li className="list__item">{t("about_us")}</li>
+              <li className="list__item">{t("contanct")}</li>
+              <li className="list__item">{t("careers")}</li>
+              <li className="list__item">{t("bacome_guide")}</li>
             </ul>
           </div>
         </div>

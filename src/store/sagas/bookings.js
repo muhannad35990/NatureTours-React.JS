@@ -3,6 +3,7 @@ import * as endpoints from "../../configs/endpointConfig";
 import * as BookingsActions from "../actions/BookingActions";
 import { put } from "redux-saga/effects";
 import showNotification from "../../components/alert/Alert";
+import i18n from "../../configs/internationalization/i18n";
 
 export function* getAllBookingsSaga(action) {
   const response = yield AxiosInstance.get(`${endpoints.BOOKINGS}`);
@@ -33,7 +34,7 @@ export function* updateBookingSaga(action) {
   );
   if (response.status === 200)
     yield put(BookingsActions.getBooking(action.payload.bookingId));
-  showNotification("success", "Updated succssfully!", "Success");
+  showNotification("success", i18n.t("Updated_succssfully"), "Success");
   yield put(BookingsActions.getAllBookings());
 }
 
@@ -43,7 +44,7 @@ export function* deleteBookingSaga(action) {
   );
 
   yield put(BookingsActions.getAllBookings());
-  showNotification("success", "Deleted succssfully!", "Success");
+  showNotification("success", i18n.t("Deleted_succssfully"), "Success");
 }
 export function* getMyBookingsSaga(action) {
   const response = yield AxiosInstance.get(

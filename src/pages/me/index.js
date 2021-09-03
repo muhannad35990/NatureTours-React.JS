@@ -150,7 +150,7 @@ function Me() {
                 {defaultFileList.length >= 1 ? null : (
                   <div>
                     <Button icon={<UploadOutlined />}>
-                      Update Profile Image
+                      {t("Update_Profile_Image")}
                     </Button>
                   </div>
                 )}
@@ -259,7 +259,7 @@ function Me() {
                       {!changePass && spinner ? (
                         <LoadingOutlined style={{ fontSize: "2.5rem" }} spin />
                       ) : (
-                        "SAVE"
+                        t("SAVE")
                       )}
                     </button>
                   </Col>
@@ -281,7 +281,7 @@ function Me() {
               style={{ marginTop: "3rem" }}
               onClick={() => SetchangePass(true)}
             >
-              Change Current Password
+              {t("Change_Current_Password")}
             </button>
           </Col>
         </Row>

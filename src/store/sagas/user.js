@@ -5,6 +5,7 @@ import * as userActions from "../actions/userActions";
 import * as endpoints from "../../configs/endpointConfig";
 import showNotification from "../../components/alert/Alert";
 import AxiosInstance from "../../util/intercepter";
+import i18n from "../../configs/internationalization/i18n";
 
 export function* updateMeSaga(action) {
   try {
@@ -26,7 +27,7 @@ export function* updateMeSaga(action) {
         AlertActions.showAlert({
           type: "success",
           title: response.statusText,
-          message: "Updated successfully",
+          message: i18n.t("Updated_succssfully"),
         })
       );
     } else {
@@ -52,9 +53,8 @@ export function* updateMeSaga(action) {
       yield put(
         AlertActions.showAlert({
           type: "error",
-          title: "Network Error",
-          message:
-            "Fail to Connect to the server! check your connection and try again",
+          title: i18n.t("Network_Error"),
+          message: i18n.t("Fail_to_Connect_to_the_server"),
         })
       );
     }
@@ -80,14 +80,14 @@ export function* updateUserSaga(action) {
     data
   );
   if (response.status === 200) yield put(userActions.GetAllUsers());
-  showNotification("success", "Updated succssfully!", "Success");
+  showNotification("success", i18n.t("Updated_succssfully"), "Success");
 }
 export function* deleteUserSaga(action) {
   const response = yield AxiosInstance.delete(
     `${endpoints.USERS}/${action.payload.userId}`
   );
   yield put(userActions.GetAllUsers());
-  showNotification("success", "Deleted succssfully!", "Success");
+  showNotification("success", i18n.t("Deleted_succssfully"), "Success");
 }
 export function* getAllGuidesSaga(action) {
   const response = yield AxiosInstance.get(
