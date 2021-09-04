@@ -42,6 +42,7 @@ function MapBox({
       setPopUps([]);
 
       locations &&
+        locations[0] &&
         locations.length === 1 &&
         locations.forEach((loc) => {
           const marker = new mapboxgl.Marker()
@@ -68,6 +69,7 @@ function MapBox({
         });
 
       locations &&
+        locations[0] &&
         locations.length === 1 &&
         map.current.fitBounds(bounds, {
           padding: {

@@ -86,8 +86,10 @@ export function* deleteUserSaga(action) {
   const response = yield AxiosInstance.delete(
     `${endpoints.USERS}/${action.payload.userId}`
   );
-  yield put(userActions.GetAllUsers());
-  showNotification("success", i18n.t("Deleted_succssfully"), "Success");
+  if (response.status === 204) {
+    yield put(userActions.GetAllUsers());
+    showNotification("success", i18n.t("Deleted_succssfully"), "Success");
+  }
 }
 export function* getAllGuidesSaga(action) {
   const response = yield AxiosInstance.get(

@@ -123,6 +123,9 @@ function TourModel({ show, onCancel, record }) {
       setNewGuides(record.guides);
       setStartDates(record.startDates);
       setSecret(record.secretTour);
+    }else{
+      setNewGuides([]);
+      setStartDates([]);
     }
   }, [record]);
   let initialTourModelValues = {
@@ -702,17 +705,18 @@ function TourModel({ show, onCancel, record }) {
                         </Option>
                       ))}
                   </Select>
-                  {newGuides.map((guide) => (
-                    <Guide
-                      key={guide._id}
-                      id={guide._id}
-                      name={guide.name}
-                      role={guide.role}
-                      image={guide.photo}
-                      setNewGuides={setNewGuides}
-                      newGuides={newGuides}
-                    />
-                  ))}
+                  {newGuides.length > 0 &&
+                    newGuides.map((guide) => (
+                      <Guide
+                        key={guide._id}
+                        id={guide._id}
+                        name={guide.name}
+                        role={guide.role}
+                        image={guide.photo}
+                        setNewGuides={setNewGuides}
+                        newGuides={newGuides}
+                      />
+                    ))}
                 </Col>
               </Row>
 

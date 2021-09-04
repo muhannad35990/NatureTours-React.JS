@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  DeleteUserReview,
-  GetUserReviews,
-} from "../../store/actions/ReviewActions";
-import { GetAllUsers } from "../../store/actions/userActions";
+import { deleteUser, GetAllUsers } from "../../store/actions/userActions";
 import UserModel from "../../components/Models/UserModel/UserModel";
 import UserColumns from "./UserColumns";
 
@@ -23,9 +19,9 @@ function Users() {
   }, []);
 
   const doTheDelete = () => {
-    //delete review from the database
-    dispatch(DeleteUserReview(currentRecord.id));
-    dispatch(GetUserReviews(auth.user._id));
+    //delete user from the database
+    dispatch(deleteUser({ userId: currentRecord._id }));
+    dispatch(GetAllUsers(auth.user._id));
   };
 
   const columns = UserColumns(

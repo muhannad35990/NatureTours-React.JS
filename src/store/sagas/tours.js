@@ -56,7 +56,7 @@ export function* insertTourLocationSaga(action) {
     `${endpoints.TOURS}/location/${action.payload.tourId}`,
     data
   );
-  if (response.status === 201)
+  if (response.status === 200)
     yield put(TourActions.getTour(action.payload.tourId));
   showNotification("success", i18n.t("Updated_succssfully"), "Success");
   yield put(TourActions.getAllTours());

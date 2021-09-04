@@ -190,14 +190,14 @@ function Login() {
               className=" loginSocial loginSocial-google-btn"
               onClick={loginWithGoogle}
             >
-              Sign in with Google
+              {t("Sign_Google")}
             </button>
             <button
               type="button"
               className=" loginSocial  loginSocial-facebook-btn"
               onClick={loginWithFacebook}
             >
-              Sign in with Facebook
+              {t("Sign_Facebook")}
             </button>
           </div>
         );

@@ -135,5 +135,7 @@
   "Cannt_add_more_than_one_review": "Kann nicht mehr als eine Bewertung zu derselben Tour hinzufügen! und Nur Benutzer können eine Bewertung hinzufügen!",
   "Search": "Suche",
   "Reset": "Zurücksetzen",
-  "Price_section_search": "Preisabschnittssuche"
+  "Price_section_search": "Preisabschnittssuche",
+  "Sign_Google": "Anmeldung mit Google",
+  "Sign_Facebook": "Mit Facebook anmelden"
 }

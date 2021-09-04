@@ -134,5 +134,7 @@
   "Cannt_add_more_than_one_review": "Cann't add more than one review to the same tour!,and Only users can add a review!",
   "Search": "Search",
   "Reset": "Reset",
-  "Price_section_search": "Price section search"
+  "Price_section_search": "Price section search",
+  "Sign_Google": "Sign in with Google",
+  "Sign_Facebook": "Sign in with Facebook"
 }

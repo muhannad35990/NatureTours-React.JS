@@ -9,7 +9,11 @@ function Review({ review }) {
     <div data-aos="fade-up" className="review__card">
       <div className="review__card__firstline">
         <Avatar
-          src={backenduserImg.concat(review.user.photo)}
+          src={
+            !review.user.googleId && !review.user.facebookId
+              ? `${endpoints.BACKEND_URL}/img/users/${review.user.photo}`
+              : review.user.photo
+          }
           size={48}
           icon={<UserOutlined />}
           className="review__card__avatar"
