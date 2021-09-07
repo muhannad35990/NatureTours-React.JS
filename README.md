@@ -1,2 +1,28 @@
-This project not finished yet ,working with :
-#reactjs,#redux,#saga,#axios, #antd,#formik,#yup,#stripe ,#passportjs,#mapbox,#i18next,#SCSS,#Hooks,#router
+Features:
+- CRUD on tours, users, bookings, reviews.
+- Authentication using Jwt web tokens and refresh tokens.
+- Change password and reset password using email.
+- Uploading images and processing them.
+- Credit Card Payments with Stripe.
+- Preventing Parameter Pollution in monogodb.
+- Data sanitization against NOSQL query injection and XSS.
+- Limiting number of requests to the backend from IP address by time to protect against DOS attack.
+- Compress all text sent to the client.
+
+- FrontEnd :
+-#ReactJs.
+- #Redux #reduxSaga #saga.
+- #React #Router ,#guards.
+- #Hooks.
+- #Axios, #Intercepters.
+- #Formik, #Yup.
+- #Ant design.
+- #i18next(Mutli-language).
+- #MapBox.
+- #Stripe.
+- #OAuth,#Passportjs
+- #Chart.js
+- #SCSS.
+- #Eslint.
+- Live demo: https://lnkd.in/eaCncnSq
+-Demo video: https://lnkd.in/egf7pRWd
